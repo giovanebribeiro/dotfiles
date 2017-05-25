@@ -1,0 +1,151 @@
+#!/bin/sh
+
+#
+# set the checkpoint of process
+#
+checkpoint(){
+ CHECKPOINT=$1 # save in memory and file
+ echo $1 > $HOME/checkpoint
+}
+
+#
+# GIT configurations
+#
+git_configs(){
+ echo "# Git configs"
+ echo
+ echo "Check if git is installed"
+ git --version | grep "git" > /dev/null 2>&1 || { echo "git package not installed. Please install it and execute this script again to continue from this step (git_configs). Aborting. ";  exit 1;}
+ echo "Configure global var user.name"
+ git config --global user.name "Giovane Boaviagem"
+ echo "Configure global var user.email"
+ git config --global user.email "giovanebribeiro@gmail.com"
+ echo "Create sym link to get_templates folder"
+ ln -s $PWD/git_templates $HOME/.git_templates
+ echo "Configure global var init.templatedir"
+ git config --global init.templatedir '~/.git_templates'
+ echo "Configure global var push.default"
+ git config --global push.default matching
+ echo "Configure global command git log, to show a better log view"
+ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit"
+ echo
+ echo "# Done"
+ echo  
+}
+
+vim_configs(){
+ echo "# Vim configs"
+ echo
+ echo "Check if vim is installed"
+ vim --version | grep "VIM" > /dev/null 2>&1 || { echo "vim not installed. Please install it and execute this script again to continue from this step (vim_configs). Aborting. ";  exit 1;} 
+ echo "Create a symlink to .vimrc file"
+ if [ -f $HOME/.vimrc ] ; then # remove old vimrc
+  echo "Renaming old .vimrc file to '.vimrc.old'"
+  mv $HOME/.vimrc $HOME/.vimrc.old
+ fi
+ ln -s $PWD/vimrc $HOME/.vimrc
+ echo "Clone the Vundle repo"
+ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+ echo "Installing the plugins listed in vimrc file"
+ vim +PluginInstall +qall
+ echo 
+ echo "# Done"
+ echo 
+}
+
+ctags_configs(){
+ echo "# ctags configs"
+ echo
+ echo "Check if ctags is installed"
+ ctags --version | grep "Exuberant Ctags" > /dev/null 2>&1 || { echo "exuberant-ctags package not installed. Please install it and execute this script again to continue from this step (ctags_configs). Aborting. ";  exit 1;}
+ echo "Create an alias to execute ctags in git hooks"
+ git config --global alias.ctags '!.git/hooks/ctags'
+ echo "Create a symlink to .ctags file"
+ ln -s $PWD/ctags_configs $HOME/.ctags
+ echo 
+ echo "# Done"
+ echo 
+}
+
+tmux_configs(){
+ echo "# tmux configs"
+ echo
+ echo "Check if tmux is installed"
+ tmux -V | grep "tmux" > /dev/null 2>&1 || { echo "tmux not installed. Please install it and execute this script again to continue from this step (tmux_configs). Aborting. ";  exit 1;}
+ echo "Create a symlink to .tmux file"
+ ln -s $PWD/tmux.conf $HOME/.tmux.conf
+ echo 
+ echo "# Done"
+ echo 
+}
+
+nodejs_configs(){
+ echo "# node configs"
+ echo
+ echo "Check if node is installed"
+ node -v | grep "^v" > /dev/null 2>&1 || { echo "node js not installed. Please install it and execute this script again to continue from this step (nodejs_configs). Aborting. ";  exit 1;}
+ echo "install needed global packages"
+ npm install -g eslint eslint-plugin-json hapi-app-generator pm2 npm-check-updates n
+ echo "add npm author informations"
+ npm set init.author.name "Giovane Boaviagem"
+ npm set init.author.email "giovanebribeiro@gmail.com"
+ npm set init.author.url "http://about.me/giovanebribeiro"
+ echo "save npm credentials"
+ npm adduser
+ echo "create a symlink to .eslintrc file"
+ ln -s $PWD/eslintrc $HOME/.eslintrc
+ echo 
+ echo "# Done"
+ echo 
+}
+
+echo "##"
+echo "# Init Workflow"
+echo "##"
+echo 
+if [ ! -f $HOME/checkpoint ]; then
+ checkpoint 1
+else
+ CHECKPOINT=`cat $HOME/checkpoint`
+fi
+
+
+if [ "$CHECKPOINT" = "1" ] ; then
+ git_configs
+ checkpoint 2
+ vim_configs
+ checkpoint 3
+ ctags_configs 
+ checkpoint 4
+ tmux_configs
+ checkpoint 5
+ nodejs_configs
+ rm $HOME/checkpoint
+elif [ "$CHECKPOINT" = "2" ]; then
+ vim_configs
+ checkpoint 3
+ ctags_configs
+ checkpoint 4
+ tmux_configs
+ checkpoint 5
+ nodejs_configs
+ rm $HOME/checkpoint
+elif [ "$CHECKPOINT" = "3" ]; then
+ ctags_configs
+ checkpoint 4
+ tmux_configs
+ checkpoint 5
+ nodejs_configs
+ rm $HOME/checkpoint
+elif [ "$CHECKPOINT" = "4" ]; then
+  tmux_configs
+  checkpoint 5
+  nodejs_configs
+  rm $HOME/checkpoint
+elif [ "$CHECKPOINT" = "5" ]; then
+  nodejs_configs
+  rm $HOME/checkpoint
+else
+ echo "unknown checkpoint (checkpoint = $CHECKPOINT). Please try again."
+fi
+

@@ -1,0 +1,8 @@
+PING google.com (187.115.146.29): 56 data bytes
+64 bytes from 187.115.146.29: icmp_seq=0 ttl=61 time=5.121 ms
+64 bytes from 187.115.146.29: icmp_seq=1 ttl=61 time=4.990 ms
+64 bytes from 187.115.146.29: icmp_seq=2 ttl=61 time=5.865 ms
+
+--- google.com ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 4.990/5.325/5.865/0.385 ms

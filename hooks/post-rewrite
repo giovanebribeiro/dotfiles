@@ -1,0 +1,10 @@
+#!/bin/sh
+
+##
+# post-rewrite commit hook
+# Executed after git commit --amend and git rebase
+##
+
+case "$1" in
+  rebase) exec .git/hooks/post-merge ;;
+esac
