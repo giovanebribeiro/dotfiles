@@ -1,8 +1,13 @@
 #!/bin/bash
 
-source util.sh
+#ping -c 3 "google.com" &> output.log &
+#pid=$!
+#progress "installing:" $pid
 
-ping -c 3 "google.com" &> output.log &
-pid=$!
+sh ./prepare.sh
 
-progress "installing:" $pid
+RET=`cat $PWD/tmp_pkg`
+
+echo "Chosen package manager $RET"
+
+rm "$PWD/tmp_pkg"
