@@ -7,7 +7,7 @@
 # Description: Auxiliary funcions to install and configure the listed services and tools
 ##
 
-source constants.sh
+LOG_FILE=$PWD/dotfiles.log
 
 ## Mount a progress bar (spin) to run while a command are being executed
 ## $1 = some message to print with the progress bar

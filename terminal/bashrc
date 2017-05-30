@@ -50,16 +50,23 @@ NewLine="\n"
 Jobs="\j"
 
 ################################
-###### SECTION 2: IMPORTS ######
+###### SECTION 2: ALIASES ######
 ################################
 
-# EXPORTS
-# if exports file exists, load it!
-[ -r "$HOME/.exports.sh" ] && source "$HOME/.exports.sh" &>/dev/null
+# General Aliases
 
-# ALIASES
-# if aliases file exists, load it!
-[ -r "$HOME/.aliases.sh" ] && source "$HOME/.aliases.sh" &>/dev/null
+# ALIASES per OS
+[ -r "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
+
+################################
+###### SECTION 3: EXPORTS ######
+################################
+
+# General Exports
+
+# EXPORTS per OS
+[ -r "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
+
 
 ##################################
 ###### SECTION 3: FUNCTIONS ######
@@ -94,21 +101,9 @@ title() {
   echo -n -e "\033]0;$*\007";
 }
 
-
-
 #####################################
 ###### SECTION 4: PS1 VARIABLE ######
 #####################################
-
-# Output:
-# ┌[today time]-[username@host]-[current path]-[number of files, total sizeof all files]
-#⌥
-#⌥
-#├
-#⬆ #⬇
-#Ξ
-#
-# ${bCyan}\u@\h${reset} (giovanebribeiro@localhost)
 
 export PS1="\[\n${reset}\342\224\214 ${bYellow}\w${reset} - ${bBlue}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${reset}\]\
 \[\n\342\224\234 \$(parse_git_branch)${reset} - \
@@ -128,33 +123,9 @@ export PS1="\[\n${reset}\342\224\214 ${bYellow}\w${reset} - ${bBlue}$(ls -l | wc
   fi
   )${reset} - \$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${reset} \]\
   \[\n\342\224\224 \$ "
-#  \[\n\342\224\224[\$]\342\206\222 "
-#export PS1="$"
-#export PS1="\[\n${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${bWhite}]-[${rCyan}\u@\h${bWhite}]\
-#  \n\342\224\234[${rYellow}\w${bWhite}]-[${rYellow}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${bWhite}]\
-#  \n\342\224\234[\$(parse_git_branch)${bWhite}]-[\
-#\$(\
-#  \$(git status > /dev/null 2>&1);
-#  if [ \$? == 0 ]; then
-#    OUT_PULL=\$(git status 2> /dev/null | grep 'branch is behind');
-#    OUT_OK=\$(git status 2> /dev/null | grep 'working directory clean');
-#    OUT_PUSH=\$(git status 2> /dev/null | grep 'branch is ahead'); 
-#    if [ \"\$OUT_PULL\" != \"\" ]; then
-#      echo \" \"${bYellow}\"\342\254\207\";
-#    elif [ \"\$OUT_PUSH\" != \"\" ]; then
-#      echo \" \"${bYellow}\"\342\254\206\";
-#    else
-#      echo \" \"${bGreen}\"\316\236\012\";
-#    fi
-#  fi
-#) ${bWhite}]\
 
-# and to finish, export it
-# if the system is linux, ps1 will be in linux format. Otherwise, in mac format.
-#if [ "$(uname -a | grep "Linux")" != "" ] ; then
-#  export PS1='\n\e[1;36m[\w]\e[1;33m(\h)\e[0m\n\u \e[0;31m$(parse_git_branch) \e[1;37m->\e[0m ' 
-#else
-#  export PS1='\n\[$(tput setaf 6)\][\w]$(tput bold)$(tput setaf 3)(\h) \n\[$(tput sgr0)\]\u\[$(tput setaf 1)\]$(parse_git_branch)\[$(tput sgr0)\] \[$(tput bold)\]\[$(tput setaf 7)\]-> \[$(tput sgr0)\]'
-#fi
+#####################################
+###### SECTION 4: PS1 VARIABLE ######
+#####################################
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
