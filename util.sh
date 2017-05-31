@@ -1,13 +1,5 @@
-#!/bin/bash
-
-##
-# File: util.sh
-# Author: @giovanebribeiro
-# Created: 23/05/2017
-# Description: Auxiliary funcions to install and configure the listed services and tools
-##
-
-LOG_FILE=$PWD/dotfiles.log
+LOG_FILE=$HOME/dotfiles.log
+CMD_FILE=/tmp/run_command
 
 ## Mount a progress bar (spin) to run while a command are being executed
 ## $1 = some message to print with the progress bar
@@ -26,6 +18,7 @@ function progress(){
 
 ## Run a command with a progress bar
 ## $1 = The command to run
+## $2 = a message to print with the command execution
 function run(){
   exe=$1
   
@@ -34,3 +27,7 @@ function run(){
 
   progress "Running command $exe:" $pid
 }
+
+function printSection() { echo "## $1"; }
+function printSubsection() { echo "* $1"; }
+function printError() { echo "x $1"; }

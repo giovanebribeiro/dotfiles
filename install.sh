@@ -11,8 +11,11 @@ echo " | |\/| | | | | | | | |/ _ \| __| |_| | |/ _ \/ __| "
 echo " | |  | | |_| | | |_| | (_) | |_|  _| | |  __/\__ \ "
 echo " |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/ "
 echo "         |___/                                      "
+echo 
 
-sh terminal/main.sh
+bash prepare.sh
+
+bash terminal/main.sh
 
 #case $OS in
 #  "Darwin")
