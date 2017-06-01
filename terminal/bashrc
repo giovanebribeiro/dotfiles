@@ -54,6 +54,8 @@ Jobs="\j"
 ################################
 
 # General Aliases
+alias tmux='tmux -2'
+alias ..='cd ..'
 
 # ALIASES per OS
 [ -r "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null

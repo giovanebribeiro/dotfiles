@@ -33,26 +33,6 @@ git_configs(){
  echo  
 }
 
-vim_configs(){
- echo "# Vim configs"
- echo
- echo "Check if vim is installed"
- vim --version | grep "VIM" > /dev/null 2>&1 || { echo "vim not installed. Please install it and execute this script again to continue from this step (vim_configs). Aborting. ";  exit 1;} 
- echo "Create a symlink to .vimrc file"
- if [ -f $HOME/.vimrc ] ; then # remove old vimrc
-  echo "Renaming old .vimrc file to '.vimrc.old'"
-  mv $HOME/.vimrc $HOME/.vimrc.old
- fi
- ln -s $PWD/vimrc $HOME/.vimrc
- echo "Clone the Vundle repo"
- git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
- echo "Installing the plugins listed in vimrc file"
- vim +PluginInstall +qall
- echo 
- echo "# Done"
- echo 
-}
-
 ctags_configs(){
  echo "# ctags configs"
  echo

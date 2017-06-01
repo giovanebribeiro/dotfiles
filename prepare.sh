@@ -8,9 +8,9 @@ if [ ! -f $CMD_FILE ]; then
   case $OS in 
     "Darwin")
       if which brew &> /dev/null; then
-        echo "Homebrew already installed."
+        printSubsection "Homebrew already installed."
       else
-        run "ruby -e '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)'" "Instalando homebrew"
+        ruby -e '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)'
       fi
 
       echo "brew install" > $CMD_FILE
