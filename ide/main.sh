@@ -10,7 +10,8 @@ printSection "Integrated Development Environment"
 if which vim &> /dev/null; then
   printSubsection "VIM already installed"
 else
-  $INSTALL vim
+  sudo $INSTALL vim
+  printSubsection "VIM installed successfully"
 fi
 
 if [ -f $HOME/.vimrc ]; then
@@ -28,7 +29,7 @@ fi
 if which tmux &> /dev/null; then
   printSubsection "Tmux already installed"
 else
-  $INSTALL tmux
+  sudo $INSTALL tmux
 fi
 
 if [ -f $HOME/.tmux.conf ]; then
