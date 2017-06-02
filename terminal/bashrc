@@ -11,7 +11,7 @@
 ###### SECTION 1: CONSTANTS ######
 ##################################
 
-source $PWD/util/colorTable.sh
+source $PWD/common/colorTable.sh
 
 # Various variables you might want for your PS1 prompt instead
 Time12h="\T"

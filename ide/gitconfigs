@@ -1,0 +1,24 @@
+[user]
+  name = Giovane Boaviagem
+  email = giovanebribeiro@gmail.com
+[color]
+  diff = auto
+  grep = auto
+  interactive = auto
+  status = auto
+  branch = auto
+[alias]
+  clean-closed-branches = remote prune origin
+  ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
+  fu = fetch upstream
+  pom = pull origin master
+  ps = push
+  pst = push --tags
+  # Show active users on repo in last 6 months
+  active = shortlog --numbered --email --summary --no-merges --since="6 months"
+[core]
+  excludesFile = %globalGitIgnorePath%
+  editor = /usr/bin/vim
+[push]
+  default = matching
+

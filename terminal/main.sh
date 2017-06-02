@@ -2,7 +2,7 @@ OS=`uname`
 BASEDIR=`dirname "$0"`
 BASEDIR=$( cd $BASEDIR && pwd )
 
-source "$PWD/util.sh"
+source "$PWD/common/util.sh"
 
 printSection "Terminal files and general configurations"
 if [ ! -f "$HOME/.aliases" ]; then
