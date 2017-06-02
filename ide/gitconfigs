@@ -7,8 +7,17 @@
   interactive = auto
   status = auto
   branch = auto
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = white
 [alias]
   clean-closed-branches = remote prune origin
+  st = status
   ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
   fu = fetch upstream
   pom = pull origin master
@@ -17,8 +26,8 @@
   # Show active users on repo in last 6 months
   active = shortlog --numbered --email --summary --no-merges --since="6 months"
 [core]
-  excludesFile = %globalGitIgnorePath%
   editor = /usr/bin/vim
+	excludesfile = /Users/giovanebribeiro/.gitignore_global
 [push]
   default = matching
 

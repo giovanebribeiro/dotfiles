@@ -1,4 +1,4 @@
-source util.sh
+source $PWD/common/util.sh
 
 printSection "Check the package managers"
 
@@ -27,4 +27,4 @@ if [ ! -f $CMD_FILE ]; then
 
 fi
 
-printSection "Check the package managers... OK"
+printOK

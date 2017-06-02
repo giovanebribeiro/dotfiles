@@ -8,7 +8,7 @@ echo " |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/ "
 echo "         |___/                                      "
 echo 
 
-bash prepare.sh
+bash common/prepare.sh
 echo
 bash ide/main.sh
 echo
