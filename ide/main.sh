@@ -79,4 +79,6 @@ fi
 mv $HOME/todo.txt/todo.cfg $HOME/todo.txt/todo.cfg.old
 ln -s $BASEDIR/todo.cfg $HOME/todo.txt/todo.cfg
 
+# CTAGS
+
 printOK
