@@ -65,6 +65,18 @@ if [ ! -f "$HOME/.git-completion.bash" ]; then
 fi
 printOK
 
+printSubsection "Todo.txt"
 
-# Todo.txt (task todo list manager which works offline and works on command line)
+if [ ! -d $HOME/todo.txt ]; then
+  printSubSubsection "Installing todo.txt"
+  git clone https://github.com/ginatrapani/todo.txt-cli $HOME/todo.txt
+else
+  printSubSubsection "Updating todo.txt"
+  rm $HOME/todo.txt/todo.cfg
+  mv $HOME/todo.txt/todo.cfg.old $HOME/todo.txt/todo.cfg
+  git pull
+fi
+mv $HOME/todo.txt/todo.cfg $HOME/todo.txt/todo.cfg.old
+ln -s $BASEDIR/todo.cfg $HOME/todo.txt/todo.cfg
 
+printOK
