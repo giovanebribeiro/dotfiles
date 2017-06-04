@@ -19,7 +19,7 @@
   clean-closed-branches = remote prune origin
   st = status
   ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
-  fu = fetch upstream
+  f = fetch
   pom = pull origin master
   ps = push
   pst = push --tags
@@ -27,6 +27,7 @@
   active = shortlog --numbered --email --summary --no-merges --since="6 months"
   aa = add --all
   cam = commit -am
+  mom = merge origin/master
 [core]
   editor = /usr/bin/vim
 	excludesfile = /Users/giovanebribeiro/.gitignore_global
