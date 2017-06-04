@@ -17,7 +17,7 @@
   untracked = white
 [alias]
   clean-closed-branches = remote prune origin
-  st = status
+  st = status -sb
   ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
   f = fetch
   pom = pull origin master
