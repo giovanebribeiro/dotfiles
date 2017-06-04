@@ -12,4 +12,8 @@ bash common/prepare.sh
 echo
 bash ide/main.sh
 echo
+bash node/main.sh
+# must be the last thing to do
+echo
 bash terminal/main.sh
+

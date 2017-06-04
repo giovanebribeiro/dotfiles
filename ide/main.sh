@@ -65,6 +65,23 @@ if [ ! -f "$HOME/.git-completion.bash" ]; then
 fi
 printOK
 
+printSubsection "Ctags"
+
+if which ctags &> /dev/null; then
+  printSubSubsection "Ctags already installed"
+else
+  printSubSubsection "Installing ctags"
+  sudo $INSTALL exuberant-ctags
+fi
+
+printSubSubsection "Updating .ctags"
+if [ -L $HOME/.ctags ]; then
+  mv $HOME/.ctags $HOME/.ctags.old
+fi
+ln -s $BASEDIR/ctags $HOME/.ctags
+
+printOK
+
 printSubsection "Todo.txt"
 
 if [ ! -d $HOME/todo.txt ]; then
@@ -78,7 +95,4 @@ else
 fi
 mv $HOME/todo.txt/todo.cfg $HOME/todo.txt/todo.cfg.old
 ln -s $BASEDIR/todo.cfg $HOME/todo.txt/todo.cfg
-
-# CTAGS
-
 printOK

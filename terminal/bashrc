@@ -7,11 +7,17 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+################################
+###### SECTION 0: SOURCES ######
+################################
+
+source $PWD/common/colorTable.sh
+source $HOME/.git-completion.bash
+
 ##################################
 ###### SECTION 1: CONSTANTS ######
 ##################################
 
-source $PWD/common/colorTable.sh
 
 # Various variables you might want for your PS1 prompt instead
 Time12h="\T"
@@ -30,6 +36,8 @@ alias tmux='tmux -2'
 alias ..='cd ..'
 alias todo='bash $HOME/todo.txt/todo.sh'
 alias tree='ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//--/g" -e "s/^/   /" -e "s/-/|/"'
+alias la='ls -la'
+alias ll='ls -l'
 
 # ALIASES per OS
 [ -r "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
@@ -39,6 +47,8 @@ alias tree='ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//--/g" -e "s/^
 ################################
 
 # General Exports
+export TODOTXT_DEFAULT_ACTION=ls
+export TODOTXT_SORT_COMMAND='env LC_COLLATE=C sort -k 2,2 -k 1,1n'
 
 # EXPORTS per OS
 [ -r "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null

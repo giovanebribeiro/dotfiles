@@ -25,6 +25,8 @@
   pst = push --tags
   # Show active users on repo in last 6 months
   active = shortlog --numbered --email --summary --no-merges --since="6 months"
+  aa = add --all
+  cam = commit -am
 [core]
   editor = /usr/bin/vim
 	excludesfile = /Users/giovanebribeiro/.gitignore_global
