@@ -7,11 +7,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+DOTFILES_LOC=`cat /tmp/dotfiles-loc`
+
 ################################
 ###### SECTION 0: SOURCES ######
 ################################
 
-source $PWD/common/colorTable.sh
+source $DOTFILES_LOC/common/colorTable.sh
 source $HOME/.git-completion.bash
 
 ##################################
