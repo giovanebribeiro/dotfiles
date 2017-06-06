@@ -49,8 +49,6 @@ alias ll='ls -l'
 ################################
 
 # General Exports
-export TODOTXT_DEFAULT_ACTION=ls
-export TODOTXT_SORT_COMMAND='env LC_COLLATE=C sort -k 2,2 -k 1,1n'
 
 # EXPORTS per OS
 [ -r "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
