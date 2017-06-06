@@ -36,7 +36,7 @@ Jobs="\j"
 # General Aliases
 alias tmux='tmux -2'
 alias ..='cd ..'
-alias todo='bash $HOME/todo.txt/todo.sh'
+alias t='bash $HOME/todo.txt/todo.sh'
 alias tree='ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//--/g" -e "s/^/   /" -e "s/-/|/"'
 alias la='ls -la'
 alias ll='ls -l'
