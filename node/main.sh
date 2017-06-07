@@ -62,17 +62,25 @@ else
 fi
 
 # eslint
-installNodePackage "eslint"
+if which eslint &> /dev/null; then
+  printSubSubsection "eslint already installed"
+else
+  printSubSubsection "Installing eslint"
+  sudo npm install -g eslint
+  sudo npm install -g eslint-plugin-json
+fi
 if [ -L $HOME/.eslintrc ]; then
   mv $HOME/.eslintrc $HOME/.eslintrc.old
 fi
 ln -s $BASEDIR/eslintrc $HOME/.eslintrc
 
-# eslint-plugin-json
-installNodePackage "eslint-plugin-json"
-
 # hapi-app-generator
-installNodePackage "hapi-app-generator"
+if which hapigen &> /dev/null; then
+  printSubSubsection "hapi-app-generator already installed"
+else
+  printSubSubsection "Installing hapi-app-generator"
+  sudo npm install -g hapi-app-generator
+fi
 
 # n
 installNodePackage "n"
