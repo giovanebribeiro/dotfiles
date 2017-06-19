@@ -7,7 +7,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-DOTFILES_LOC=`cat /tmp/dotfiles-loc`
+DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
 
 ################################
 ###### SECTION 0: SOURCES ######

@@ -30,5 +30,5 @@ fi
 printOK
 
 printSection "Save the project location in a temp file"
-echo $PWD > "/tmp/dotfiles-loc"
+echo $PWD > "$LOC_FILE"
 printOK

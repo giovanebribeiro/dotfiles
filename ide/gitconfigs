@@ -28,6 +28,9 @@
   aa = add --all
   cam = commit -am
   mom = merge origin/master
+  ckm = checkout master
+  ck = checkout
+  ckb = checkout -b
 [core]
   editor = /usr/bin/vim
 	excludesfile = /Users/giovanebribeiro/.gitignore_global

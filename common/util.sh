@@ -1,4 +1,5 @@
 LOG_FILE=$HOME/dotfiles.log
+LOC_FILE=$HOME/.dotfiles-loc
 CMD_FILE=/tmp/run_command
 
 function printSection() { echo "# $1";  }
