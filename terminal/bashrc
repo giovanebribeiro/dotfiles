@@ -43,12 +43,15 @@ alias ll='ls -l'
 OS=`uname`
 case $OS in
   "Darwin")
-    alias reload='source $HOME/.bash_profile'
+    alias reloadBashrc='source $HOME/.bash_profile'
     ;;
   "*")
-    alias reload='source $HOME/.bashrc'
+    alias reloadBashrc='source $HOME/.bashrc'
     ;;
 esac
+
+# General exports
+export NODE_ENV="development"
 
 
 # ALIASES per OS

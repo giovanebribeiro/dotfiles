@@ -12,6 +12,8 @@ bash common/prepare.sh
 echo
 bash tools/main.sh
 echo
+bash database/main.sh
+echo
 bash ide/main.sh
 echo
 bash node/main.sh
