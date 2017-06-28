@@ -40,6 +40,16 @@ alias t='bash $HOME/todo.txt/todo.sh'
 alias tree='ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//--/g" -e "s/^/   /" -e "s/-/|/"'
 alias la='ls -la'
 alias ll='ls -l'
+OS=`uname`
+case $OS in
+  "Darwin")
+    alias reload='source $HOME/.bash_profile'
+    ;;
+  "*")
+    alias reload='source $HOME/.bashrc'
+    ;;
+esac
+
 
 # ALIASES per OS
 [ -r "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
@@ -72,6 +82,14 @@ parse_git_branch(){
 }
 
 ##
+# returns the remote branch attatched to current branch
+##
+git_remote_branch(){
+  git --version | grep "git" > /dev/null 2>&1 || return # check if git is installed
+  echo "${bMagenta}[`git rev-parse --abbrev-ref --symbolic-full-name @{u} 2> /dev/null`]"
+}
+
+##
 # Converts a unicode code (like '\u250c')
 # in a set readable by PS1 var ()
 ##
@@ -92,7 +110,7 @@ title() {
 #####################################
 
 export PS1="\[\n${reset}\342\224\214 ${bYellow}\w${reset} - ${bBlue}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${reset}\]\
-\[\n\342\224\234 \$(parse_git_branch)${reset} - \
+  \[\n\342\224\234 \$(parse_git_branch) \$(git_remote_branch)${reset} - \
 \$(\
 \$(git status > /dev/null 2>&1);
   if [ \$? == 0 ]; then
