@@ -33,7 +33,18 @@ if which node &> /dev/null; then
   printSubSubsection "Node already installed"
 else
   printSubSubsection "Installing node"
-  sudo $INSTALL node
+  case $OS in
+    "Darwin")
+      sudo $INSTALL node
+      ;;
+    "Linux")
+      curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+      sudo $INSTALL nodejs
+      sudo $INSTALL npm
+      ;;
+    "*")
+      ;;
+  esac
 fi
 
 if [ ! -f $HOME/.npmrc ]; then

@@ -33,7 +33,7 @@
   ckb = checkout -b
 [core]
   editor = /usr/bin/vim
-	excludesfile = /Users/giovanebribeiro/.gitignore_global
+	excludesfile = /home/giovane/.gitignore_global
 [push]
   default = matching
 

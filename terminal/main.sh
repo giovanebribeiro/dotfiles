@@ -17,14 +17,15 @@ fi
 
 case $OS in
   "Darwin")
-    if [ ! -f "$HOME/.bash_profile" ]; then
+    if [ -f "$HOME/.bash_profile" ]; then
       printSubsection "Installing bash_profile..."
+      mv $HOME/.bash_profile $HOME/.bash_profile.old
       ln -s $BASEDIR/bashrc $HOME/.bash_profile
       source $HOME/.bash_profile
     fi
     ;;
   "Linux")
-    if [ ! -f "$HOME/.bashrc" ]; then
+    if [ -f "$HOME/.bashrc" ]; then
       printSubsection "Installing bashrc"
       mv $HOME/.bashrc $HOME/.bashrc.old
       ln -s $BASEDIR/bashrc $HOME/.bashrc
