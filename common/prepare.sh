@@ -16,9 +16,7 @@ if [ ! -f $CMD_FILE ]; then
       echo "brew install" > $CMD_FILE
       ;;
     "Linux")
-      read -p "It seems you have a linux. What is your install command? " RUN
-      
-      echo $RUN > $CMD_FILE
+      echo "apt-get install" > $CMD_FILE
       ;;
     "*")
       printError "Unknown OS"
