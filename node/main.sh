@@ -84,3 +84,12 @@ installNodePackage "conventional-changelog-cli"
 
 # conventional-commits-detector
 installNodePackage "conventional-commits-detector"
+
+# trash
+installNodePackage "trash"
+
+# conventional-recommended-bump
+installNodePackage "conventional-recommended-bump"
+
+# json
+installNodePackage "json"

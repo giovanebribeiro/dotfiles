@@ -112,7 +112,7 @@ title() {
 ###### SECTION 4: PS1 VARIABLE ######
 #####################################
 
-export PS1="\[\n${reset}\342\224\214 ${bYellow}\w${reset} - ${bBlue}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${reset}\]\
+export PS1="\[\n${reset}\342\224\214 ${bCyan}\h [ Kernel \$(uname) \$(uname -r) ]\n${reset}\342\224\234 ${bYellow}\w${reset} - ${bBlue}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${reset}\]\
   \[\n\342\224\234 \$(parse_git_branch) \$(git_remote_branch)${reset} - \
 \$(\
 \$(git status > /dev/null 2>&1);
