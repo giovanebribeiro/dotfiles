@@ -98,3 +98,6 @@ installNodePackage "n"
 
 # npm-check-updates
 installNodePackage "npm-check-updates"
+
+# caminte-cli
+installNodePackage "caminte-cli" # cross-db ORM, but this is a client. You still need to install the caminte package in your app.
