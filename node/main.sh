@@ -11,17 +11,7 @@ function installNodePackage(){
     printSubSubsection "$1 already installed"
   else
     printSubSubsection "Installing $1"
-    case $OS in 
-      "Darwin")
-        npm install -g $1
-        ;;
-      "Linux")
-        sudo npm install -g $1
-        ;;
-      "*")
-        printError "Unknown OS"
-        ;;
-    esac
+    sudo npm install -g $1
   fi 
 }
 
@@ -65,12 +55,7 @@ installNodePackage "vtop"
 installNodePackage "bower"
 
 # grunt (must be installed as administrator all times)
-if which grunt &> /dev/null; then
-  printSubSubsection "Grunt already installed"
-else
-  printSubSubsection "Installing grunt"
-  sudo npm install -g grunt-cli
-fi
+installNodePackage "grunt-cli"
 
 # eslint
 if which eslint &> /dev/null; then
@@ -86,12 +71,7 @@ fi
 ln -s $BASEDIR/eslintrc $HOME/.eslintrc
 
 # hapi-app-generator
-if which hapigen &> /dev/null; then
-  printSubSubsection "hapi-app-generator already installed"
-else
-  printSubSubsection "Installing hapi-app-generator"
-  sudo npm install -g hapi-app-generator
-fi
+installNodePackage "hapi-app-generator"
 
 # n
 installNodePackage "n"
@@ -101,3 +81,18 @@ installNodePackage "npm-check-updates"
 
 # caminte-cli
 installNodePackage "caminte-cli" # cross-db ORM, but this is a client. You still need to install the caminte package in your app.
+
+# conventional-changelog-cli 
+installNodePackage "conventional-changelog-cli"
+
+# conventional-commits-detector
+installNodePackage "conventional-commits-detector"
+
+# trash
+installNodePackage "trash"
+
+# conventional-recommended-bump
+installNodePackage "conventional-recommended-bump"
+
+# json
+installNodePackage "json"
