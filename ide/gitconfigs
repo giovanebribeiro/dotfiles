@@ -20,17 +20,18 @@
   st = status -sb
   ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
   f = fetch
-  pom = pull origin master
-  ps = push
-  psuo = push --set-upstream origin 
+  ph = push
+  phuo = push --set-upstream origin 
+  pl = pull
+  plom = pull origin master
   # Show active users on repo in last 6 months
   active = shortlog --numbered --email --summary --no-merges --since="6 months"
   aa = add --all
   cam = commit -am
   mom = merge origin/master
-  ckm = checkout master
   ck = checkout
   ckb = checkout -b
+  ckm = checkout master
 [core]
   editor = /usr/bin/vim
 	excludesfile = /home/giovane/.gitignore_global
