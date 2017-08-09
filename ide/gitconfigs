@@ -37,4 +37,8 @@
 	excludesfile = /home/giovane/.gitignore_global
 [push]
   default = matching
-
+[merge]
+  tool = vimdiff
+  conflictstyle = diff3
+[mergetool]
+  prompt = false
