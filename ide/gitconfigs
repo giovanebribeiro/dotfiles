@@ -20,8 +20,8 @@
   st = status -sb
   ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
   f = fetch
-  ph = push
-  phuo = push --set-upstream origin 
+  ps = push
+  psu = push --set-upstream origin 
   pl = pull
   plom = pull origin master
   # Show active users on repo in last 6 months
