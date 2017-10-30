@@ -40,15 +40,7 @@ alias t='bash $HOME/todo.txt/todo.sh'
 alias tree='ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//--/g" -e "s/^/   /" -e "s/-/|/"'
 alias la='ls -la'
 alias ll='ls -l'
-OS=`uname`
-case $OS in
-  "Darwin")
-    alias reloadBashrc='source $HOME/.bash_profile'
-    ;;
-  "*")
-    alias reloadBashrc='source $HOME/.bashrc'
-    ;;
-esac
+alias git-fc='git fetch && git checkout '
 
 # General exports
 export NODE_ENV="development"
