@@ -20,8 +20,9 @@
   st = status -sb
   ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
   f = fetch
+  fc = "!git fetch; git checkout $1"
   ps = push
-  psu = push --set-upstream origin 
+  psuo = push --set-upstream origin 
   pl = pull
   plom = pull origin master
   # Show active users on repo in last 6 months
