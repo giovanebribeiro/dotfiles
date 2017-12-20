@@ -16,15 +16,13 @@ Plugin 'ervandew/supertab'                      " Tab completion
 Plugin 'nathanaelkane/vim-indent-guides'        " Exibe linhas de identacao
 Plugin 'taglist.vim'                            " Source code browser baseado em tags (Pre-requisito: instalar ctags)
 Plugin 'tpope/vim-fugitive'                     " Git wrapper para vim
-"Plugin 'Lokaltog/vim-easymotion'                " Facil navegacao entre palavras
-"Plugin 'bufexplorer.zip'                        " Atalhos para navegacao entre buffers
 Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim.
 Plugin 'bling/vim-airline'                      " Uma skin minimalista e objetiva para as barras de status do vim
 Plugin 'tpope/vim-markdown'                     " Habilita a sintaxe de markdown
 Plugin 'scrooloose/syntastic'                   " Corretor de sintaxe
 Plugin 'tomtom/tcomment_vim'                    " Atalhos para comentários
 Plugin 'jiangmiao/auto-pairs'                   " Fechador automático de parenteses, caracteres, etc.
-"Plugin 'burnettk/vim-angular'                   " Corretor de sintaxe para angular
+Plugin 'editorconfig/editorconfig-vim'          " Plugin para acesso ao EditorConfig e parse .editorconfig files
 
 " Temas
 Plugin 'altercation/vim-colors-solarized'       " Tema
@@ -42,7 +40,7 @@ set relativenumber
 set backspace=2
 set backspace=indent,eol,start
 " indentation
-set shiftwidth=4
+"set shiftwidth=6
 set autoindent
 set smartindent
 set cindent
