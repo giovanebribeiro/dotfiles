@@ -68,11 +68,11 @@ export NODE_ENV="development"
 ##
 parse_git_branch(){
   git --version | grep "git" > /dev/null 2>&1 || return # check if git is installed
-  echo `git status 2> /dev/null` | grep "nothing to commit|nada a submeter" > /dev/null 2>&1
+  echo `git status 2> /dev/null` | grep "git add <" > /dev/null 2>&1 # if "git add <file> ... is part of message, the branch has changes"
   if [ "$?" -eq "0" ] ; then
-    echo ${bGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-  else
     echo ${bRed}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+  else
+    echo ${bGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
   fi
 }
 
