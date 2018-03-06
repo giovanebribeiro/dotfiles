@@ -17,6 +17,8 @@ if [ ! -f $CMD_FILE ]; then
       ;;
     "Linux")
       echo "apt-get install" > $CMD_FILE
+      # Needed for many things...
+      sudo apt-get install build-essential
       ;;
     "*")
       printError "Unknown OS"
