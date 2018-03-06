@@ -6,9 +6,13 @@
     "plugins": [
         "json"
     ],
-    "extends": "eslint:recommended",
+    "extends": [
+      "eslint:recommended",
+      "hapi"
+    ],
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaVersion": 2017
     },
     "rules": {
         "indent": [

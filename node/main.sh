@@ -64,6 +64,7 @@ else
   printSubSubsection "Installing eslint"
   sudo npm install -g eslint
   sudo npm install -g eslint-plugin-json
+  sudo npm install -g eslint-config-hapi
 fi
 if [ -L $HOME/.eslintrc ]; then
   mv $HOME/.eslintrc $HOME/.eslintrc.old
@@ -80,7 +81,7 @@ installNodePackage "n"
 installNodePackage "npm-check-updates"
 
 # caminte-cli
-installNodePackage "caminte-cli" # cross-db ORM, but this is a client. You still need to install the caminte package in your app.
+#installNodePackage "caminte-cli" # cross-db ORM, but this is a client. You still need to install the caminte package in your app.
 
 # conventional-changelog-cli 
 installNodePackage "conventional-changelog-cli"

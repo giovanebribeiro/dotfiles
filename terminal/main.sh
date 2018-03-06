@@ -12,7 +12,8 @@ fi
 
 if [ ! -f "$HOME/.exports" ]; then
   printSubsection "Installing exports..."
-  ln -s $BASEDIR/exports_$OS.sh $HOME/.exports
+  rm $HOME/.exports
+  cp $BASEDIR/exports_$OS.sh $HOME/.exports
 fi
 
 case $OS in
