@@ -45,55 +45,51 @@ if [ ! -f $HOME/.npmrc ]; then
   npm adduser
 fi
 
-# pm2
-installNodePackage "pm2"
+basicSet(){
+  # n
+  installNodePackage "n"
+  # npm-check-updates
+  installNodePackage "npm-check-updates"
+    # vtop
+  installNodePackage "vtop"
+  # eslint
+  if which eslint &> /dev/null; then
+    printSubSubsection "eslint already installed"
+  else
+    printSubSubsection "Installing eslint"
+    sudo npm install -g eslint
+    sudo npm install -g eslint-plugin-json
+    sudo npm install -g eslint-config-hapi
+  fi
+  if [ -L $HOME/.eslintrc ]; then
+    mv $HOME/.eslintrc $HOME/.eslintrc.old
+  fi
+  ln -s $BASEDIR/eslintrc $HOME/.eslintrc
+}
 
-# vtop
-installNodePackage "vtop"
+backendSet(){
+  # hapi-app-generator
+  installNodePackage "hapi-app-generator"
+  # pm2
+  installNodePackage "pm2"
+}
 
-# bower
-installNodePackage "bower"
+# the basic set is always executed
+basicSet
 
-# grunt (must be installed as administrator all times)
-installNodePackage "grunt-cli"
+while getopts b OPT
+do
+  case "${OPT}"
+  in 
+    b) basicSet; backendSet ;;
+    *) echo "Unknown option: ${OPT}" ;;
+  esac
+done
 
-# eslint
-if which eslint &> /dev/null; then
-  printSubSubsection "eslint already installed"
-else
-  printSubSubsection "Installing eslint"
-  sudo npm install -g eslint
-  sudo npm install -g eslint-plugin-json
-  sudo npm install -g eslint-config-hapi
-fi
-if [ -L $HOME/.eslintrc ]; then
-  mv $HOME/.eslintrc $HOME/.eslintrc.old
-fi
-ln -s $BASEDIR/eslintrc $HOME/.eslintrc
-
-# hapi-app-generator
-installNodePackage "hapi-app-generator"
-
-# n
-installNodePackage "n"
-
-# npm-check-updates
-installNodePackage "npm-check-updates"
-
-# caminte-cli
-#installNodePackage "caminte-cli" # cross-db ORM, but this is a client. You still need to install the caminte package in your app.
-
-# conventional-changelog-cli 
-installNodePackage "conventional-changelog-cli"
-
-# conventional-commits-detector
-installNodePackage "conventional-commits-detector"
-
-# trash
-installNodePackage "trash"
-
-# conventional-recommended-bump
-installNodePackage "conventional-recommended-bump"
-
-# json
-installNodePackage "json"
+#frontendSet(){
+  # bower
+  #installNodePackage "bower"
+  # grunt (must be installed as administrator all times)
+  #installNodePackage "grunt-cli"
+  # gulp?
+#}

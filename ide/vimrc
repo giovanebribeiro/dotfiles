@@ -4,29 +4,24 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 "
-" Toda lista de plugins deve ser colocada ENTRE os comandos begin() e end()
+" All plugin list MUST be put between begin() and end() commands
 "
 call vundle#begin()
 
 " Vundle se auto-gerencia
-Plugin 'gmarik/Vundle.vim'
-Plugin 'scrooloose/nerdtree'                    " Exibe a arvore de diretorios 
-Plugin 'mustache/vim-mustache-handlebars'       " syntax highlight para mustache / handlebars
+Plugin 'gmarik/Vundle.vim'                      " Vundle can self-update
+Plugin 'scrooloose/nerdtree'                    " Directory tree 
 Plugin 'ervandew/supertab'                      " Tab completion
 Plugin 'nathanaelkane/vim-indent-guides'        " Exibe linhas de identacao
-Plugin 'taglist.vim'                            " Source code browser baseado em tags (Pre-requisito: instalar ctags)
-Plugin 'tpope/vim-fugitive'                     " Git wrapper para vim
-Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim.
-Plugin 'bling/vim-airline'                      " Uma skin minimalista e objetiva para as barras de status do vim
+Plugin 'taglist.vim'                            " Source code browser (uses ctags)
+Plugin 'kien/ctrlp.vim'                         " A new finder to vim
+Plugin 'bling/vim-airline'                      " A minimalist and objective skin to vim status bars
 Plugin 'tpope/vim-markdown'                     " Habilita a sintaxe de markdown
-Plugin 'scrooloose/syntastic'                   " Corretor de sintaxe
 Plugin 'tomtom/tcomment_vim'                    " Atalhos para comentários
 Plugin 'jiangmiao/auto-pairs'                   " Fechador automático de parenteses, caracteres, etc.
 Plugin 'editorconfig/editorconfig-vim'          " Plugin para acesso ao EditorConfig e parse .editorconfig files
 
 " Temas
-Plugin 'altercation/vim-colors-solarized'       " Tema
-Plugin 'Lokaltog/vim-distinguished'             " Tema bom para javascript
 Plugin 'evgenyzinoviev/vim-vendetta'
 
 call vundle#end()
@@ -51,8 +46,13 @@ set pastetoggle=<F5>
 " Color Scheme, identation, etc
 set t_Co=256
 set background=dark
-"let g:solarized_termcolors=256
-colorscheme vendetta
+
+try
+  colorscheme vendetta
+catch /^Vim\%((\a\+)\)\=:E185/
+  " deal with it
+endtry
+
 set ts=2 sw=2 et
 let g:indent_guides_auto_colors=0
 autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
