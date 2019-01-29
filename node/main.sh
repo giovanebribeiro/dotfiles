@@ -11,7 +11,8 @@ function installNodePackage(){
     printSubSubsection "$1 already installed"
   else
     printSubSubsection "Installing $1"
-    sudo npm install -g $1
+    [ "$OS" == "Darwin" ] && npm install -g $1
+    [ "$OS" == "Linux" ] && sudo npm install -g $1
   fi 
 }
 
@@ -25,10 +26,10 @@ else
   printSubSubsection "Installing node"
   case $OS in
     "Darwin")
-      sudo $INSTALL node
+      $INSTALL node
       ;;
     "Linux")
-      curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+      curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
       sudo $INSTALL nodejs
       sudo $INSTALL npm
       ;;
@@ -50,16 +51,15 @@ basicSet(){
   installNodePackage "n"
   # npm-check-updates
   installNodePackage "npm-check-updates"
-    # vtop
+  # vtop
   installNodePackage "vtop"
   # eslint
   if which eslint &> /dev/null; then
     printSubSubsection "eslint already installed"
   else
-    printSubSubsection "Installing eslint"
-    sudo npm install -g eslint
-    sudo npm install -g eslint-plugin-json
-    sudo npm install -g eslint-config-hapi
+    installNodePackage "eslint"
+    installNodePackage "eslint-plugin-json"
+    installNodePackage "eslint-plugin-hapi"
   fi
   if [ -L $HOME/.eslintrc ]; then
     mv $HOME/.eslintrc $HOME/.eslintrc.old
