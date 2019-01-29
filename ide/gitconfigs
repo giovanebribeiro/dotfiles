@@ -36,7 +36,7 @@
   rso = remote show origin
 [core]
   editor = /usr/bin/vim
-	excludesfile = /home/giovane/.gitignore_global
+	excludesfile = /Users/giovanebribeiro/.gitignore_global
 [push]
   default = matching
 [merge]

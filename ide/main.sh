@@ -5,6 +5,7 @@ BASEDIR=$( cd $BASEDIR && pwd )
 INSTALL=$(cat $CMD_FILE)
 
 printSection "Integrated Development Environment"
+echo $BASEDIR
 
 printSubsection "VIM"
 if which vim &> /dev/null; then
@@ -16,14 +17,14 @@ fi
 
 printSubSubsection "Updating .vimrc"
 if [ -f $HOME/.vimrc ]; then
-  mv $HOME/.vimrc $HOME/.vimrc.old
+  rm $HOME/.vimrc
 fi
 ln -s $BASEDIR/vimrc $HOME/.vimrc
 
 if [ ! -d $HOME/.vim/bundle ]; then
   printSubSubsection "Installing plugins"
   mkdir -p $HOME/.vim/bundle
-  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
 else
   printSubSubsection "Updating plugins"
 fi
@@ -39,7 +40,7 @@ fi
 
 printSubSubsection "Updating tmux.conf"
 if [ -f $HOME/.tmux.conf ]; then
-  mv $HOME/.tmux.conf $HOME/tmux.conf.old
+  rm $HOME/.tmux.conf
 fi
 ln -s $BASEDIR/tmux.conf $HOME/.tmux.conf
 
@@ -48,13 +49,13 @@ printSubsection "Git configurations"
 
 printSubSubsection "Update .gitconfig"
 if [ -f $HOME/.gitconfig ]; then
-  mv $HOME/.gitconfig $HOME/.gitconfig.old
+  rm $HOME/.gitconfig
 fi
 ln -s $BASEDIR/gitconfigs $HOME/.gitconfig
 
 printSubSubsection "Update global gitignore"
 if [ -f $HOME/.gitignore_global ]; then
-  mv $HOME/.gitignore_global $HOME/.gitignore_global.old
+  rm $HOME/.gitignore_global
 fi
 ln -s $BASEDIR/gitignore_global $HOME/.gitignore_global
 git config --global core.excludesfile $HOME/.gitignore_global
@@ -76,7 +77,7 @@ fi
 
 printSubSubsection "Updating .ctags"
 if [ -L $HOME/.ctags ]; then
-  mv $HOME/.ctags $HOME/.ctags.old
+  rm $HOME/.ctags
 fi
 ln -s $BASEDIR/ctags $HOME/.ctags
 

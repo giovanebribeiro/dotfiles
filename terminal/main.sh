@@ -23,7 +23,10 @@ case $OS in
       mv $HOME/.bash_profile $HOME/.bash_profile.old
       ln -s $BASEDIR/bashrc $HOME/.bash_profile
       source $HOME/.bash_profile
-    fi
+    else
+      ln -s $BASEDIR/bashrc $HOME/.bash_profile
+      source $HOME/.bash_profile
+    fi	
     ;;
   "Linux")
     if [ -f "$HOME/.bashrc" ]; then
@@ -31,7 +34,10 @@ case $OS in
       mv $HOME/.bashrc $HOME/.bashrc.old
       ln -s $BASEDIR/bashrc $HOME/.bashrc
       source $HOME/.bashrc
-    fi
+    else
+      ln -s $BASEDIR/bashrc $HOME/.bashrc
+      source $HOME/.bashrc
+    fi	
     ;;
   "*")
     printError "Unknown OS"
