@@ -16,7 +16,7 @@ if [ ! -f $CMD_FILE ]; then
       echo "brew install" > $CMD_FILE
       ;;
     "Linux")
-      echo "apt-get install" > $CMD_FILE
+      echo "sudo apt-get install" > $CMD_FILE
       # Needed for many things...
       sudo apt-get install build-essential
       ;;

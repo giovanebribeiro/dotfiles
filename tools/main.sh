@@ -8,8 +8,16 @@ printSubsection "cURL"
 if which curl &> /dev/null; then
   printSubSubsection "cURL already installed"
 else
-  sudo $INSTALL curl
+  $INSTALL curl
   printSubSubsection "cURL installed successfully"
+fi
+
+printSubsection "neofetch"
+if command -v neofetch >/dev/null 2>&1; then
+  printSubSubsection "neofetch already installed"
+else
+  $INSTALL neofetch
+  printSubSubsection "neofetch installed successfully"
 fi
 
 printOK

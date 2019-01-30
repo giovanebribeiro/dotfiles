@@ -3,9 +3,15 @@
 # Author: Giovane Boaviagem (about.me/giovanebribeiro)
 #
 
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
+
+# If neofetch exists, run it only once.
+flag_file="/tmp/neofetch_exists"
+if [ ! -f $flag_file ]
+then
+  command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
+fi
 
 DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
 

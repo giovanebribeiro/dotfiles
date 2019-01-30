@@ -62,7 +62,7 @@ database_mongo(){
 
 node(){
   [ -z ${basic_executed} ] && basic
-  echo
+    echo
   bash node/main.sh
 }
 
@@ -87,11 +87,3 @@ do
     *) echo "Unknown option: ${OP}"; _help ;;
   esac
 done
-
-
-
-
-
-# must be the last thing to do
-
-
