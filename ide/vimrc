@@ -24,8 +24,8 @@ Plugin 'tpope/vim-fugitive'                                         " more git f
 Plugin 'jiangmiao/auto-pairs'                                       " automatic closure for (, {, [, etc
 Plugin 'editorconfig/editorconfig-vim'                              " editorConfig (https://editorconfig.org/) support
 Plugin 'morhetz/gruvbox'                                            " retro theme
-Plugin 'vim-airline/vim-airline'                                    " nice status bar and tab
-Plugin 'vim-airline/vim-airline-themes'                             " themes for airline
+Plugin 'itchyny/lightline.vim'                                      " theme for statusbar
+Plugin 'shinchu/lightline-gruvbox.vim'                              " lightline theme for gruvbox
 Plugin 'taglist.vim'                                                " Source code browser (uses ctags)
 
 call vundle#end()            " required
@@ -75,11 +75,15 @@ set ignorecase
 set smartcase
 " enable taglist
 let Tlist_Use_Right_Window = 1
-
+set t_ut=      " cleaning this var to fix vim background inside tmux (https://superuser.com/a/562423)
 
 ""
 " Look and Feel
 ""
+set noshowmode           " removes the -- INSERT -- (we don't needed it, right?)
+"needed to enable italic in vim
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
 syntax on                " enable syntax
 set t_Co=256             " terminal colors
 set background=dark      " background color :P
@@ -90,32 +94,8 @@ catch /^Vim\%((\a\+)\)\=:E185/
   " deal with it
 endtry
 set laststatus=2 " always display the status line
-" vim-airline configurations
-try
-	let g:airline_left_sep = '»'
-	let g:airline_left_sep = '▶'
-	let g:airline_right_sep = '«'
-	let g:airline_right_sep = '◀'
-
-	let g:airline_symbols = {}
-	let g:airline_symbols.linenr = '␊'
-	let g:airline_symbols.linenr = '␤'
-	let g:airline_symbols.linenr = '¶'
-	let g:airline_symbols.branch = '⎇'
-	let g:airline_symbols.paste = 'ρ'
-	let g:airline_symbols.paste = 'Þ'
-	let g:airline_symbols.paste = '∥'
-	let g:airline_symbols.whitespace = 'Ξ'
-
-	let g:airline#extensions#branch#enabled = 1
-	let g:airline#extensions#tagbar#enabled = 1
-	let g:airline#extensions#tabline#enabled = 1
-
-	let g:airline_theme='onedark'
-
-catch /^Vim\%((\a\+)\)\=:E185/
-	" deal with it
-endtry
+let g:lightline = {}
+let g:lightline.colorscheme = 'gruvbox'
 " netrw (vim native file explorer)
 let g:netrw_liststyle=3
 let g:netrw_browse_split=4
