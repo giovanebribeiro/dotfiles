@@ -27,6 +27,7 @@ Plugin 'morhetz/gruvbox'                                            " retro them
 Plugin 'itchyny/lightline.vim'                                      " theme for statusbar
 Plugin 'shinchu/lightline-gruvbox.vim'                              " lightline theme for gruvbox
 Plugin 'taglist.vim'                                                " Source code browser (uses ctags)
+Plugin 'evgenyzinoviev/vim-vendetta'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
