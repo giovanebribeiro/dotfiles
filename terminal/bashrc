@@ -70,7 +70,7 @@ export NODE_ENV="development"
 
 
 ##################################
-###### SECTION 3: FUNCTIONS ######
+###### SECTION 4: FUNCTIONS ######
 ##################################
 
 ##
@@ -78,25 +78,49 @@ export NODE_ENV="development"
 ##
 parse_git_branch(){
   git --version | grep "git" > /dev/null 2>&1 || return # check if git is installed
-  echo `git status 2> /dev/null` | grep "git add <" > /dev/null 2>&1 # if "git add <file> ... is part of message, the branch has changes"
-  if [ "$?" -eq "0" ] ; then
-    echo ${bRed}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+
+  git status > /dev/null 2>&1
+  if [ "$?" == "0" ]; then
+    echo `git status 2> /dev/null` | grep "git add <" > /dev/null 2>&1 # if "git add <file> ... is part of message, the branch has changes"
+    if [ "$?" -eq "0" ] ; then
+      echo "${bRed}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
+    else
+      echo "${bGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
+    fi
   else
-    echo ${bGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+    echo 
   fi
-}
+
+  }
 
 ##
 # returns the remote branch attatched to current branch
 ##
 git_remote_branch(){
   git --version | grep "git" > /dev/null 2>&1 || return # check if git is installed
-  echo "${bMagenta}[`git rev-parse --abbrev-ref --symbolic-full-name @{u} 2> /dev/null`]"
+
+  OUT_PULL=$(git status 2> /dev/null | grep 'atrás\|behind') 
+  OUT_OK=$(git status 2> /dev/null | grep 'clean\|vazio') 
+  OUT_PUSH=$(git status 2> /dev/null | grep 'frente\|ahead')
+
+  if [ "$?" == "0" ]; then
+    STATUS_REMOTE="${bGreen}="
+    
+    if [ "$OUT_PULL" != "" ]; then   
+      STATUS_REMOTE="${bYellow}v" 
+    fi
+
+    if [ "$OUT_PUSH" != "" ]; then   
+      STATUS_REMOTE="${bYellow}^" 
+    fi
+    
+    echo "${bMagenta}[`git rev-parse --abbrev-ref --symbolic-full-name @{u} 2> /dev/null`${rWhite}($STATUS_REMOTE${rWhite})${bMagenta}]" 
+  else
+    echo
+  fi
+
 }
 
-git_check_push_branch(){
-    git status 2> /dev/null | grep "$1"
-}
 
 ##
 # Converts a unicode code (like '\u250c')
@@ -118,23 +142,6 @@ title() {
 ###### SECTION 4: PS1 VARIABLE ######
 #####################################
 
-export PS1="\[\n${reset}\342\224\214 ${bCyan}\h [ Kernel \$(uname) \$(uname -r) ]\n${reset}\342\224\234 ${bYellow}\w${reset} - ${bBlue}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${reset}\]\
-  \[\n\342\224\234 \$(parse_git_branch) \$(git_remote_branch)${reset} - \
-\$(\
-\$(git status > /dev/null 2>&1);
-  if [ \$? == 0 ]; then
-  OUT_PULL=\$(git_check_push_branch 'atrás\|behind');
-  OUT_OK=\$(git_check_push_branch 'clean\|vazio');
-  OUT_PUSH=\$(git_check_push_branch 'frente\|ahead'); 
-  if [ \"\$OUT_PULL\" != \"\" ]; then
-  echo \"\"${bYellow}\"\342\254\207\";
-  elif [ \"\$OUT_PUSH\" != \"\" ]; then
-  echo \"\"${bYellow}\"\342\254\206\";
-  else
-  echo \"\"${bGreen}\"\316\236\012\";
-  fi
-  fi
-  )${reset} - \$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${reset} \]\
-  \[\n\342\224\224 \$ "
+export PS1="${bCyan}\W \$(parse_git_branch)\$(git_remote_branch)${reset}\$ "
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
