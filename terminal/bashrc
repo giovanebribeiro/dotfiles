@@ -103,6 +103,7 @@ git_remote_branch(){
   OUT_OK=$(git status 2> /dev/null | grep 'clean\|vazio') 
   OUT_PUSH=$(git status 2> /dev/null | grep 'frente\|ahead')
 
+  git status > /dev/null 2>&1 
   if [ "$?" == "0" ]; then
     STATUS_REMOTE="${bGreen}="
     
@@ -118,8 +119,6 @@ git_remote_branch(){
   else
     echo
   fi
-
-}
 
 
 ##
