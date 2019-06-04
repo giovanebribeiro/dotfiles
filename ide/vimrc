@@ -28,6 +28,7 @@ Plugin 'itchyny/lightline.vim'                                      " theme for 
 Plugin 'shinchu/lightline-gruvbox.vim'                              " lightline theme for gruvbox
 Plugin 'taglist.vim'                                                " Source code browser (uses ctags)
 Plugin 'evgenyzinoviev/vim-vendetta'                                " Another color theme
+Plugin 'nathanaelkane/vim-indent-guides'                            " I can see clearly now ... the indent lines
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -102,6 +103,11 @@ let g:netrw_liststyle=3
 let g:netrw_browse_split=4
 let g:netrw_winsize=25
 let g:netrw_altv=1
+" code indentation (https://stackoverflow.com/a/1878983)
+set ts=2 sw=2 et
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level=2
+let g:indent_guides_guide_size=1
 
 ""
 " Shortcuts and keybindings
