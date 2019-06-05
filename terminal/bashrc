@@ -22,7 +22,10 @@ DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
 ################################
 
 source $DOTFILES_LOC/common/colorTable.sh
-source $HOME/.git-completion.bash
+if [ -f "$HOME/.git-completion.bash" ]
+then
+  source $HOME/.git-completion.bash
+fi
 
 ##################################
 ###### SECTION 1: CONSTANTS ######
@@ -83,9 +86,9 @@ parse_git_branch(){
   if [ "$?" == "0" ]; then
     echo `git status 2> /dev/null` | grep "git add <" > /dev/null 2>&1 # if "git add <file> ... is part of message, the branch has changes"
     if [ "$?" -eq "0" ] ; then
-      echo "${bRed}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
+      echo " ${bRed}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
     else
-      echo "${bGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
+      echo " ${bGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
     fi
   else
     echo 
@@ -140,6 +143,6 @@ title() {
 ###### SECTION 4: PS1 VARIABLE ######
 #####################################
 
-export PS1="\[${bCyan}\W\] \[\$(parse_git_branch)\]\[\$(git_remote_branch)${reset}\]\$ "
+export PS1="\[${bCyan}\W\]\[\$(parse_git_branch)\]\[\$(git_remote_branch)${reset}\] \$ "
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

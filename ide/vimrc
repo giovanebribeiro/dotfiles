@@ -29,6 +29,7 @@ Plugin 'shinchu/lightline-gruvbox.vim'                              " lightline 
 Plugin 'taglist.vim'                                                " Source code browser (uses ctags)
 Plugin 'evgenyzinoviev/vim-vendetta'                                " Another color theme
 Plugin 'nathanaelkane/vim-indent-guides'                            " I can see clearly now ... the indent lines
+Plugin 'JamshedVesuna/vim-markdown-preview'                         " A nice markdown preview
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -78,8 +79,9 @@ set smartcase
 " enable taglist
 let Tlist_Use_Right_Window = 1
 set t_ut=      " cleaning this var to fix vim background inside tmux (https://superuser.com/a/562423)
+let vim_markdown_preview_toggle=2 " specific for vim-markdown-preview: enable preview on buffer write (:w)
 
-""
+"
 " Look and Feel
 ""
 set noshowmode           " removes the -- INSERT -- (we don't needed it, right?)
