@@ -37,6 +37,7 @@
   rso = remote show origin
   # collect the commits since the last tag
   changelog = "!git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'%h %s'"
+	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 [core]
   editor = /usr/bin/vim
 	excludesfile = /home/giovane/.gitignore_global
