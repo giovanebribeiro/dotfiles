@@ -27,7 +27,7 @@
   plom = pull origin master
   ppt = "!git pull; git push --tags"
   # Show active users on repo in last 6 months
-  active = shortlog --numbered --email --summary --no-merges --since="6 months"
+  active = shortlog --numbered --email --summary --no-merges --since='6 months'
   aa = add --all
   cam = commit -am
   mom = merge origin/master
