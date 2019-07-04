@@ -143,6 +143,7 @@ title() {
 ###### SECTION 4: PS1 VARIABLE ######
 #####################################
 
-export PS1="\[${bCyan}\W\]\[\$(parse_git_branch)\]\[\$(git_remote_branch)${reset}\] \$ "
+export PS1="\[${bCyan}\W\$(parse_git_branch)\$(git_remote_branch)${reset} \]\
+  \[\n\$ "
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
