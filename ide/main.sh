@@ -38,6 +38,9 @@ else
   sudo $INSTALL tmux
 fi
 
+printSubsection "Markdown"
+sudo $INSTALL markdown
+
 printSubSubsection "Updating tmux.conf"
 if [ -f $HOME/.tmux.conf ]; then
   rm $HOME/.tmux.conf
