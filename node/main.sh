@@ -29,7 +29,7 @@ else
       $INSTALL node
       ;;
     "Linux")
-      curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+      curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
       sudo $INSTALL nodejs
       sudo $INSTALL npm
       ;;
