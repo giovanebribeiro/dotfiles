@@ -38,6 +38,20 @@ filetype plugin indent on    " required
 " End of plugin list
 
 ""
+" Functions
+"""
+function! CreateDir(dir)
+  if !isdirectory(a:dir)
+    if exists("*mkdir")
+      call mkdir(a:dir, 'p')
+      echo "Directory created: " . a:dir
+    else
+      echo "Please create dir: " . a:dir
+    endif
+  endif
+endfunction
+
+""
 " Performance configurations
 ""
 "more characters will be sent to the screen for redrawing
@@ -86,10 +100,14 @@ let vim_markdown_preview_toggle=2 " specific for vim-markdown-preview: enable pr
 set textwidth=100
 g:lengthmatters_on_by_default=1
 g:lengthmatters_start_at_column=101
+" sessions management
+let g:sessions_dir = '$HOME/.vim/sessions'
+call CreateDir('' . g:sessions_dir . '')
 
-"
+""
 " Look and Feel
 ""
+
 set noshowmode           " removes the -- INSERT -- (we don't needed it, right?)
 "needed to enable italic in vim
 let &t_ZH="\e[3m"
@@ -129,17 +147,21 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
+" some custom shortcuts
 let mapleader=","                           " behold the new <Leader> key
-nmap <Leader>gn <Plug>GitGutterNextHunk     " git next
-nmap <Leader>gp <Plug>GitGutterPrevHunk     " git previous
-nmap <Leader>ga <Plug>GitGutterStageHunk    " git add (chunk)
-nmap <Leader>gu <Plug>GitGutterUndoHunk     " git undo (chunk)
-nmap <Leader>gs :Magit<CR>      	          " git status
-nmap <Leader>gb :Gblame<CR>                 " git blame
-nmap <Leader>gc :Gcommit %<CR>              " git commit the current file
-nmap <Leader>t  :TlistToggle<CR>            " show taglist pane
-nmap <Leader>e  :Vexplore<CR>               " show file explorer
-nmap <Leader>i  gg=G                        " fix file indentation
+nmap <Leader>r  :source %<CR>                                                  " reload the current file
+nmap <Leader>gn <Plug>GitGutterNextHunk                                        " git next
+nmap <Leader>gp <Plug>GitGutterPrevHunk                                        " git previous
+nmap <Leader>ga <Plug>GitGutterStageHunk                                       " git add (chunk)
+nmap <Leader>gu <Plug>GitGutterUndoHunk                                        " git undo (chunk)
+nmap <Leader>gs :Magit<CR>      	                                             " git status
+nmap <Leader>gb :Gblame<CR>                                                    " git blame
+nmap <Leader>gc :Gcommit %<CR>                                                 " git commit the current file
+nmap <Leader>t  :TlistToggle<CR>                                               " show taglist pane
+nmap <Leader>e  :Vexplore<CR>                                                  " show file explorer
+nmap <Leader>i  gg=G                                                           " fix file indentation
+exec 'noremap <Leader>ss :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>' 
+exec 'noremap <Leader>sr :so ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
 " Mapping selecting mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
