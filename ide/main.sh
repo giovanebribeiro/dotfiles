@@ -11,7 +11,18 @@ printSubsection "VIM"
 if which vim &> /dev/null; then
   printSubSubsection "VIM already installed"
 else
-  sudo $INSTALL vim
+  OS=`uname`
+  case $OS in 
+    "Darwin")
+      $INSTALL macvim
+      ;;
+    "Linux")
+      $INSTALL vim
+      ;;
+    "*")
+      printError "Unknown OS"
+      ;;
+  esac
   printSubSubsection "VIM installed successfully"
 fi
 
@@ -25,21 +36,24 @@ if [ ! -d $HOME/.vim/bundle ]; then
   printSubSubsection "Installing plugins"
   mkdir -p $HOME/.vim/bundle
   git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+  vim +PluginInstall +qall
+  python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer
 else
   printSubSubsection "Updating plugins"
+  vim +PluginUpdate +qall
 fi
-vim +PluginInstall +qall
+[ ! -d $HOME/.vim/sessions ] && mkdir -p $HOME/.vim/sessions
 
 printSubsection "Tmux"
 if which tmux &> /dev/null; then
   printSubSubsection "Tmux already installed"
 else
   printSubSubsection "Installing Tmux"
-  sudo $INSTALL tmux
+  $INSTALL tmux
 fi
 
 printSubsection "Markdown"
-sudo $INSTALL markdown
+$INSTALL markdown
 
 printSubSubsection "Updating tmux.conf"
 if [ -f $HOME/.tmux.conf ]; then
@@ -75,7 +89,7 @@ if which ctags &> /dev/null; then
   printSubSubsection "Ctags already installed"
 else
   printSubSubsection "Installing ctags"
-  sudo $INSTALL exuberant-ctags
+  $INSTALL exuberant-ctags
 fi
 
 printSubSubsection "Updating .ctags"
