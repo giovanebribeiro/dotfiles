@@ -32,24 +32,11 @@ Plugin 'nathanaelkane/vim-indent-guides'                            " I can see 
 Plugin 'JamshedVesuna/vim-markdown-preview'                         " A nice markdown preview
 Plugin 'ycm-core/YouCompleteMe'                                     " Code Completion engine
 Plugin 'whatyouhide/vim-lengthmatters'                              " Highlights when text line is too big
+Plugin 'vim-syntastic/syntastic'                                    " Syntax checker
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 " End of plugin list
-
-""
-" Functions
-"""
-function! CreateDir(dir)
-  if !isdirectory(a:dir)
-    if exists("*mkdir")
-      call mkdir(a:dir, 'p')
-      echo "Directory created: " . a:dir
-    else
-      echo "Please create dir: " . a:dir
-    endif
-  endif
-endfunction
 
 ""
 " Performance configurations
@@ -102,12 +89,24 @@ g:lengthmatters_on_by_default=1
 g:lengthmatters_start_at_column=101
 " sessions management
 let g:sessions_dir = '$HOME/.vim/sessions'
-call CreateDir('$HOME/.vim/sessions')
+" syntastic configurations
+try
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+
+  let g:syntastic_checkers = [ "javascript" ]
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 0
+catch /^Vim\%((\a\+)\)\=:E185/
+  deal with it
+endtry
 
 ""
 " Look and Feel
 ""
-
 set noshowmode           " removes the -- INSERT -- (we don't needed it, right?)
 "needed to enable italic in vim
 let &t_ZH="\e[3m"
