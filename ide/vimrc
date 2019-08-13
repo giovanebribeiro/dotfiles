@@ -27,7 +27,6 @@ Plugin 'morhetz/gruvbox'                                            " retro them
 Plugin 'itchyny/lightline.vim'                                      " theme for statusbar
 Plugin 'shinchu/lightline-gruvbox.vim'                              " lightline theme for gruvbox
 Plugin 'taglist.vim'                                                " Source code browser (uses ctags)
-Plugin 'evgenyzinoviev/vim-vendetta'                                " Another color theme
 Plugin 'nathanaelkane/vim-indent-guides'                            " I can see clearly now ... the indent lines
 Plugin 'JamshedVesuna/vim-markdown-preview'                         " A nice markdown preview
 Plugin 'ycm-core/YouCompleteMe'                                     " Code Completion engine
@@ -95,14 +94,17 @@ try
   set statusline+=%{SyntasticStatuslineFlag()}
   set statusline+=%*
 
-  let g:syntastic_checkers = [ "javascript" ]
+  let g:syntastic_javascript_checkers = [ "eslint" ]
   let g:syntastic_always_populate_loc_list = 1
   let g:syntastic_auto_loc_list = 1
   let g:syntastic_check_on_open = 1
   let g:syntastic_check_on_wq = 0
 catch /^Vim\%((\a\+)\)\=:E185/
-  deal with it
+  " deal with it
 endtry
+" recognize specific files with known language syntax
+"autocmd BufNewFile,BufRead *.json set ft=javascript
+"autocmd BufNewFile,BufRead *.wsdl set ft=xml
 
 ""
 " Look and Feel
@@ -155,12 +157,14 @@ nmap <Leader>ga <Plug>GitGutterStageHunk                                       "
 nmap <Leader>gu <Plug>GitGutterUndoHunk                                        " git undo (chunk)
 nmap <Leader>gs :Magit<CR>      	                                             " git status
 nmap <Leader>gb :Gblame<CR>                                                    " git blame
-nmap <Leader>gc :Gcommit %<CR>                                                 " git commit the current file
-nmap <Leader>t  :TlistToggle<CR>                                               " show taglist pane
-nmap <Leader>e  :Vexplore<CR>                                                  " show file explorer
-nmap <Leader>i  gg=G                                                           " fix file indentation
-exec 'noremap <Leader>ss :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>' 
-exec 'noremap <Leader>sr :so ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
+nmap <Leader>gc :Gcommit %<CR>                                                           " git commit the current file
+nmap <Leader>t  :TlistToggle<CR>                                                         " show taglist pane
+nmap <Leader>e  :Vexplore<CR>                                                            " show file explorer
+nmap <Leader>i  gg=G                                                                     " fix file indentation
+" Save session
+exec 'noremap <Leader>ss :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'    
+" Restore session
+exec 'noremap <Leader>sr :so ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'     
 " Mapping selecting mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
