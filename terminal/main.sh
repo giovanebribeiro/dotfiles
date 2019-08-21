@@ -16,6 +16,9 @@ if [ ! -f "$HOME/.exports" ]; then
   cp $BASEDIR/exports_$OS.sh $HOME/.exports
 fi
 
+[ -e "$HOME/.Xresources" ] && cp $HOME/.Xresources $HOME/.Xresources.bkp
+ln -s $BASEDIR/Xresources $HOME/.Xresources
+
 case $OS in
   "Darwin")
     if [ -f "$HOME/.bash_profile" ]; then

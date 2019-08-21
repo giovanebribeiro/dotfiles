@@ -44,22 +44,45 @@ else
 fi
 [ ! -d $HOME/.vim/sessions ] && mkdir -p $HOME/.vim/sessions
 
+if `uname` == "Linux"; then
+
+  printSubsection "Fonts"
+
+  [ ! -d $HOME/.local/share/fonts ] && mkdir -p $HOME/.local/share/fonts
+  [ ! -d $HOME/.config/fontconfig/conf.d ] && mkdir -p $HOME/.config/fontconfig/conf.d
+
+  wget \
+    https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf \
+    -P $HOME/.local/share/fonts/
+  wget \
+    https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf \
+    -P $HOME/.config/fontconfig/conf.d/
+
+  fc-cache -vf $HOME/.local/share/fonts
+
+fi
+
+
 printSubsection "Tmux"
 if which tmux &> /dev/null; then
   printSubSubsection "Tmux already installed"
 else
   printSubSubsection "Installing Tmux"
   $INSTALL tmux
+  
+  printSubSubsection "get tmux.conf"
+  if [ -d $HOME/.tmux ]; then
+    rm -rf $HOME/.tmux
+  fi
+
+  git clone https://github.com/gpakosz/.tmux $HOME/.tmux
+  ln -s $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
+  ln -s $BASEDIR/tmux.conf.local $HOME/.tmux.conf.local
+
 fi
 
 printSubsection "Markdown"
 $INSTALL markdown
-
-printSubSubsection "Updating tmux.conf"
-if [ -f $HOME/.tmux.conf ]; then
-  rm $HOME/.tmux.conf
-fi
-ln -s $BASEDIR/tmux.conf $HOME/.tmux.conf
 
 # Git configurations
 printSubsection "Git configurations"

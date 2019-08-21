@@ -32,6 +32,7 @@ Plugin 'JamshedVesuna/vim-markdown-preview'                         " A nice mar
 Plugin 'ycm-core/YouCompleteMe'                                     " Code Completion engine
 Plugin 'whatyouhide/vim-lengthmatters'                              " Highlights when text line is too big
 Plugin 'vim-syntastic/syntastic'                                    " Syntax checker
+Plugin 'ctrlpvim/ctrlp.vim'                                         " A better file finder
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -102,6 +103,9 @@ try
 catch /^Vim\%((\a\+)\)\=:E185/
   " deal with it
 endtry
+" Ctrl-P
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 " recognize specific files with known language syntax
 "autocmd BufNewFile,BufRead *.json set ft=javascript
 "autocmd BufNewFile,BufRead *.wsdl set ft=xml
@@ -170,7 +174,7 @@ nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 " Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-w> <plug>(fzf-complete-word)
+imap <c-x><c-p> <plug>(fzf-complete-path)
+imap <c-x><c-f> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)

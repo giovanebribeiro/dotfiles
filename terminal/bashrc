@@ -3,10 +3,11 @@
 # Author: Giovane Boaviagem (about.me/giovanebribeiro)
 #
 
+TERM=xterm-256color
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-
-TERM=xterm-256color
+[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
 # If neofetch exists, run it only once.
 flag_file="/tmp/neofetch_exists"
@@ -45,7 +46,7 @@ Jobs="\j"
 ################################
 
 # General Aliases
-alias tmux='tmux -2'
+alias tmux='tmux -u2'
 alias ..='cd ..'
 alias t='bash $HOME/todo.txt/todo.sh'
 alias tree='ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//--/g" -e "s/^/   /" -e "s/-/|/"'
