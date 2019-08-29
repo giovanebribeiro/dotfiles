@@ -34,6 +34,7 @@ Plugin 'whatyouhide/vim-lengthmatters'                              " Highlights
 Plugin 'vim-syntastic/syntastic'                                    " Syntax checker
 Plugin 'ctrlpvim/ctrlp.vim'                                         " A better file finder
 Plugin 'vim-scripts/todo-txt.vim'                                   " Allow to manipulate todo.txt files in vim
+Plugin 'lambdalisue/vim-gista'                                      " Gist integration (https://gist.github.com)
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -110,7 +111,8 @@ let g:ctrlp_cmd = 'CtrlP'
 " recognize specific files with known language syntax
 "autocmd BufNewFile,BufRead *.json set ft=javascript
 "autocmd BufNewFile,BufRead *.wsdl set ft=xml
-
+" Gist plugin
+let g:gista#command#open#default_opener = 'split'
 ""
 " Look and Feel
 ""
@@ -166,7 +168,8 @@ nmap <Leader>gc :Gcommit %<CR>                                                 "
 nmap <Leader>t  :TlistToggle<CR>                                               " show taglist pane
 nmap <Leader>e  :Vexplore<CR>                                                  " show file explorer
 nmap <Leader>i  gg=G                                                           " fix file indentation
-nmap <Leader>todo :vsp $HOME/.todo/todo.txt<CR>                                " open todo file
+nmap <Leader>todo :Gista open 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>    " open todo file
+
 " Save session
 exec 'noremap <Leader>ss :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'    
 " Restore session

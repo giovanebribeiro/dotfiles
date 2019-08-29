@@ -49,3 +49,5 @@
   conflictstyle = diff3
 [mergetool]
   prompt = false
+[github]
+  user = giovanebribeiro
