@@ -128,8 +128,10 @@ printSubsection "Todo.txt"
 if [ ! -d $HOME/todo.txt ]; then
   printSubSubsection "Installing todo.txt"
   git clone https://github.com/ginatrapani/todo.txt-cli $HOME/todo.txt
+  mkdir $HOME/.todo
 else
   printSubSubsection "Updating todo.txt"
+  cd $HOME/todo.txt
   rm $HOME/todo.txt/todo.cfg
   mv $HOME/todo.txt/todo.cfg.old $HOME/todo.txt/todo.cfg
   git pull

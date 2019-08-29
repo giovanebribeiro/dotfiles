@@ -33,6 +33,7 @@ Plugin 'ycm-core/YouCompleteMe'                                     " Code Compl
 Plugin 'whatyouhide/vim-lengthmatters'                              " Highlights when text line is too big
 Plugin 'vim-syntastic/syntastic'                                    " Syntax checker
 Plugin 'ctrlpvim/ctrlp.vim'                                         " A better file finder
+Plugin 'vim-scripts/todo-txt.vim'                                   " Allow to manipulate todo.txt files in vim
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -87,7 +88,7 @@ let vim_markdown_preview_toggle=2 " specific for vim-markdown-preview: enable pr
 set textwidth=100
 g:lengthmatters_on_by_default=1
 g:lengthmatters_start_at_column=101
-" sessions management
+" sessions magment
 let g:sessions_dir = '$HOME/.vim/sessions'
 " syntastic configurations
 try
@@ -161,10 +162,11 @@ nmap <Leader>ga <Plug>GitGutterStageHunk                                       "
 nmap <Leader>gu <Plug>GitGutterUndoHunk                                        " git undo (chunk)
 nmap <Leader>gs :Magit<CR>      	                                             " git status
 nmap <Leader>gb :Gblame<CR>                                                    " git blame
-nmap <Leader>gc :Gcommit %<CR>                                                           " git commit the current file
-nmap <Leader>t  :TlistToggle<CR>                                                         " show taglist pane
-nmap <Leader>e  :Vexplore<CR>                                                            " show file explorer
-nmap <Leader>i  gg=G                                                                     " fix file indentation
+nmap <Leader>gc :Gcommit %<CR>                                                 " git commit the current file
+nmap <Leader>t  :TlistToggle<CR>                                               " show taglist pane
+nmap <Leader>e  :Vexplore<CR>                                                  " show file explorer
+nmap <Leader>i  gg=G                                                           " fix file indentation
+nmap <Leader>todo :vsp $HOME/.todo/todo.txt<CR>                                " open todo file
 " Save session
 exec 'noremap <Leader>ss :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'    
 " Restore session
