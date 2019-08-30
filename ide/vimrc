@@ -168,7 +168,7 @@ nmap <Leader>gc :Gcommit %<CR>                                                 "
 nmap <Leader>t  :TlistToggle<CR>                                               " show taglist pane
 nmap <Leader>e  :Vexplore<CR>                                                  " show file explorer
 nmap <Leader>i  gg=G                                                           " fix file indentation
-nmap <Leader>todo :Gista open 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>    " open todo file
+nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>    " open todo file
 
 " Save session
 exec 'noremap <Leader>ss :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'    
