@@ -112,7 +112,7 @@ let g:ctrlp_cmd = 'CtrlP'
 "autocmd BufNewFile,BufRead *.json set ft=javascript
 "autocmd BufNewFile,BufRead *.wsdl set ft=xml
 " Gist plugin
-let g:gista#command#open#default_opener = 'vsplit'
+"let g:gista#command#open#default_opener = 'vsplit'
 " Todo.txt
 let g:TodoTxtForceDoneName='done.txt'
 ""
