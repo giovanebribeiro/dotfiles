@@ -19,7 +19,7 @@
   clean-closed-branches = remote prune origin
   st = status -sb
   ll = log --color --graph --pretty=format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
-  tt = for-each-ref --sort=-taggerdate --count=10 --format '%(refname) %(taggerdate)\n%(subject)\n================\n%(body)' refs/tags
+  tt = for-each-ref --sort=-taggerdate --count=10 --format '\n***\n* %(refname) (%(taggerdate))\n***\n\n%(subject)' refs/tags
   f = fetch
   fc = "!git fetch; git checkout $1"
   ps = push
