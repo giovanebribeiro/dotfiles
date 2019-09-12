@@ -19,7 +19,7 @@
   clean-closed-branches = remote prune origin
   st = status -sb
   ll = log --color --graph --pretty=format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
-  tt = for-each-ref --sort=-taggerdate --count=5 --format '\n***\n* %(refname) (%(taggerdate))\n***\n\n%(subject)' refs/tags
+  tt = for-each-ref --sort=-taggerdate --count=5 --format '%(refname) (%(taggerdate))\n===\n\n%(subject)\n\n%(body)' refs/tags
   f = fetch
   fc = "!git fetch; git checkout $1"
   ps = push
@@ -38,7 +38,7 @@
   ckm = checkout master
   rso = remote show origin
   # collect the commits since the last tag
-  changelog = "!git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'%h %s\n'"
+  changelog = "!git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'%h %s'"
 	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 [core]
   editor = /usr/bin/vim
