@@ -52,3 +52,6 @@
   prompt = false
 [github]
   user = giovanebribeiro
+# Specific configurations for my work. Include a second gitconfig if repo inside ~/workspace/_work
+[includeIf "gitdir:~/workspace/_work/"]
+  path = ~/.config/.gitconfig
