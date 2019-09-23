@@ -37,7 +37,7 @@ if [ ! -d $HOME/.vim/bundle ]; then
   mkdir -p $HOME/.vim/bundle
   git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
   vim +PluginInstall +qall
-  python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer
+  python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer --rust-completer
 else
   printSubSubsection "Updating plugins"
   vim +PluginUpdate +qall

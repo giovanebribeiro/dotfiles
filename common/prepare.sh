@@ -19,7 +19,7 @@ if [ ! -f $CMD_FILE ]; then
     "Linux")
       echo "sudo apt-get install" > $CMD_FILE
       # Needed for many things...
-      sudo apt-get install build-essential cmake3 python3-dev
+      sudo apt-get install build-essential cmake python-dev python3-dev
       ;;
     "*")
       printError "Unknown OS"

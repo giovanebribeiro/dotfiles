@@ -40,10 +40,7 @@ fi
 
 if [ ! -f $HOME/.npmrc ]; then
   printSubSubsection "Loading npm informations"
-  npm set init.author.name "Giovane Boaviagem"
-  npm set init.author.email "giovanebribeiro@gmail.com"
-  npm set init.author.url "http://about.me/giovanebribeiro"
-  npm adduser
+  npm login
 fi
 
 basicSet(){
@@ -54,13 +51,8 @@ basicSet(){
   # vtop
   installNodePackage "vtop"
   # eslint
-  if which eslint &> /dev/null; then
-    printSubSubsection "eslint already installed"
-  else
-    installNodePackage "eslint"
-    installNodePackage "eslint-plugin-json"
-    installNodePackage "eslint-plugin-hapi"
-  fi
+  installNodePackage "eslint-plugin-json"
+  installNodePackage "eslint-plugin-hapi"
   if [ -L $HOME/.eslintrc ]; then
     mv $HOME/.eslintrc $HOME/.eslintrc.old
   fi
@@ -81,7 +73,7 @@ while getopts b OPT
 do
   case "${OPT}"
   in 
-    b) basicSet; backendSet ;;
+    b) basicSet ;;
     *) echo "Unknown option: ${OPT}" ;;
   esac
 done

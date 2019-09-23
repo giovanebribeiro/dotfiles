@@ -8,7 +8,7 @@ echo " |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/ "
 echo "         |___/                                      "
 echo
 
-VERSION=1.2.2
+VERSION=1.3.0
 
 version(){
   if [ -z ${help_printed} ]; then
@@ -25,9 +25,9 @@ _help(){
   echo "   v      Print the version"
   echo "   b      Installs basic tools and bashrc"
   echo "   i      Installs the tools for ide (vim, todo.txt, git configs, ctags, etc)"
-  echo "   m      Install and confgure the MongoDB"
+  echo "   r      Install and confgure Rust"
   echo "   n      Install and confgure Node.js"
-  echo "   a      Install everything. Equivalent to '$0 -bimn'"
+  echo "   a      Install everything. Equivalent to '$0 -birn'"
   echo 
 }
 
@@ -54,10 +54,10 @@ ide(){
   bash ide/main.sh
 }
 
-database_mongo(){
+rust(){
   [ -z ${basic_executed} ] && basic
-  echo
-  bash database-mongo/main.sh
+    echo
+  bash rust/main.sh
 }
 
 node(){
@@ -70,10 +70,10 @@ all(){
   basic
   ide
   node
-  database_mongo
+  rust
 }
 
-while getopts hvbimna OP
+while getopts hvbirna OP
 do
   case "${OP}"
   in
@@ -81,7 +81,7 @@ do
     v) version; version_printed=1 ;;
     b) basic; basic_executed=1 ;;
     i) ide; ide_executed=1 ;;
-    m) database_mongo; db_mongo_executed=1 ;;
+    r) rust; rust_executed=1 ;;
     n) node; node_executed=1 ;;
     a) all ;;
     *) echo "Unknown option: ${OP}"; _help ;;
