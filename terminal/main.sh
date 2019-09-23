@@ -47,3 +47,24 @@ case $OS in
     ;;
 esac
 printSection "Terminal files and general configurations... OK"
+
+printSection "Fonts"
+
+printSubSection "fontpatcher"
+if which tmux &> /dev/null; then
+  printSubSubsection "FontPatcher already installed"
+else
+  printSubSubsection "Installing fontforge"
+  $INSTALL fontforge
+fi
+
+printSubSection "NerdFonts"
+
+if [ -d $HOME/nerd-fonts ]; then
+  printSubSubsection "NerdFonts already installed"
+else
+  git clone https://github.com/ryanoasis/nerd-fonts $HOME/nerd-fonts
+fi
+
+
+

@@ -7,79 +7,67 @@ INSTALL=$(cat $CMD_FILE)
 printSection "Integrated Development Environment"
 echo $BASEDIR
 
-printSubsection "VIM"
-if which vim &> /dev/null; then
-  printSubSubsection "VIM already installed"
-else
-  OS=`uname`
-  case $OS in 
-    "Darwin")
-      $INSTALL macvim
-      ;;
-    "Linux")
-      $INSTALL vim
-      ;;
-    "*")
-      printError "Unknown OS"
-      ;;
-  esac
-  printSubSubsection "VIM installed successfully"
-fi
-
-printSubSubsection "Updating .vimrc"
-if [ -f $HOME/.vimrc ]; then
-  rm $HOME/.vimrc
-fi
-ln -s $BASEDIR/vimrc $HOME/.vimrc
-
-if [ ! -d $HOME/.vim/bundle ]; then
-  printSubSubsection "Installing plugins"
-  mkdir -p $HOME/.vim/bundle
-  git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
-  vim +PluginInstall +qall
-  python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer --rust-completer
-else
-  printSubSubsection "Updating plugins"
-  vim +PluginUpdate +qall
-fi
-[ ! -d $HOME/.vim/sessions ] && mkdir -p $HOME/.vim/sessions
-
-if `uname` == "Linux"; then
-
-  printSubsection "Fonts"
-
-  [ ! -d $HOME/.local/share/fonts ] && mkdir -p $HOME/.local/share/fonts
-  [ ! -d $HOME/.config/fontconfig/conf.d ] && mkdir -p $HOME/.config/fontconfig/conf.d
-
-  wget \
-    https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf \
-    -P $HOME/.local/share/fonts/
-  wget \
-    https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf \
-    -P $HOME/.config/fontconfig/conf.d/
-
-  fc-cache -vf $HOME/.local/share/fonts
-
-fi
-
-
-printSubsection "Tmux"
-if which tmux &> /dev/null; then
-  printSubSubsection "Tmux already installed"
-else
-  printSubSubsection "Installing Tmux"
-  $INSTALL tmux
-  
-  printSubSubsection "get tmux.conf"
-  if [ -d $HOME/.tmux ]; then
-    rm -rf $HOME/.tmux
+vim(){
+  # [ -z ${vim_executed} ] && basic
+  printSubsection "VIM"
+  if which vim &> /dev/null; then
+    printSubSubsection "VIM already installed"
+  else
+    OS=`uname`
+    case $OS in 
+      "Darwin")
+        $INSTALL macvim
+        ;;
+      "Linux")
+        $INSTALL vim
+        ;;
+      "*")
+        printError "Unknown OS"
+        ;;
+    esac
+    printSubSubsection "VIM installed successfully"
   fi
 
-  git clone https://github.com/gpakosz/.tmux $HOME/.tmux
-  ln -s $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
-  ln -s $BASEDIR/tmux.conf.local $HOME/.tmux.conf.local
+  printSubSubsection "Updating .vimrc"
+  if [ -f $HOME/.vimrc ]; then
+    rm $HOME/.vimrc
+  fi
+  ln -s $BASEDIR/vimrc $HOME/.vimrc
 
-fi
+  if [ ! -d $HOME/.vim/bundle ]; then
+    printSubSubsection "Installing plugins"
+    mkdir -p $HOME/.vim/bundle
+    git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+    vim +PluginInstall +qall
+    python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer --rust-completer
+  else
+    printSubSubsection "Updating plugins"
+    vim +PluginUpdate +qall
+  fi
+  [ ! -d $HOME/.vim/sessions ] && mkdir -p $HOME/.vim/sessions
+
+}
+
+tmux(){
+  # [ -z ${vim_executed} ] && basic
+  printSubsection "Tmux"
+  if which tmux &> /dev/null; then
+    printSubSubsection "Tmux already installed"
+  else
+    printSubSubsection "Installing Tmux"
+    $INSTALL tmux
+    
+    printSubSubsection "get tmux.conf"
+    if [ -d $HOME/.tmux ]; then
+      rm -rf $HOME/.tmux
+    fi
+
+    git clone https://github.com/gpakosz/.tmux $HOME/.tmux
+    ln -s $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
+    ln -s $BASEDIR/tmux.conf.local $HOME/.tmux.conf.local
+
+  fi
+}
 
 printSubsection "Markdown"
 $INSTALL markdown
@@ -139,3 +127,17 @@ fi
 mv $HOME/todo.txt/todo.cfg $HOME/todo.txt/todo.cfg.old
 ln -s $BASEDIR/todo.cfg $HOME/todo.txt/todo.cfg
 printOK
+
+while getopts ba OPT
+do
+  case "${OPT}"
+  in 
+    v) vim ;;
+    a) 
+      vim 
+    ;;
+
+    *) echo "Unknown option: ${OPT}" ;;
+  esac
+done
+
