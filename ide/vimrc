@@ -36,6 +36,7 @@ Plugin 'ctrlpvim/ctrlp.vim'                                         " A better f
 Plugin 'vim-scripts/todo-txt.vim'                                   " Allow to manipulate todo.txt files in vim
 Plugin 'lambdalisue/vim-gista'                                      " Gist integration (https://gist.github.com)
 Plugin 'rust-lang/rust.vim'                                         " Plugin for Rust
+Plugin 'heavenshell/vim-jsdoc'                                      " Generates JS-Doc
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -59,40 +60,48 @@ set updatetime=250
 ""
 " General configurations
 ""
-"file encoding
+" file encoding
 set encoding=utf-8
 set fileencoding=utf-8
 set backspace=indent,eol,start " make backspace behave properly in insert mode
 set showcmd " display incomplete commands
-"a better menu in command mode
+
+" a better menu in command mode
 set wildmenu
 set wildmode=longest:full,full
 set hidden " hide buffers instead of closing them even if they contain unwritten changes
 set nowrap " disable soft wrap for lines
 set relativenumber " display relative line numbers (much better to make jumps between lines)
-"new splits will be at the bottom or to the right side of the screen
+
+" new splits will be at the bottom or to the right side of the screen
 set splitbelow
 set splitright
 set autoindent " always set autoindenting on
 set pastetoggle=<F5> " allow paste with the mouse when press F5 (in insert mode)
-"incremental search
+
+" incremental search
 set incsearch
 highlight search
 set hlsearch 
-"searches are case insensitive unless they contain at least one capital letter
+
+" searches are case insensitive unless they contain at least one capital letter
 set ignorecase
 set smartcase
+
 " enable taglist
 let Tlist_Use_Right_Window = 1
 set t_ut=      " cleaning this var to fix vim background inside tmux (https://superuser.com/a/562423)
 let vim_markdown_preview_toggle=2 " specific for vim-markdown-preview: enable preview on buffer write (:w)
+
 " textwidth
 set textwidth=100
 let g:rustfmt_autosave = 1
 g:lengthmatters_on_by_default=1
 g:lengthmatters_start_at_column=101
-" sessions magment
+
+" vim sessions
 let g:sessions_dir = '$HOME/.vim/sessions'
+
 " syntastic configurations
 try
   set statusline+=%#warningmsg#
@@ -107,16 +116,24 @@ try
 catch /^Vim\%((\a\+)\)\=:E185/
   " deal with it
 endtry
+
 " Ctrl-P
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-" recognize specific files with known language syntax
-"autocmd BufNewFile,BufRead *.json set ft=javascript
-"autocmd BufNewFile,BufRead *.wsdl set ft=xml
-" Gist plugin
-"let g:gista#command#open#default_opener = 'vsplit'
+
 " Todo.txt
 let g:TodoTxtForceDoneName='done.txt'
+au filetype todo imap <buffer> + +<C-X><C-O>
+au filetype todo imap <buffer> @ @<C-X><C-O>
+
+" JsDoc plugin
+let g:jsdoc_enable_es6=1
+let g:jsdoc_allow_input_prompt=1
+let g:jsdoc_input_description=1
+
+" todo.txt plugin
+
+
 ""
 " Look and Feel
 ""
@@ -161,26 +178,28 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-" some custom shortcuts
+" shortcuts using the leader key
 let mapleader=","                           " behold the new <Leader> key
-nmap <Leader>r  :source %<CR>                                                  " reload the current file
-nmap <Leader>gn <Plug>GitGutterNextHunk                                        " git next
-nmap <Leader>gp <Plug>GitGutterPrevHunk                                        " git previous
-nmap <Leader>ga <Plug>GitGutterStageHunk                                       " git add (chunk)
-nmap <Leader>gu <Plug>GitGutterUndoHunk                                        " git undo (chunk)
-nmap <Leader>gs :Magit<CR>      	                                             " git status
-nmap <Leader>gb :Gblame<CR>                                                    " git blame
-nmap <Leader>gc :Gcommit %<CR>                                                 " git commit the current file
-nmap <Leader>t  :TlistToggle<CR>                                               " show taglist pane
-nmap <Leader>e  :Vexplore<CR>                                                  " show file explorer
-nmap <Leader>i  gg=G                                                           " fix file indentation
-nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>    " open todo file
+nmap <Leader>r  :source %<CR>                                                                              " reload the current file
+nmap <Leader>gn <Plug>GitGutterNextHunk                                                                    " git next
+nmap <Leader>gp <Plug>GitGutterPrevHunk                                                                    " git previous
+nmap <Leader>ga <Plug>GitGutterStageHunk                                                                   " git add (chunk)
+nmap <Leader>gu <Plug>GitGutterUndoHunk                                                                    " git undo (chunk)
+nmap <Leader>gs :Magit<CR>      	                                                                         " git status
+nmap <Leader>gb :Gblame<CR>                                                                                " git blame
+nmap <Leader>gc :Gcommit %<CR>                                                                             " git commit the current file
+nmap <Leader>t  :TlistToggle<CR>                                                                           " show taglist pane
+nmap <Leader>e  :Vexplore<CR>                                                                              " show file explorer
+nmap <Leader>i  gg=G                                                                                       " fix file indentation
+nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>                     " open todo file
 nmap <Leader>done :Gista open --opener='split' --no-cache 9bb03999f58319d086ea58b0943f2104 done.txt<CR>    " open todo file
+nmap <Leader>j  :JsDoc<CR>                                                                                 " Add jsdoc to function (put cursor on function declaration)
 
-" Auto complete projects
-au filetype todo imap <buffer> + +<C-X><C-O>
-" Auto complete contexts
-au filetype todo imap <buffer> @ @<C-X><C-O>
+" Clipboard (requires +clipboard flag available (source: https://vi.stackexchange.com/questions/84/how-can-i-copy-text-to-the-system-clipboard-from-vim))
+" If you running on WSL, this link will be useful: https://superuser.com/questions/1291425/windows-subsystem-linux-make-vim-use-the-clipboard
+noremap <Leader>Y "+y
+noremap <Leader>X "+x
+noremap <Leader>P "+p
 
 " Save session
 exec 'noremap <Leader>ss :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'    

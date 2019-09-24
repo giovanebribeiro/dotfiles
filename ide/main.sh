@@ -10,7 +10,7 @@ echo $BASEDIR
 vim(){
   # [ -z ${vim_executed} ] && basic
   printSubsection "VIM"
-  if which vim &> /dev/null; then
+  if which vim.gtk &> /dev/null; then
     printSubSubsection "VIM already installed"
   else
     OS=`uname`
@@ -19,7 +19,7 @@ vim(){
         $INSTALL macvim
         ;;
       "Linux")
-        $INSTALL vim
+        $INSTALL vim-gtk
         ;;
       "*")
         printError "Unknown OS"
