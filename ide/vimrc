@@ -37,6 +37,7 @@ Plugin 'vim-scripts/todo-txt.vim'                                   " Allow to m
 Plugin 'lambdalisue/vim-gista'                                      " Gist integration (https://gist.github.com)
 Plugin 'rust-lang/rust.vim'                                         " Plugin for Rust
 Plugin 'heavenshell/vim-jsdoc'                                      " Generates JS-Doc
+Plugin 'vim-scripts/loremipsum'                                     " lorem ipsum dolor sit amet....
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -193,7 +194,7 @@ nmap <Leader>e  :Vexplore<CR>                                                   
 nmap <Leader>i  gg=G                                                                                       " fix file indentation
 nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>                     " open todo file
 nmap <Leader>done :Gista open --opener='split' --no-cache 9bb03999f58319d086ea58b0943f2104 done.txt<CR>    " open todo file
-nmap <Leader>j  :JsDoc<CR>                                                                                 " Add jsdoc to function (put cursor on function declaration)
+nmap <Leader>jsd  :JsDoc<CR>                                                                               " Add jsdoc to function (put cursor on function declaration)
 
 " Clipboard (requires +clipboard flag available (source: https://vi.stackexchange.com/questions/84/how-can-i-copy-text-to-the-system-clipboard-from-vim))
 " If you running on WSL, this link will be useful: https://superuser.com/questions/1291425/windows-subsystem-linux-make-vim-use-the-clipboard
@@ -210,8 +211,12 @@ exec 'noremap <Leader>sr :so ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><B
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
+
 " Insert mode completion
 imap <c-x><c-w> <plug>(fzf-complete-word)
 imap <c-x><c-p> <plug>(fzf-complete-path)
 imap <c-x><c-f> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" Toggle search highlighting
+nmap <F3> :set hlsearch!<CR>

@@ -18,9 +18,12 @@ fi
 
 DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
 
-################################
-###### SECTION 0: SOURCES ######
-################################
+
+
+
+#####################
+###### SOURCES ######
+#####################
 
 source $DOTFILES_LOC/common/colorTable.sh
 if [ -f "$HOME/.git-completion.bash" ]
@@ -28,55 +31,13 @@ then
   source $HOME/.git-completion.bash
 fi
 
-##################################
-###### SECTION 1: CONSTANTS ######
-##################################
 
 
-# Various variables you might want for your PS1 prompt instead
-Time12h="\T"
-Time12a="\@"
-PathShort="\w"
-PathFull="\W"
-NewLine="\n"
-Jobs="\j"
-
-################################
-###### SECTION 2: ALIASES ######
-################################
-
-# General Aliases
-alias tmux='tmux -u2'
-alias ..='cd ..'
-alias t='bash $HOME/todo.txt/todo.sh'
-alias tree='ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//--/g" -e "s/^/   /" -e "s/-/|/"'
-alias la='ls -la'
-alias ll='ls -l'
-alias clima='curl v2.wttr.in Recife'
-alias cleanDocker='docker system prune -a'
-alias cleanContainers='docker container stop $(docker container ls -lq) && docker container rm $(docker container ls -lq)'
-alias cleanImages='docker stop $(docker ps -q) && docker stop $(docker ps -aq)'
-
-# General exports
-export NODE_ENV="development"
 
 
-# ALIASES per OS
-[ -r "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
-
-################################
-###### SECTION 3: EXPORTS ######
-################################
-
-# General Exports
-
-# EXPORTS per OS
-[ -r "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
-
-
-##################################
-###### SECTION 4: FUNCTIONS ######
-##################################
+#######################
+###### FUNCTIONS ######
+#######################
 
 ##
 # returns the current git branch name
@@ -141,6 +102,79 @@ title() {
   echo -n -e "\033]0;$*\007";
 }
 
+##
+# Mount the tree file
+##
+mount_tree(){
+
+  ACTUAL_DIR=`pwd`
+  
+  if [ -n "$1" ]
+  then
+    cd $1
+  fi
+
+  ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//--/g" -e "s/^/   /" -e "s/-/|/"
+  echo 
+  cd $ACTUAL_DIR
+
+}
+
+
+
+#######################
+###### CONSTANTS ######
+#######################
+
+# Various variables you might want for your PS1 prompt instead
+Time12h="\T"
+Time12a="\@"
+PathShort="\w"
+PathFull="\W"
+NewLine="\n"
+Jobs="\j"
+
+
+
+
+
+#####################
+###### ALIASES ######
+#####################
+
+# General Aliases
+alias tmux='tmux -u2'
+alias ..='cd ..'
+alias t='bash $HOME/todo.txt/todo.sh'
+alias tree='mount_tree'
+alias la='ls -la'
+alias ll='ls -l'
+alias clima='curl v2.wttr.in Recife'
+alias cleanDocker='docker system prune -a'
+alias cleanContainers='docker container stop $(docker container ls -lq) && docker container rm $(docker container ls -lq)'
+alias cleanImages='docker stop $(docker ps -q) && docker stop $(docker ps -aq)'
+
+# ALIASES per OS
+[ -r "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
+
+
+
+
+
+#####################
+###### EXPORTS ######
+#####################
+
+# General exports
+export NODE_ENV="development"
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# EXPORTS per OS
+[ -r "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
+
+
+
+
 #####################################
 ###### SECTION 4: PS1 VARIABLE ######
 #####################################
@@ -153,4 +187,3 @@ export PS1="\[${bWhite}\W\$(parse_git_branch)\$(git_remote_branch)${reset} \]\
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-export PATH="$HOME/.cargo/bin:$PATH"
