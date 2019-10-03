@@ -38,6 +38,7 @@ Plugin 'lambdalisue/vim-gista'                                      " Gist integ
 Plugin 'rust-lang/rust.vim'                                         " Plugin for Rust
 Plugin 'heavenshell/vim-jsdoc'                                      " Generates JS-Doc
 Plugin 'vim-scripts/loremipsum'                                     " lorem ipsum dolor sit amet....
+Plugin 'itchyny/vim-gitbranch'                                      " Provides a function to get the branch name
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -154,6 +155,11 @@ endtry
 set laststatus=2 " always display the status line
 let g:lightline = {}
 let g:lightline.colorscheme = 'gruvbox'
+let g:lightline.active = {}
+let g:lightline.active.left = [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+let g:lightline.component_function = {}
+let g:lightline.component_function.gitbranch = 'gitbranch#name'
+
 " netrw (vim native file explorer)
 let g:netrw_liststyle=3
 let g:netrw_browse_split=4
