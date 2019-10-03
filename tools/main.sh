@@ -20,4 +20,12 @@ else
   printSubSubsection "neofetch installed successfully"
 fi
 
+printSubsection "cmatrix"
+if command -v cmatrix >/dev/null 2>&1; then
+  printSubSubsection "cmatrix already installed"
+else
+  $INSTALL cmatrix
+  printSubSubsection "cmatrix installed successfully"
+fi
+
 printOK

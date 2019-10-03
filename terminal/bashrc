@@ -14,6 +14,8 @@ flag_file="/tmp/neofetch_exists"
 if [ ! -f $flag_file ]
 then
   command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
+else
+  cmatrix
 fi
 
 DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
