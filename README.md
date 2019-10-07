@@ -31,9 +31,9 @@ Usage: ./install.sh [options]
 |_ actual folder
 
 # when $PWD is a git repo:
-dotfiles master [origin/master(=)] $
-  |         |           |      |_ git workspace status (^ - Have changes to push, v - have changes to pull, = - workspace is sync)
-  |         |           |________ remote branch 
-  |         |____________________ local branch
-  |______________________________ actual folder
+~/workspace/dotfiles master [origin/master(=)] $
+    |                 |           |        |_ git workspace status (^ - Have changes to push, v - have changes to pull, = - workspace is sync)
+    |                 |           |__________ remote branch 
+    |                 |______________________ local branch
+    |________________________________________ actual folder
 ```
