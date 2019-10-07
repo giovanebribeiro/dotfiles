@@ -181,7 +181,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 ###### SECTION 4: PS1 VARIABLE ######
 #####################################
 
-export PS1="\[${bYellow}\w\$(parse_git_branch)\$(git_remote_branch)${reset} \]\
+export PS1="\[${bCyan}\w\$(parse_git_branch)\$(git_remote_branch)${reset} \]\
   \[\n\$ "
 # In Windows Git Bash, use this PS1 instead
 #export PS1="\[${bCyan}\W`parse_git_branch``git_remote_branch`${reset}\]\
