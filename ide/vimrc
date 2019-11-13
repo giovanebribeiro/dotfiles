@@ -35,10 +35,10 @@ Plugin 'vim-syntastic/syntastic'                                    " Syntax che
 Plugin 'ctrlpvim/ctrlp.vim'                                         " A better file finder
 Plugin 'vim-scripts/todo-txt.vim'                                   " Allow to manipulate todo.txt files in vim
 Plugin 'lambdalisue/vim-gista'                                      " Gist integration (https://gist.github.com)
-Plugin 'rust-lang/rust.vim'                                         " Plugin for Rust
 Plugin 'heavenshell/vim-jsdoc'                                      " Generates JS-Doc
 Plugin 'vim-scripts/loremipsum'                                     " lorem ipsum dolor sit amet....
 Plugin 'itchyny/vim-gitbranch'                                      " Provides a function to get the branch name
+Plugin 'sheerun/vim-polyglot'                                       " A solid language pack
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -166,7 +166,7 @@ let g:netrw_browse_split=4
 let g:netrw_winsize=25
 let g:netrw_altv=1
 " code indentation (https://stackoverflow.com/a/1878983)
-set ts=2 sw=2 et
+set ts=4 sw=4 et
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
