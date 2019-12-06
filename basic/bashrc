@@ -131,7 +131,13 @@ mount_tree(){
 
 }
 
-
+##
+# Shrink current path for better visualization on PS1
+##
+shrink_path(){
+    DIR=$(pwd | awk -F/ -v "n=$(tput cols)" -v "h=^$HOME" '{sub(h,"~");n=0.5*n;b=$1"/"$2} length($0)<=n || NF==2 {print;next;} NF>2{b=b"/../"; e=$NF; n-=length(b $NF); for (i=NF-1;i>2 && n>length(e)+1;i--) e=$i"/"e;} {print b e;}')
+    echo $DIR
+}
 
 #######################
 ###### CONSTANTS ######
@@ -190,7 +196,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 ###### SECTION 4: PS1 VARIABLE ######
 #####################################
 
-export PS1="\[${bCyan}\w\$(parse_git_branch)\$(git_remote_branch)${reset} \]\
+export PS1="\[${bCyan}\$(shrink_path)\$(parse_git_branch)\$(git_remote_branch)${reset} \]\
   \[\n\$ "
 # In Windows Git Bash, use this PS1 instead
 #export PS1="\[${bCyan}\W`parse_git_branch``git_remote_branch`${reset}\]\
