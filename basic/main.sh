@@ -7,7 +7,8 @@ source "$PWD/common/util.sh"
 printSection "Terminal files and general configurations"
 if [ ! -f "$HOME/.aliases" ]; then
   printSubsection "Installing aliases..."
-  ln -s $BASEDIR/aliases_$OS.sh $HOME/.aliases
+  rm $HOME/.exports
+  cp $BASEDIR/aliases_$OS.sh $HOME/.aliases
 fi
 
 if [ ! -f "$HOME/.exports" ]; then
@@ -16,7 +17,7 @@ if [ ! -f "$HOME/.exports" ]; then
   cp $BASEDIR/exports_$OS.sh $HOME/.exports
 fi
 
-[ -e "$HOME/.Xresources" ] && cp $HOME/.Xresources $HOME/.Xresources.bkp
+[ -e "$HOME/.Xresources" ] && rm $HOME/.Xresources
 ln -s $BASEDIR/Xresources $HOME/.Xresources
 
 case $OS in
