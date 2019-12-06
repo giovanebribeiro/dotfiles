@@ -45,7 +45,7 @@ pre(){
 basic(){
   pre
   echo
-  bash terminal/main.sh
+  bash basic/main.sh
 }
 
 ide(){
@@ -54,17 +54,21 @@ ide(){
   bash ide/main.sh
 }
 
+node(){
+  [ -z ${basic_executed} ] && basic
+  [ -z ${ide_executed} ] && ide
+  echo
+  bash node/main.sh
+}
+
 rust(){
   [ -z ${basic_executed} ] && basic
-    echo
+  [ -z ${ide_executed} ] && ide
+  echo
   bash rust/main.sh
 }
 
-node(){
-  [ -z ${basic_executed} ] && basic
-    echo
-  bash node/main.sh
-}
+
 
 all(){
   basic

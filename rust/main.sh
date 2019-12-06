@@ -17,15 +17,4 @@ else
   curl https://sh.rustup.rs -sSf | sh
 fi
 
-basicSet(){
-  echo "To be implemented"
-}
-
-while getopts b OPT
-do
-  case "${OPT}"
-  in 
-    b) basicSet ;;
-    *) echo "Unknown option: ${OPT}" ;;
-  esac
-done
+python3 $HOME/.vim/bundle/YouCompleteMe/install.py --rust-completer

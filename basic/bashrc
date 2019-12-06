@@ -52,9 +52,18 @@ parse_git_branch(){
     echo `git status 2> /dev/null` | grep "git add <" > /dev/null 2>&1 # if "git add <file> ... is part of message, the branch has changes"
     if [ "$?" -eq "0" ] ; then
       echo " ${bRed}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
-    else
-      echo " ${bGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
+      return
     fi
+    
+    echo `git status 2> /dev/null` | grep "git reset " > /dev/null 2>&1 # if "git add <file> ... is part of message, the branch has changes"
+    if [ "$?" -eq "0" ] ; then
+      echo " ${bYellow}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
+      return
+    fi
+
+    # default answer
+    echo " ${bGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'` "
+
   else
     echo 
   fi
@@ -189,3 +198,5 @@ export PS1="\[${bCyan}\w\$(parse_git_branch)\$(git_remote_branch)${reset} \]\
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm

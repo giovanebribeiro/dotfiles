@@ -42,46 +42,20 @@ if [ ! -f $HOME/.npmrc ]; then
   printSubSubsection "Loading npm informations"
   npm login
 fi
+    
+python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer
 
-basicSet(){
-  # n
-  installNodePackage "n"
-  # npm-check-updates
-  installNodePackage "npm-check-updates"
-  # vtop
-  installNodePackage "vtop"
-  # eslint
-  installNodePackage "eslint-plugin-json"
-  installNodePackage "eslint-plugin-hapi"
-  if [ -L $HOME/.eslintrc ]; then
-    mv $HOME/.eslintrc $HOME/.eslintrc.old
-  fi
-  ln -s $BASEDIR/eslintrc $HOME/.eslintrc
-}
+# nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
+# npm-check-updates
+installNodePackage "npm-check-updates"
+# vtop
+installNodePackage "vtop"
+  
+if [ -L $HOME/.eslintrc ]; then
+mv $HOME/.eslintrc $HOME/.eslintrc.old
+fi
+ln -s $BASEDIR/eslintrc $HOME/.eslintrc
 
-backendSet(){
-  # hapi-app-generator
-  installNodePackage "hapi-app-generator"
-  # pm2
-  installNodePackage "pm2"
-}
-
-# the basic set is always executed
-basicSet
-
-while getopts b OPT
-do
-  case "${OPT}"
-  in 
-    b) basicSet ;;
-    *) echo "Unknown option: ${OPT}" ;;
-  esac
-done
-
-#frontendSet(){
-  # bower
-  #installNodePackage "bower"
-  # grunt (must be installed as administrator all times)
-  #installNodePackage "grunt-cli"
-  # gulp?
-#}
+# hapi-app-generator
+installNodePackage "hapi-app-generator"

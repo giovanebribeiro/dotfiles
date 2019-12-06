@@ -7,56 +7,51 @@ INSTALL=$(cat $CMD_FILE)
 printSection "Integrated Development Environment"
 echo $BASEDIR
 
-vim(){
-  # [ -z ${vim_executed} ] && basic
-  printSubsection "VIM"
-  if which vim.gtk &> /dev/null; then
-    printSubSubsection "VIM already installed"
-  else
-    OS=`uname`
-    case $OS in 
-      "Darwin")
-        $INSTALL macvim
-        ;;
-      "Linux")
-        $INSTALL vim-gtk
-        ;;
-      "*")
-        printError "Unknown OS"
-        ;;
-    esac
-    printSubSubsection "VIM installed successfully"
-  fi
+# [ -z ${vim_executed} ] && basic
+printSubsection "VIM"
+if which vim.gtk &> /dev/null; then
+printSubSubsection "VIM already installed"
+else
+OS=`uname`
+case $OS in 
+  "Darwin")
+    $INSTALL macvim
+    ;;
+  "Linux")
+    $INSTALL vim
+    ;;
+  "*")
+    printError "Unknown OS"
+    ;;
+esac
+printSubSubsection "VIM installed successfully"
+fi
 
-  printSubSubsection "Updating .vimrc"
-  if [ -f $HOME/.vimrc ]; then
+printSubSubsection "Updating .vimrc"
+if [ -f $HOME/.vimrc ]; then
     rm $HOME/.vimrc
-  fi
-  ln -s $BASEDIR/vimrc $HOME/.vimrc
+fi
+ln -s $BASEDIR/vimrc $HOME/.vimrc
 
-  if [ ! -d $HOME/.vim/bundle ]; then
+if [ ! -d $HOME/.vim/bundle ]; then
     printSubSubsection "Installing plugins"
     mkdir -p $HOME/.vim/bundle
     git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
     vim +PluginInstall +qall
-    python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer --rust-completer
-  else
+else
     printSubSubsection "Updating plugins"
     vim +PluginUpdate +qall
-  fi
-  [ ! -d $HOME/.vim/sessions ] && mkdir -p $HOME/.vim/sessions
+fi
+[ ! -d $HOME/.vim/sessions ] && mkdir -p $HOME/.vim/sessions
 
-}
 
-tmux(){
-  # [ -z ${vim_executed} ] && basic
-  printSubsection "Tmux"
-  if which tmux &> /dev/null; then
+printSubsection "Tmux"
+if which tmux &> /dev/null; then
     printSubSubsection "Tmux already installed"
-  else
+else
     printSubSubsection "Installing Tmux"
     $INSTALL tmux
-    
+
     printSubSubsection "get tmux.conf"
     if [ -d $HOME/.tmux ]; then
       rm -rf $HOME/.tmux
@@ -66,8 +61,7 @@ tmux(){
     ln -s $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
     ln -s $BASEDIR/tmux.conf.local $HOME/.tmux.conf.local
 
-  fi
-}
+fi
 
 printSubsection "Markdown"
 $INSTALL markdown
@@ -127,17 +121,3 @@ fi
 mv $HOME/todo.txt/todo.cfg $HOME/todo.txt/todo.cfg.old
 ln -s $BASEDIR/todo.cfg $HOME/todo.txt/todo.cfg
 printOK
-
-while getopts ba OPT
-do
-  case "${OPT}"
-  in 
-    v) vim ;;
-    a) 
-      vim 
-    ;;
-
-    *) echo "Unknown option: ${OPT}" ;;
-  esac
-done
-
