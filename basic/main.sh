@@ -41,6 +41,13 @@ case $OS in
       ln -s $BASEDIR/bashrc $HOME/.bashrc
       source $HOME/.bashrc
     fi	
+
+    printSubsection "Installing Powerline fonts"
+    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+    mv PowerlineSymbols.otf ~/.local/share/fonts/
+    fc-cache -vf ~/.local/share/fonts/
+    printSubsection "Installing Powerline fonts... OK (Please go to your terminal configurations and select the powerline fonts there)"
+    
     ;;
   "*")
     printError "Unknown OS"
