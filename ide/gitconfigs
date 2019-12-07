@@ -16,17 +16,18 @@
   changed = green
   untracked = white
 [alias]
-  clean-closed-branches = remote prune origin
+  ccb = remote prune origin
+  b = branch -a
   st = status -sb
   ll = log --color --graph --pretty=format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
   tt = for-each-ref --sort=-taggerdate --count=5 --format '%(refname) (%(taggerdate))\n===\n\n%(subject)\n\n%(body)' refs/tags
   f = fetch
   fc = "!git fetch; git checkout $1"
   ps = push
+  pst = push --follow-tags
   psuo = push --set-upstream origin 
   pl = pull
-  plom = pull origin master
-  ppt = "!git pull; git push --tags"
+  plom = pull origin master  
   # Show active users on repo in last 6 months
   active = shortlog --numbered --email --summary --no-merges --since='6 months'
   aa = add --all
@@ -39,10 +40,10 @@
   rso = remote show origin
   # collect the commits since the last tag
   changelog = "!git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'%h %s'"
-	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+  alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 [core]
   editor = /usr/bin/vim
-	excludesfile = /home/giovane/.gitignore_global
+  excludesfile = /home/giovane/.gitignore_global
 [push]
   default = matching
 [merge]
@@ -52,6 +53,6 @@
   prompt = false
 [github]
   user = giovanebribeiro
-# Specific configurations for my work. Include a second gitconfig if repo inside ~/workspace/_work
-[includeIf "gitdir:~/workspace/_work/"]
-  path = ~/.config/.gitconfig
+# Specific configurations for my work. Include a second gitconfig if repo inside ~/workspace
+[includeIf "gitdir:~/workspace/"]
+  path = ~/workspace/.gitconfig
