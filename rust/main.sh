@@ -17,4 +17,5 @@ else
   curl https://sh.rustup.rs -sSf | sh
 fi
 
+printSubSubsection "Enable vim auto-complete for Rust"
 python3 $HOME/.vim/bundle/YouCompleteMe/install.py --rust-completer

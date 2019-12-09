@@ -7,14 +7,12 @@ source "$PWD/common/util.sh"
 printSection "Terminal files and general configurations"
 if [ ! -f "$HOME/.aliases" ]; then
   printSubsection "Installing aliases..."
-  rm $HOME/.exports
-  cp $BASEDIR/aliases_$OS.sh $HOME/.aliases
+  cp -v $BASEDIR/aliases_$OS.sh $HOME/.aliases
 fi
 
 if [ ! -f "$HOME/.exports" ]; then
   printSubsection "Installing exports..."
-  rm $HOME/.exports
-  cp $BASEDIR/exports_$OS.sh $HOME/.exports
+  cp -v $BASEDIR/exports_$OS.sh $HOME/.exports
 fi
 
 [ -e "$HOME/.Xresources" ] && rm $HOME/.Xresources

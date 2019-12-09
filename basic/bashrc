@@ -164,14 +164,6 @@ alias tmux='tmux -u2'
 alias ..='cd ..'
 alias t='bash $HOME/todo.txt/todo.sh'
 alias tree='mount_tree'
-case $OS in
-  "Darwin")
-    alias ls='ls -G'
-    ;;
-  "Linux")
-    alias ls='ls --color=auto'
-    ;;
-esac
 alias la='ls -la'
 alias ll='ls -l'
 alias clima='curl v2.wttr.in Recife'

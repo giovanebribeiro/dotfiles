@@ -43,8 +43,10 @@ if [ ! -f $HOME/.npmrc ]; then
   npm login
 fi
     
+printSubSubsection "Enable vim auto-complete for Node"
 python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer
 
+printSubSubsection "Install nvm"
 # nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
 # npm-check-updates

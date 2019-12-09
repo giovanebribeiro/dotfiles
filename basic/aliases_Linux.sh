@@ -1,2 +1,2 @@
 alias ls='ls --color=auto'
-alias reloadBashrc='source $HOME/.bashrc'
+alias f5='source $HOME/.bashrc'
