@@ -125,8 +125,9 @@ mount_tree(){
     cd $1
   fi
 
-  ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//--/g" -e "s/^/   /" -e "s/-/|/"
+  ls -R | grep ":$" | sed -e "s/:$//" -e "s/[^-][^\/]*\//-/g" -e "s/^/   /" -e "s/-/|/"
   echo 
+  
   cd $ACTUAL_DIR
 
 }
@@ -163,7 +164,7 @@ Jobs="\j"
 alias tmux='tmux -u2'
 alias ..='cd ..'
 alias t='bash $HOME/todo.txt/todo.sh'
-alias tree='mount_tree'
+alias tr='mount_tree'
 alias la='ls -la'
 alias ll='ls -l'
 alias clima='curl v2.wttr.in Recife'
