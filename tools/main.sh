@@ -28,4 +28,12 @@ else
   printSubSubsection "cmatrix installed successfully"
 fi
 
+printSubsection "redshift"
+if command -v redshift >/dev/null 2>&1; then
+  printSubSubsection "redshift already installed"
+else
+  $INSTALL redshift
+  printSubSubsection "redshift installed successfully"
+fi
+
 printOK

@@ -20,6 +20,12 @@ fi
 
 DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
 
+# Set the screen colors during the day/night
+redshift_running="/tmp/redshift_running"
+if [ ! -f $redshift_running ]
+then
+    command -v redshift >/dev/null 2>&1 && { touch $redshift_running ; redshift & }
+fi
 
 
 
