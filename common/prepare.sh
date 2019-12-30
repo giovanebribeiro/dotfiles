@@ -13,13 +13,13 @@ if [ ! -f $CMD_FILE ]; then
         ruby -e '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)'
       fi
 
-      brew install cmake
+      brew install cmake fortune cowsay
       echo "brew install" > $CMD_FILE
       ;;
     "Linux")
       echo "sudo apt-get install" > $CMD_FILE
       # Needed for many things...
-      sudo apt-get install build-essential cmake python-dev python3-dev x11-xserver-utils
+      sudo apt-get install build-essential cmake python-dev python3-dev x11-xserver-utils fortune cowsay
       ;;
     "*")
       printError "Unknown OS"
