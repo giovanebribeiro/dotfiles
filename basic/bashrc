@@ -14,7 +14,9 @@ flag_file="/tmp/neofetch_exists"
 if [ ! -f $flag_file ]
 then
   command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
-  cowsay $(fortune fortunes)
+  if [ -x /usr/games/cowsay -a -x /usr/games/fortune ]; then
+    fortune | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n1)
+  fi
 else
   cmatrix
 fi

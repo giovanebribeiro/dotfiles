@@ -209,6 +209,10 @@ noremap <Leader>Y "+y
 noremap <Leader>X "+x
 noremap <Leader>P "+p
 
+" Better scrolling
+noremap <C-j> <C-e>
+noremap <C-k> <C-y>
+
 " Save session
 exec 'noremap <Leader>ss :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'    
 " Restore session
