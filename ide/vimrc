@@ -15,34 +15,70 @@ filetype off
 set rtp+=$HOME/.vim/bundle/Vundle.vim
 call vundle#begin('$HOME/.vim/bundle/')
 
-Plugin 'VundleVim/Vundle.vim' " Vundle manages vundle
-Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " a Fuzzy finder
-Plugin 'junegunn/fzf.vim'                                           " vim plugin for fzf
-Plugin 'airblade/vim-gitgutter'                                     " set git marks for file modifications
-Plugin 'jreybert/vimagit'                                           " a better git status
-Plugin 'tpope/vim-fugitive'                                         " more git funcionality, specially git blame
-Plugin 'jiangmiao/auto-pairs'                                       " automatic closure for (, {, [, etc
-Plugin 'editorconfig/editorconfig-vim'                              " editorConfig (https://editorconfig.org/) support
-Plugin 'morhetz/gruvbox'                                            " retro theme
-Plugin 'itchyny/lightline.vim'                                      " theme for statusbar
-Plugin 'shinchu/lightline-gruvbox.vim'                              " lightline theme for gruvbox
-Plugin 'taglist.vim'                                                " Source code browser (uses ctags)
-Plugin 'nathanaelkane/vim-indent-guides'                            " I can see clearly now ... the indent lines
-Plugin 'JamshedVesuna/vim-markdown-preview'                         " A nice markdown preview
-Plugin 'ycm-core/YouCompleteMe'                                     " Code Completion engine
-Plugin 'whatyouhide/vim-lengthmatters'                              " Highlights when text line is too big
-Plugin 'vim-syntastic/syntastic'                                    " Syntax checker
-Plugin 'ctrlpvim/ctrlp.vim'                                         " A better file finder
-Plugin 'vim-scripts/todo-txt.vim'                                   " Allow to manipulate todo.txt files in vim
-Plugin 'lambdalisue/vim-gista'                                      " Gist integration (https://gist.github.com)
-Plugin 'heavenshell/vim-jsdoc'                                      " Generates JS-Doc
-Plugin 'vim-scripts/loremipsum'                                     " lorem ipsum dolor sit amet....
-Plugin 'itchyny/vim-gitbranch'                                      " Provides a function to get the branch name
-Plugin 'sheerun/vim-polyglot'                                       " A solid language pack
+" Vundle manages vundle
+Plugin 'VundleVim/Vundle.vim' 
+" a Fuzzy finder
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
+" vim plugin for fzf
+Plugin 'junegunn/fzf.vim'                                           
+" set git marks for file modifications
+Plugin 'airblade/vim-gitgutter'                                     
+" a better git status
+Plugin 'jreybert/vimagit'                                           
+" more git funcionality, specially git blame
+Plugin 'tpope/vim-fugitive'                                         
+" automatic closure for (, {, [, etc
+Plugin 'jiangmiao/auto-pairs'                                       
+" editorConfig (https://editorconfig.org/) support
+Plugin 'editorconfig/editorconfig-vim'                              
+" retro theme
+Plugin 'morhetz/gruvbox'                                            
+" theme for statusbar
+Plugin 'itchyny/lightline.vim'                                      
+" lightline theme for gruvbox
+Plugin 'shinchu/lightline-gruvbox.vim'                              
+" Source code browser (uses ctags)
+Plugin 'taglist.vim'                                                
+" I can see clearly now ... the indent lines
+Plugin 'nathanaelkane/vim-indent-guides'                            
+" A nice markdown preview
+Plugin 'JamshedVesuna/vim-markdown-preview'                         
+" Code Completion engine
+Plugin 'ycm-core/YouCompleteMe'                                     
+" Highlights when text line is too big
+Plugin 'whatyouhide/vim-lengthmatters'                              
+" Syntax checker
+Plugin 'vim-syntastic/syntastic'                                    
+" A better file finder
+Plugin 'ctrlpvim/ctrlp.vim'                                         
+" Allow to manipulate todo.txt files in vim
+Plugin 'vim-scripts/todo-txt.vim'                                   
+" Gist integration (https://gist.github.com)
+Plugin 'lambdalisue/vim-gista'                                      
+" Generates JS-Doc
+Plugin 'heavenshell/vim-jsdoc'                                      
+" lorem ipsum dolor sit amet....
+Plugin 'vim-scripts/loremipsum'                                     
+" Provides a function to get the branch name
+Plugin 'itchyny/vim-gitbranch'                                      
+" A solid language pack
+Plugin 'sheerun/vim-polyglot'                                       
+" Other great plugins, on public domain
+Plugin 'giovanebribeiro/dotfiles', {'rtp': '/ide/plugins'}
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 " End of plugin list
+
+"" 
+" Functions
+""
+"function! ShowDigraphs()
+"    digraphs
+"    call getchar()
+"    return \<C-K>"
+"endfunction
+
 
 ""
 " Performance configurations
@@ -135,7 +171,6 @@ let g:jsdoc_allow_input_prompt=1
 let g:jsdoc_input_description=1
 
 " todo.txt plugin
-
 
 ""
 " Look and Feel
@@ -231,3 +266,8 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Toggle search highlighting
 nmap <F3> :set hlsearch!<CR>
+
+if exists("*HUDG_GetDigraph")
+    " A better way to deal with non-ASCII chars
+    inoremap <expr> <C-K> HUDG_GetDigraph()
+endif
