@@ -1,0 +1,163 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="/home/gbrr/.oh-my-zsh"
+export TERMINFO=/usr/share/terminfo
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="typewritten"
+#ZSH_TMUX_FIXTERM=true
+#ZSH_TMUX_FIXTERM_WITH_256COLOR="screen-256color"
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# History
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.cache/zsh_history
+
+# Basic auto/tab complete:
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)		# Include hidden files.
+
+##
+# ALIASES
+##
+
+# General Aliases
+alias tmux='tmux -u2'
+alias ..='cd ..'
+alias t='bash $HOME/todo.txt/todo.sh'
+alias tr='mount_tree'
+alias la='ls -la'
+alias ll='ls -l'
+alias clima='curl v2.wttr.in Recife'
+#alias cleanDocker='docker system prune -a'
+#alias cleanContainers='docker container stop $(docker container ls -lq) && docker container rm $(docker container ls -lq)'
+#alias cleanImages='docker stop $(docker ps -q) && docker stop $(docker ps -aq)'
+
+# ALIASES per OS
+[ -r "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
+
+##
+# EXPORTS
+##
+
+# General exports
+export NODE_ENV="development"
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# EXPORTS per OS
+[ -r "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
+
+##
+# FUNCTIONS
+##
+
+# Use lf to switch directories and bind it to ctrl-o
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+bindkey -s '^o' 'lfcd\n'
+
+# For some themes which cursor is underline, when exit vim the cursor becomes a box. This function
+# fix this error
+_fix_cursor() {
+  echo -ne '\e[3 q'
+}
+precmd_functions+=(_fix_cursor)
+
+# If neofetch exists, run it only once.
+flag_file="/tmp/neofetch_exists"
+if [ ! -f $flag_file ]
+then
+  command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
+  if [ -x /usr/games/cowsay -a -x /usr/games/fortune ]; then
+    fortune | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n1)
+  fi
+else
+  cmatrix
+fi
+
+DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
+
+# Set the screen colors during the day/night
+redshift_running="/tmp/redshift_running"
+if [ ! -f $redshift_running ]
+then
+    command -v redshift >/dev/null 2>&1 && { touch $redshift_running ; redshift & }
+fi

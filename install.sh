@@ -8,8 +8,6 @@ echo " |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/ "
 echo "         |___/                                      "
 echo
 
-VERSION=1.3.0
-
 version(){
   if [ -z ${help_printed} ]; then
     echo v${VERSION}

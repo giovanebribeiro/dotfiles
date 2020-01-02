@@ -88,10 +88,6 @@ fi
 ln -s $BASEDIR/gitignore_global $HOME/.gitignore_global
 git config --global core.excludesfile $HOME/.gitignore_global
 
-if [ ! -f "$HOME/.git-completion.bash" ]; then
-  printSubSubsection "Installing .git-completion.bash"
-  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o $HOME/.git-completion.bash
-fi
 printOK
 
 printSubsection "Ctags"
