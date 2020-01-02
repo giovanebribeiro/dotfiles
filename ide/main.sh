@@ -44,6 +44,12 @@ else
 fi
 [ ! -d $HOME/.vim/sessions ] && mkdir -p $HOME/.vim/sessions
 
+printSubSubsection "Install another plugins"
+if [ ! -d $HOME/.vim/bundle/another_plugins ]; then
+    cp -r $BASEDIR/plugin/ $HOME/.vim/bundle/
+fi
+
+
 
 printSubsection "Tmux"
 if which tmux &> /dev/null; then

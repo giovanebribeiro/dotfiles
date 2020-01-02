@@ -64,9 +64,13 @@ Plugin 'itchyny/vim-gitbranch'
 " A solid language pack
 Plugin 'sheerun/vim-polyglot'                                       
 
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 " End of plugin list
+
+" my plugins
+let lines = readfile($HOME . "/.dotfiles-loc")
 
 "" 
 " Functions

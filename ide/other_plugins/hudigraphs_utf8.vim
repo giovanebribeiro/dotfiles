@@ -1,8 +1,7 @@
 " Vim global plugin for heads-up digraph interactions...
-" Maintainer:	Damian Conway (Thanks Damien!)
+" Maintainer:	Damian Conway
 " License:	This file is placed in the public domain.
-"
-" ORIGINAL SOURCE: https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/master/plugin/hudigraphs.vim
+" Source: https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/master/plugin/hudigraphs_utf8.vim
 
 "##############################################################################
 "##                                                                          ##
@@ -42,7 +41,7 @@ function! s:get_digraphs ()
     redir => digraphs
     digraphs
     redir END
-    return substitute(digraphs,'\%d173', '-?','')   " Translate invisible soft-hyphen
+    return substitute(digraphs,'\%d173', '⌿','')   " Translate invisible soft-hyphen
 endfunction
 
 function! s:show_digraphs (digraphs, cursor_char, context)
@@ -100,12 +99,14 @@ function! s:get_retabulated_digraphs ()
     let digraphs_table = []
     for line in range(len(digraphs_list))
         let table_line = []
-        for digraph_spec in split(digraphs_list[line], '.\{9}\zs  ')
-            let match_parts = matchlist(digraph_spec, '^\(..\) \(\S\{1,2}\)')
+        for digraph_spec in split(digraphs_list[line], '\S\+\s\+\S\+\s\+\S\+\zs\s\+')
+            let match_parts = matchlist(digraph_spec, '^\(\S\+\)\s\+\(\S\+\)')
             if !len(match_parts)
                 let match_parts = ['','??','?']
+            elseif match_parts[2] =~ '<..>'
+                let match_parts[2] = '??'
             endif
-            let table_line += [printf("%2s",match_parts[2]) . ' --> ' . match_parts[1]]
+            let table_line += [printf("%2S",match_parts[2]) . ' --> ' . match_parts[1]]
         endfor
         let digraphs_table += [join(table_line, '  ')]
     endfor
