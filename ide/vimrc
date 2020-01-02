@@ -59,12 +59,10 @@ Plugin 'lambdalisue/vim-gista'
 Plugin 'heavenshell/vim-jsdoc'                                      
 " lorem ipsum dolor sit amet....
 Plugin 'vim-scripts/loremipsum'                                     
-" Provides a function to get the branch name
+" Provides a function to get the git branch name
 Plugin 'itchyny/vim-gitbranch'                                      
 " A solid language pack
 Plugin 'sheerun/vim-polyglot'                                       
-" Other great plugins, on public domain
-Plugin 'giovanebribeiro/dotfiles', {'rtp': '/ide/plugins'}
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -267,7 +265,4 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " Toggle search highlighting
 nmap <F3> :set hlsearch!<CR>
 
-if exists("*HUDG_GetDigraph")
-    " A better way to deal with non-ASCII chars
-    inoremap <expr> <C-K> HUDG_GetDigraph()
-endif
+inoremap <expr> <C-K> HUDG_GetDigraph()
