@@ -1,9 +1,13 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
+OS=`uname`
 # Path to your oh-my-zsh installation.
-export ZSH="/home/gbrr/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 export TERMINFO=/usr/share/terminfo
+
+if[ "$OS" == "Darwin" ]; then
+    export TERM="xterm-color"
+fi
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -159,5 +163,5 @@ DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
 redshift_running="/tmp/redshift_running"
 if [ ! -f $redshift_running ]
 then
-    command -v redshift >/dev/null 2>&1 && { touch $redshift_running ; redshift & }
+    command -v redshift >/dev/null 2>&1 && { touch $redshift_running ; redshift & > /dev/null}
 fi
