@@ -97,7 +97,8 @@ alias t='bash $HOME/todo.txt/todo.sh'
 alias tr='mount_tree'
 alias la='ls -la'
 alias ll='ls -l'
-alias clima='curl v2.wttr.in Recife'
+alias clima='curl v2.wttr.in'
+alias keygen='ssh-keygen -b 4096 -t rsa'
 #alias cleanDocker='docker system prune -a'
 #alias cleanContainers='docker container stop $(docker container ls -lq) && docker container rm $(docker container ls -lq)'
 #alias cleanImages='docker stop $(docker ps -q) && docker stop $(docker ps -aq)'
@@ -153,11 +154,19 @@ _fix_cursor() {
 }
 precmd_functions+=(_fix_cursor)
 
+# Set the screen colors during the day/night
+redshift_running="/tmp/redshift_running"
+if [ ! -f $redshift_running ]
+then
+    command -v redshift >/dev/null 2>&1 && { touch $redshift_running ; redshift & > /dev/null}
+fi
+
 # If neofetch exists, run it only once.
 flag_file="/tmp/neofetch_exists"
 if [ ! -f $flag_file ]
 then
   command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
+  curl https://wttr.in
   if [ -x /usr/games/cowsay -a -x /usr/games/fortune ]; then
     fortune | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n1)
   fi
@@ -165,11 +174,5 @@ else
   cmatrix
 fi
 
-DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
 
-# Set the screen colors during the day/night
-redshift_running="/tmp/redshift_running"
-if [ ! -f $redshift_running ]
-then
-    command -v redshift >/dev/null 2>&1 && { touch $redshift_running ; redshift & > /dev/null}
-fi
+DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
