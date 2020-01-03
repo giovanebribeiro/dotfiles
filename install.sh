@@ -44,7 +44,7 @@ basic(){
   pre
   echo
   bash basic/main.sh
-  bash basic/complement.sh
+#  bash basic/complement.sh
 }
 
 ide(){
