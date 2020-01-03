@@ -4,7 +4,7 @@ My dotfiles and scripts to make my life easier. Works on MacOSX and Linux (Debia
 ## How can I use it?
 
 ```
-$ ./install.sh
+$ bash ./install.sh -h
   __  __         ____        _    __ _ _
  |  \/  |_   _  |  _ \  ___ | |_ / _(_) | ___  ___
  | |\/| | | | | | | | |/ _ \| __| |_| | |/ _ \/ __|
@@ -12,28 +12,19 @@ $ ./install.sh
  |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/
          |___/
 
-v1.1.0
+v
 Usage: ./install.sh [options]
    h      Print this help and version
    v      Print the version
-   b      Installs basic tools and bashrc
+   b      Installs basic tools and zshrc
    i      Installs the tools for ide (vim, todo.txt, git configs, ctags, etc)
-   m      Install and confgure the MongoDB
+   r      Install and confgure Rust
    n      Install and confgure Node.js
-   a      Install everything. Equivalent to './install.sh -bimn'
-```
+   a      Install everything. Equivalent to './install.sh -birn'
+   c      Install complementary tools, zshthemes, etc.
 
-## PS1 layout: 
+## What do I use?
 
-```
-# when $PWD is not a git repo:
-~ $
-|_ actual folder
-
-# when $PWD is a git repo:
-~/workspace/dotfiles master [origin/master(=)] $
-    |                 |           |        |_ git workspace status (^ - Have changes to push, v - have changes to pull, = - workspace is sync)
-    |                 |           |__________ remote branch 
-    |                 |______________________ local branch
-    |________________________________________ actual folder
-```
+* shell: zsh (with framework oh-my-zsh)
+* editor: vim
+* terminal manager: tmux
