@@ -112,7 +112,7 @@ alias clima='curl v2.wttr.in Recife'
 
 # General exports
 export NODE_ENV="development"
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
 
 # EXPORTS per OS
 [ -r "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
