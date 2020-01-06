@@ -75,11 +75,11 @@ let lines = readfile($HOME . "/.dotfiles-loc")
 "" 
 " Functions
 ""
-"function! ShowDigraphs()
-"    digraphs
-"    call getchar()
-"    return \<C-K>"
-"endfunction
+function! ShowDigraphs()
+    digraphs
+    call getchar()
+    return "\<C-K>"
+endfunction
 
 
 ""
@@ -269,4 +269,4 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " Toggle search highlighting
 nmap <F3> :set hlsearch!<CR>
 
-inoremap <expr> <C-K> HUDG_GetDigraph()
+inoremap <expr> <C-K> ShowDigraphs() 
