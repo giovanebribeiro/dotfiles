@@ -18,7 +18,22 @@ fi
 [ -e "$HOME/.Xresources" ] && rm $HOME/.Xresources
 ln -s $BASEDIR/Xresources $HOME/.Xresources
 
-printSubsection "Installing oh-my-zsh"
-[ ! -d $HOME/.oh-my-zsh ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+if [ "$OS" == "Linux" ]; then
+    printSubsection "Installing Powerline fonts"
+    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+    mv PowerlineSymbols.otf ~/.local/share/fonts/
+    fc-cache -vf ~/.local/share/fonts/
+    printSubsection "Installing Powerline fonts... OK (Please go to your terminal configurations and select the powerline fonts there)"
+fi
+
+if [ "$SHELL" -ne "/usr/bin/zsh" ];then
+    sudo chsh -s /usr/bin/zsh $USER
+fi
+
+printSubsection "Installing zshrc..."
+if [ -f "$HOME/.zshrc" ]; then
+    rm $HOME/.zshrc
+fi
+ln -s $BASEDIR/zshrc $HOME/.zshrc
 
 printSection "Terminal files and general configurations... OK"

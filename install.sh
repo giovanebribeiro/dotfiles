@@ -8,6 +8,56 @@ echo " |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/ "
 echo "         |___/                                      "
 echo
 
+
+if [ "$#" -eq "0" ]; then
+  _help
+  exit 0
+fi
+
+pre(){
+  bash common/prepare.sh
+  echo
+  bash tools/main.sh
+  pre_executed=1
+}
+
+basic(){
+  [ -z ${pre_executed} ] && pre
+  echo
+  bash basic/main.sh
+}
+
+complement(){
+  [ -z ${basic_executed} ] && echo "Run first the '-b' option before execute this one" && exit 0
+  echo
+  bash basic/complement.sh
+}
+
+ide(){
+  [ -z ${pre_executed} ] && pre
+  echo
+  bash ide/main.sh
+}
+
+node(){
+  [ -z ${ide_executed} ] && ide
+  echo
+  bash node/main.sh
+}
+
+rust(){
+  [ -z ${ide_executed} ] && ide
+  echo
+  bash rust/main.sh
+}
+
+all(){
+  ide
+  node
+  rust
+  basic
+}
+
 version(){
   if [ -z ${help_printed} ]; then
     echo v${VERSION}
@@ -21,59 +71,13 @@ _help(){
   echo "Usage: $0 [options]"
   echo "   h      Print this help and version"
   echo "   v      Print the version"
-  echo "   b      Installs basic tools and bashrc"
+  echo "   b      Installs basic tools and zshrc"
   echo "   i      Installs the tools for ide (vim, todo.txt, git configs, ctags, etc)"
   echo "   r      Install and confgure Rust"
   echo "   n      Install and confgure Node.js"
   echo "   a      Install everything. Equivalent to '$0 -birn'"
+  echo "   c      Install complementary tools, zshthemes, etc."
   echo 
-}
-
-if [ "$#" -eq "0" ]; then
-  _help
-  exit 0
-fi
-
-pre(){
-  bash common/prepare.sh
-  echo
-  bash tools/main.sh
-}
-
-basic(){
-  pre
-  echo
-  bash basic/main.sh
-#  bash basic/complement.sh
-}
-
-ide(){
-  [ -z ${basic_executed} ] && basic
-  echo
-  bash ide/main.sh
-}
-
-node(){
-  [ -z ${basic_executed} ] && basic
-  [ -z ${ide_executed} ] && ide
-  echo
-  bash node/main.sh
-}
-
-rust(){
-  [ -z ${basic_executed} ] && basic
-  [ -z ${ide_executed} ] && ide
-  echo
-  bash rust/main.sh
-}
-
-
-
-all(){
-  basic
-  ide
-  node
-  rust
 }
 
 while getopts hvbirna OP
@@ -86,6 +90,7 @@ do
     i) ide; ide_executed=1 ;;
     r) rust; rust_executed=1 ;;
     n) node; node_executed=1 ;;
+    c) complement ;;
     a) all ;;
     *) echo "Unknown option: ${OP}"; _help ;;
   esac
