@@ -6,15 +6,7 @@ INSTALL=$(cat $CMD_FILE)
 
 OS=`uname`
 
-function installNodePackage(){
-  if which $1 &> /dev/null; then
-    printSubSubsection "$1 already installed"
-  else
-    printSubSubsection "Installing $1"
-    [ "$OS" == "Darwin" ] && npm install -g $1
-    [ "$OS" == "Linux" ] && sudo npm install -g $1
-  fi 
-}
+
 
 printSection "Node.JS, useful packages and tools"
 
@@ -46,16 +38,12 @@ fi
 printSubSubsection "Enable vim auto-complete for Node"
 python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer
 
-printSubSubsection "Install nvm"
-# nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
 # npm-check-updates
 installNodePackage "npm-check-updates"
-# vtop
-installNodePackage "vtop"
+
   
 if [ -L $HOME/.eslintrc ]; then
-mv $HOME/.eslintrc $HOME/.eslintrc.old
+    mv $HOME/.eslintrc $HOME/.eslintrc.old
 fi
 ln -s $BASEDIR/eslintrc $HOME/.eslintrc
 

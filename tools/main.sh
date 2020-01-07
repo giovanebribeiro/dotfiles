@@ -1,39 +1,71 @@
 source $PWD/common/util.sh
-
-INSTALL=$(cat $CMD_FILE)
+BASEDIR=`dirname "$0"`
+BASEDIR=$( cd $BASEDIR && pwd )
 
 printSection "Install useful tools"
 
-printSubsection "cURL"
-if which curl &> /dev/null; then
-  printSubSubsection "cURL already installed"
+printSubsection "install packages based on OS"
+OS=`uname`
+case $OS in 
+"Darwin")
+  if which brew &> /dev/null; then
+    printSubSubsection "Homebrew already installed."
+  else
+    ruby -e '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)'
+  fi
+  ;;
+"Linux")
+  # Needed for many things...
+  installPkg build-essential zsh python-dev python3-dev x11-xserver-utils git
+  ;;
+"*")
+  printError "Unknown OS"
+  ;;
+esac
+
+installPkg curl wget cmake
+
+printSubsection "Rust"
+if which rustc &> /dev/null; then
+  printSubSubsection "Rust already installed"
 else
-  $INSTALL curl
-  printSubSubsection "cURL installed successfully"
+  printSubSubsection "Installing Rust"
+  curl https://sh.rustup.rs -sSf | sh
+  # Will allow us to use cargo in this execution
+  export PATH=$HOME/.cargo/bin:$PATH
 fi
 
-printSubsection "neofetch"
-if command -v neofetch >/dev/null 2>&1; then
-  printSubSubsection "neofetch already installed"
+if [ ! -f $HOME/.cargo/bin/what ]; then
+    printSubSubsection "Install what (network packet sniffer)"
+    cargo install what
+    sudo ln -s $HOME/.cargo/bin/what /usr/local/bin/what
 else
-  $INSTALL neofetch
-  printSubSubsection "neofetch installed successfully"
+    printSubSubsection "what already installed"
 fi
 
-printSubsection "cmatrix"
-if command -v cmatrix >/dev/null 2>&1; then
-  printSubSubsection "cmatrix already installed"
+if [ ! -f $HOME/.cargo/bin/habitctl ]; then
+    printSubSubsection "Install habitctl (habit tracker)"
+    git clone https://github.com/blinry/habitctl
+    cd habitctl
+    cargo build --release
+    mv target/release/habitctl $HOME/.cargo/bin/habitctl
+    cd $BASEDIR
 else
-  $INSTALL cmatrix
-  printSubSubsection "cmatrix installed successfully"
+    printSubSubsection "habitctl (habit tracker) already installed"
 fi
 
-printSubsection "redshift"
-if command -v redshift >/dev/null 2>&1; then
-  printSubSubsection "redshift already installed"
+printSubsection "Node.JS"
+if [ ! -d $HOME/.nvm ]; then
+    printSubSubsection "nvm (and LTS version of node)"
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+    nvm install lts # this installs the last LTS version of node
 else
-  $INSTALL redshift
-  printSubSubsection "redshift installed successfully"
+    printSubSubsection "nvm (and LTS version of node) already installed"
 fi
+
+# vtop
+installNodePackage "vtop"
 
 printOK

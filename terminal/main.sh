@@ -1,7 +1,5 @@
-OS=`uname`
 BASEDIR=`dirname "$0"`
 BASEDIR=$( cd $BASEDIR && pwd )
-#teste
 source "$PWD/common/util.sh"
 
 printSection "Terminal files and general configurations (BASIC)"

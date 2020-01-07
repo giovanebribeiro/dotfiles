@@ -8,24 +8,19 @@ echo " |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/ "
 echo "         |___/                                      "
 echo
 
-
-
-
 pre(){
-  bash common/prepare.sh
-  echo
   bash tools/main.sh
   pre_executed=1
 }
 
-basic(){
+terminal(){
   [ -z ${pre_executed} ] && pre
   echo
-  bash basic/main.sh
+  bash terminal/main.sh
 }
 
 complement(){
-  [ -z ${basic_executed} ] && echo "Run first the '-b' option before execute this one" && exit 0
+  [ -z ${terminal_executed} ] && echo "Run first the '-b' option before execute this one" && exit 0
   echo
   bash basic/complement.sh
 }
@@ -68,7 +63,7 @@ _help(){
   echo "Usage: $0 [options]"
   echo "   h      Print this help and version"
   echo "   v      Print the version"
-  echo "   b      Installs basic tools and zshrc"
+  echo "   t      Install terminal dotfiles and dependencies"
   echo "   i      Installs the tools for ide (vim, todo.txt, git configs, ctags, etc)"
   echo "   r      Install and confgure Rust"
   echo "   n      Install and confgure Node.js"
@@ -77,12 +72,12 @@ _help(){
   echo 
 }
 
-if [ ! -f $HOME/.install_cmd ]; then
-	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
-	echo "sudo $cmd" > $HOME/.install_cmd
-fi
+source $PWD/common/util.sh
 
-exit 0
+if [ ! -f $CMD_FILE ]; then
+	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
+	echo "sudo $cmd" > $CMD_FILE
+fi
 
 if [ "$#" -eq "0" ]; then
   _help
@@ -95,7 +90,7 @@ do
   in
     h) _help; help_printed=1 ;;
     v) version; version_printed=1 ;;
-    b) basic; basic_executed=1 ;;
+    t) terminal; terminal_executed=1 ;;
     i) ide; ide_executed=1 ;;
     r) rust; rust_executed=1 ;;
     n) node; node_executed=1 ;;

@@ -94,6 +94,7 @@ _comp_options+=(globdots)		# Include hidden files.
 alias tmux='tmux -u2'
 alias ..='cd ..'
 alias t='bash $HOME/todo.txt/todo.sh'
+alias h='habitctl'
 alias tr='mount_tree'
 alias la='ls -la'
 alias ll='ls -l'
@@ -154,24 +155,20 @@ _fix_cursor() {
 }
 precmd_functions+=(_fix_cursor)
 
-# Set the screen colors during the day/night
-redshift_running="/tmp/redshift_running"
-if [ ! -f $redshift_running ]
-then
-    command -v redshift >/dev/null 2>&1 && { touch $redshift_running ; redshift & > /dev/null}
-fi
-
-# If neofetch exists, run it only once.
-flag_file="/tmp/neofetch_exists"
+flag_file="/tmp/flag_file"
 if [ ! -f $flag_file ]
 then
   command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
-  curl https://wttr.in
-  if [ -x /usr/games/cowsay -a -x /usr/games/fortune ]; then
-    fortune | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n1)
-  fi
+  redshift-gtk &
+  curl https://v2.wttr.in
 else
+
   cmatrix
+  if [ -x /usr/games/cowsay -a -x /usr/games/fortune ]; then
+#    fortune | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n1)
+    cowsay $(fortune)
+  fi
+
 fi
 
 
