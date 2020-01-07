@@ -67,8 +67,9 @@ _help(){
   echo "   i      Installs the tools for ide (vim, todo.txt, git configs, ctags, etc)"
   echo "   r      Install and confgure Rust"
   echo "   n      Install and confgure Node.js"
-  echo "   a      Install everything. Equivalent to '$0 -birn'"
+  echo "   a      Install everything. Equivalent to '$0 -ptirnc'"
   echo "   c      Install complementary tools, zshthemes, etc."
+  echo "   p      install all tools."
   echo 
 }
 
@@ -84,7 +85,7 @@ if [ "$#" -eq "0" ]; then
   exit 0
 fi
 
-while getopts hvbirna OP
+while getopts hvtirncap OP
 do
   case "${OP}"
   in
@@ -96,6 +97,7 @@ do
     n) node; node_executed=1 ;;
     c) complement ;;
     a) all ;;
+    p) pre; pre_executed=1 ;;
     *) echo "Unknown option: ${OP}"; _help ;;
   esac
 done

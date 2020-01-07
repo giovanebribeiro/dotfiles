@@ -50,6 +50,7 @@ if [ ! -f $HOME/.cargo/bin/habitctl ]; then
     cargo build --release
     mv target/release/habitctl $HOME/.cargo/bin/habitctl
     cd $BASEDIR
+    rm -rf $BASEDIR/habitctl
 else
     printSubSubsection "habitctl (habit tracker) already installed"
 fi
@@ -60,7 +61,8 @@ if [ ! -d $HOME/.nvm ]; then
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-    nvm install lts # this installs the last LTS version of node
+    nvm install --lts # this installs the last LTS version of node
+    nvm use --lts # this installs the last LTS version of node
 else
     printSubSubsection "nvm (and LTS version of node) already installed"
 fi
