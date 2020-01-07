@@ -9,10 +9,7 @@ echo "         |___/                                      "
 echo
 
 
-if [ "$#" -eq "0" ]; then
-  _help
-  exit 0
-fi
+
 
 pre(){
   bash common/prepare.sh
@@ -79,6 +76,18 @@ _help(){
   echo "   c      Install complementary tools, zshthemes, etc."
   echo 
 }
+
+if [ ! -f $HOME/.install_cmd ]; then
+	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
+	echo "sudo $cmd" > $HOME/.install_cmd
+fi
+
+exit 0
+
+if [ "$#" -eq "0" ]; then
+  _help
+  exit 0
+fi
 
 while getopts hvbirna OP
 do
