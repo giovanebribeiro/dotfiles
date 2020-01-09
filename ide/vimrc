@@ -42,7 +42,8 @@ Plugin 'taglist.vim'
 " I can see clearly now ... the indent lines
 Plugin 'nathanaelkane/vim-indent-guides'                            
 " A nice markdown preview
-Plugin 'JamshedVesuna/vim-markdown-preview'                         
+" Plugin 'JamshedVesuna/vim-markdown-preview'                         
+Plugin 'skanehira/preview-markdown.vim'
 " Code Completion engine
 Plugin 'ycm-core/YouCompleteMe'                                     
 " Highlights when text line is too big
