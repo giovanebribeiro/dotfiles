@@ -1,5 +1,7 @@
 OS=`uname`
 
+DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -171,7 +173,20 @@ else
 
 fi
 
-DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
+# See wheather once a day
+W=/tmp/weather_daily
+if [ ! -f $W ]; then
+    clima
+    touch $W
+    # We create a cron job to remove the file daily, at 5AM
+    if [ "$OS" = "Linux" ]; then
+        cmd="rm $W 2>&1"
+        if [[ $(crontab -l | egrep -v "^(#|$)" | grep -q '$cmd'; echo $?) == 1 ]]
+        then
+            echo $(crontab -l ; echo '0 5 * * * $cmd') | crontab -
+        fi
+    fi
+fi
 
 ##
 # OTHER USEFUL STUFF...
