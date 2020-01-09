@@ -159,10 +159,11 @@ flag_file="/tmp/flag_file"
 if [ ! -f $flag_file ]
 then
   command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
-  redshift-gtk &
-  curl https://v2.wttr.in
+  if [ "$OS" == "Linux" ]; then
+      redshift-gtk &
+  fi
+  clima
 else
-
   cmatrix
   if [ -x /usr/games/cowsay -a -x /usr/games/fortune ]; then
 #    fortune | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n1)
