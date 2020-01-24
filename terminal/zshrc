@@ -161,16 +161,15 @@ flag_file="/tmp/flag_file"
 if [ ! -f $flag_file ]
 then
   command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
-  if [ "$OS" == "Linux" ]; then
+  if [[ "$OS" = "Linux" ]]; then
       redshift-gtk &
   fi
-  clima
 else
-  cmatrix
-  if [ -x /usr/games/cowsay -a -x /usr/games/fortune ]; then
+  cmatrix -ab
+#  if [ -x /usr/games/cowsay -a -x /usr/games/fortune ]; then
 #    fortune | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n1)
-    cowsay $(fortune)
-  fi
+#    cowsay $(fortune)
+#  fi
 
 fi
 
@@ -180,11 +179,10 @@ if [ ! -f $W ]; then
     clima
     touch $W
     # We create a cron job to remove the file daily, at 5AM
-    if [ "$OS" = "Linux" ]; then
-        cmd="rm $W 2>&1"
-        if [[ $(crontab -l | egrep -v "^(#|$)" | grep -q '$cmd'; echo $?) == 1 ]]
+    if [[ "$OS" = "Linux" ]]; then
+        if [[ $(crontab -l | egrep -v "^(#|$)" | grep -q 'rm /tmp/weather_daily 2>&1'; echo $?) == 1 ]]
         then
-            echo $(crontab -l ; echo '0 5 * * * $cmd') | crontab -
+            echo $(crontab -l ; echo '0 5/12/17 * * * rm /tmp/weather_daily 2>&1') | crontab -
         fi
     fi
 fi
