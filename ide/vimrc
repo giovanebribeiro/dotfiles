@@ -17,53 +17,79 @@ call vundle#begin('$HOME/.vim/bundle/')
 
 " Vundle manages vundle
 Plugin 'VundleVim/Vundle.vim' 
-" a Fuzzy finder
-Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
-" vim plugin for fzf
-Plugin 'junegunn/fzf.vim'                                           
+
+"
+" Git support
+"
+
 " set git marks for file modifications
 Plugin 'airblade/vim-gitgutter'                                     
 " a better git status
 Plugin 'jreybert/vimagit'                                           
 " more git funcionality, specially git blame
-Plugin 'tpope/vim-fugitive'                                         
+Plugin 'tpope/vim-fugitive'
+" Provides a function to get the git branch name
+Plugin 'itchyny/vim-gitbranch'
+
+"
+" Editor 
+"
+
 " automatic closure for (, {, [, etc
-Plugin 'jiangmiao/auto-pairs'                                       
+Plugin 'jiangmiao/auto-pairs'
+" I can see clearly now ... the indent lines
+Plugin 'nathanaelkane/vim-indent-guides'  
+" Highlights when text line is too big
+Plugin 'whatyouhide/vim-lengthmatters'
+" a Fuzzy finder
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
+" vim plugin for fzf
+Plugin 'junegunn/fzf.vim'
 " editorConfig (https://editorconfig.org/) support
-Plugin 'editorconfig/editorconfig-vim'                              
+Plugin 'editorconfig/editorconfig-vim'
+" A nice markdown preview
+Plugin 'skanehira/preview-markdown.vim'
+" A better file finder
+Plugin 'ctrlpvim/ctrlp.vim'
+
+"
+" General programming
+"
+
+" Source code browser (uses ctags)
+Plugin 'taglist.vim'
+" A solid language pack
+Plugin 'sheerun/vim-polyglot'
+" Code Completion engine
+Plugin 'ycm-core/YouCompleteMe'
+" Generates JS-Doc
+Plugin 'heavenshell/vim-jsdoc'
+" Syntax checker
+Plugin 'vim-syntastic/syntastic'
+
+" 
+" Appearance
+"
+
 " retro theme
 Plugin 'morhetz/gruvbox'                                            
 " theme for statusbar
 Plugin 'itchyny/lightline.vim'                                      
 " lightline theme for gruvbox
 Plugin 'shinchu/lightline-gruvbox.vim'                              
-" Source code browser (uses ctags)
-Plugin 'taglist.vim'                                                
-" I can see clearly now ... the indent lines
-Plugin 'nathanaelkane/vim-indent-guides'                            
-" A nice markdown preview
-" Plugin 'JamshedVesuna/vim-markdown-preview'                         
-Plugin 'skanehira/preview-markdown.vim'
-" Code Completion engine
-Plugin 'ycm-core/YouCompleteMe'                                     
-" Highlights when text line is too big
-Plugin 'whatyouhide/vim-lengthmatters'                              
-" Syntax checker
-Plugin 'vim-syntastic/syntastic'                                    
-" A better file finder
-Plugin 'ctrlpvim/ctrlp.vim'                                         
+
+"
+" Utils
+"
+
 " Allow to manipulate todo.txt files in vim
 Plugin 'vim-scripts/todo-txt.vim'                                   
 " Gist integration (https://gist.github.com)
 Plugin 'lambdalisue/vim-gista'                                      
-" Generates JS-Doc
-Plugin 'heavenshell/vim-jsdoc'                                      
 " lorem ipsum dolor sit amet....
 Plugin 'vim-scripts/loremipsum'                                     
-" Provides a function to get the git branch name
-Plugin 'itchyny/vim-gitbranch'                                      
-" A solid language pack
-Plugin 'sheerun/vim-polyglot'                                       
+" A calendar?? Inside VIM??? WTF? o_O
+Plugin 'itchyny/calendar.vim'
 
 
 call vundle#end()            " required
@@ -240,6 +266,7 @@ nmap <Leader>i  gg=G                                                            
 nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>                     " open todo file
 nmap <Leader>done :Gista open --opener='split' --no-cache 9bb03999f58319d086ea58b0943f2104 done.txt<CR>    " open todo file
 nmap <Leader>jsd  :JsDoc<CR>                                                                               " Add jsdoc to function (put cursor on function declaration)
+nmap <Leader>cal  :Calendar -view=year -split=vertical -width=27<CR>
 
 " Clipboard (requires +clipboard flag available (source: https://vi.stackexchange.com/questions/84/how-can-i-copy-text-to-the-system-clipboard-from-vim))
 " If you running on WSL, this link will be useful: https://superuser.com/questions/1291425/windows-subsystem-linux-make-vim-use-the-clipboard
