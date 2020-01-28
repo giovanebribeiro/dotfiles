@@ -9,9 +9,9 @@ function printSection() { echo "# $1";  }
 function printSubsection() { echo; echo "- $1"; echo;}
 function printSubSubsection() { echo "* $1"; }
 function printError() { echo "x $1"; }
-function printOK() { echo; echo "...OK"; }
+function printOK() { echo; echo "...OK"; echo; }
 
-function installPkg() {
+installPkg() {
     TEMP=()
     for pkg in "$@"
     do
@@ -29,16 +29,24 @@ function installPkg() {
 
 }
 
-function stowit() {
+stowit() {
+    tmp=$PWD
     src=$1
-    dst=$2
     # -v verbose
     # -R recursive
     # -t target
-    stow -v -R -t ${usr} ${app}
+    # -d delete
+    args="-v -R -t"
+    if [ "$1" = "d" ]; then
+        args="-d $args"
+        src=$2
+    fi
+    cd $src
+    stow $args ~ .
+    cd $tmp
 }
 
-function installNodePackage(){
+installNodePackage(){
   if which $1 &> /dev/null; then
     printSubSubsection "$1 already installed"
   else
@@ -46,4 +54,10 @@ function installNodePackage(){
     [ "$OS" == "Darwin" ] && npm install -g $1
     [ "$OS" == "Linux" ] && sudo npm install -g $1
   fi 
+}
+
+log(){
+    if [ -f /tmp/dotfiles_verbose ]; then
+        echo $1
+    fi
 }

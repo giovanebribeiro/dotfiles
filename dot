@@ -1,54 +1,79 @@
 #!/bin/bash
 
-echo "  __  __         ____        _    __ _ _            "
-echo " |  \/  |_   _  |  _ \  ___ | |_ / _(_) | ___  ___  "
-echo " | |\/| | | | | | | | |/ _ \| __| |_| | |/ _ \/ __| "
-echo " | |  | | |_| | | |_| | (_) | |_|  _| | |  __/\__ \ "
-echo " |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/ "
-echo "         |___/                                      "
-echo
+title(){
+    
+    echo "  __  __         ____        _    __ _ _            "
+    echo " |  \/  |_   _  |  _ \  ___ | |_ / _(_) | ___  ___  "
+    echo " | |\/| | | | | | | | |/ _ \| __| |_| | |/ _ \/ __| "
+    echo " | |  | | |_| | | |_| | (_) | |_|  _| | |  __/\__ \ "
+    echo " |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/ "
+    echo "         |___/                                      "
+    echo
 
-_help(){
-  echo "Usage: $0 <action> <module>"
-  echo "   <action> What do you want to do? (install or uninstall or help)"
-  echo "   <module> The folder where the scripts and configurations are"
-  echo 
 }
 
-source $PWD/__setup/util.sh
+_help(){
+  echo "Usage: $0 [options] <action> <module>"
+  echo
+  echo "   <action> means: What do you want to do? (install or uninstall)"
+  echo "   <module> means: The folder to be installed/uninstalled"
+  echo 
+  echo "   Options:"
+  echo "   h      Print this help"
+  echo "   v      Enable verbose"
+  echo 
+  exit 0
+}
+
+ACTION=$1
+SKIP=0
+if [ "$#" -eq "0" ]; then
+    _help
+elif [ "$#" -eq "1" ]; then
+    echo "Missing parameters"
+    _help
+elif [ "$1" = "-h" ]; then
+    _help
+elif [ "$1" = "-v" ]; then
+    verbose=1
+    touch /tmp/dotfiles_verbose
+    ACTION=$2
+    SKIP=1
+fi
+
+if [[ "$ACTION" = "install" ]]; then
+    log "install pressed"
+elif [[ "$ACTION" = "uninstall" ]]; then
+    log "uninstall pressed"
+else
+    echo "Unknown action: $ACTION"
+    exit 1
+fi
+
+
+title
+
 
 if [ ! -f $CMD_FILE ]; then
 	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
 	echo "sudo $cmd" > $CMD_FILE
 fi
 
-if [ "$#" -eq "0" ]; then
-  _help
-  exit 0
-fi
-
-ACTION=$1
-if [ "$ACTION" = "help" ]; then
-    _help
-    exit 0
-fi
-
-A=`test [ ! "$ACTION" = "install" ]` 
-B=`test [ ! "$ACTION" = "uninstall" ]`
-
-if [ $A = $B ]; then
-    echo "Unknown action: $ACTION"
-    exit 1
-fi
 
 # Prepare things
 bash $PWD/__setup/pre.sh
 
 # get the modules to make actions
-MODULES=()
-
-COUNT=1
+idx=0
 for mod in "$@"
 do
-    echo $mod
+    if [ "$idx" -gt "$SKIP" ]; then
+        source $PWD/$mod/module.sh
+        $ACTION
+    fi
+    idx+=1
 done
+
+if [ -f /tmp/dotfiles_verbose ]; then
+    rm /tmp/dotfiles_verbose
+fi
