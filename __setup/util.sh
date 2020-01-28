@@ -31,15 +31,11 @@ function installPkg() {
 
 function stowit() {
     src=$1
-# run the stow command for the passed in directory ($2) in location $1
-stowit() {
-    usr=$1
-    app=$2
+    dst=$2
     # -v verbose
     # -R recursive
     # -t target
     stow -v -R -t ${usr} ${app}
-}
 }
 
 function installNodePackage(){
