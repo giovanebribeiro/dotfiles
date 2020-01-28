@@ -100,13 +100,11 @@ alias la='ls -la'
 alias ll='ls -l'
 alias clima='curl v2.wttr.in'
 alias keygen='ssh-keygen -b 4096 -t rsa'
-#alias cleanDocker='docker system prune -a'
-#alias cleanContainers='docker container stop $(docker container ls -lq) && docker container rm $(docker container ls -lq)'
-#alias cleanImages='docker stop $(docker ps -q) && docker stop $(docker ps -aq)'
+alias ps='ps aux'
+alias f5='source $HOME/.zshrc'
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
-[ -r "$HOME/.aliases_per_os" ] && source "$HOME/.aliases_per_os" &>/dev/null
 
 ##
 # EXPORTS
@@ -115,9 +113,10 @@ alias keygen='ssh-keygen -b 4096 -t rsa'
 # General exports
 export NODE_ENV="development"
 export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
+export EDITOR=vim
 
 # EXPORTS per OS
-[ -r "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
+[ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
 
 ##
 # FUNCTIONS
