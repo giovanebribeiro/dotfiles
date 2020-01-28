@@ -66,4 +66,5 @@ installPkg stow curl wget cmake
 ## vtop
 #installNodePackage "vtop"
 #
+echo $PWD > "$LOC_FILE"
 printOK

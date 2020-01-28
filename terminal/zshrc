@@ -95,8 +95,6 @@ _comp_options+=(globdots)		# Include hidden files.
 # General Aliases
 alias tmux='tmux -u2'
 alias ..='cd ..'
-alias t='bash $HOME/todo.txt/todo.sh'
-alias h='habitctl'
 alias tr='mount_tree'
 alias la='ls -la'
 alias ll='ls -l'
@@ -107,7 +105,8 @@ alias keygen='ssh-keygen -b 4096 -t rsa'
 #alias cleanImages='docker stop $(docker ps -q) && docker stop $(docker ps -aq)'
 
 # ALIASES per OS
-[ -r "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
+[ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
+[ -r "$HOME/.aliases_per_os" ] && source "$HOME/.aliases_per_os" &>/dev/null
 
 ##
 # EXPORTS

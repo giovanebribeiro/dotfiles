@@ -5,7 +5,7 @@ CMD_FILE=$HOME/.install_cmd
 OS=`uname`
 INSTALL=$(cat $CMD_FILE)
 
-function printSection() { echo "# $1";  }
+function printSection() { echo "# $1"; echo;  }
 function printSubsection() { echo; echo "- $1"; echo;}
 function printSubSubsection() { echo "* $1"; }
 function printError() { echo "x $1"; }
@@ -38,12 +38,23 @@ stowit() {
     # -d delete
     args="-v -R -t"
     if [ "$1" = "d" ]; then
-        args="-d $args"
+        args="-D $args"
         src=$2
     fi
     cd $src
     stow $args ~ .
     cd $tmp
+}
+
+aliasit(){
+    a=$1
+    cmd=$2
+    if [ "$1" = "d" ]; then
+        a=$2
+        # remove the line with sed
+    else
+        echo "alias $a=$cmd" >> $HOME/.aliases
+    fi
 }
 
 installNodePackage(){

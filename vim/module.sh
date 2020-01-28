@@ -3,6 +3,8 @@ INSTALL=$(cat $CMD_FILE)
 
 install(){
     
+    printSection "VIM"
+
     if which vim.gtk &> /dev/null; then
         printSubSubsection "VIM already installed"
     else
