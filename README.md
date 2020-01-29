@@ -4,27 +4,12 @@ My dotfiles and scripts to make my life easier. Works on MacOSX and Linux (Debia
 ## How can I use it?
 
 ```
-$ bash ./install.sh -h
-  __  __         ____        _    __ _ _
- |  \/  |_   _  |  _ \  ___ | |_ / _(_) | ___  ___
- | |\/| | | | | | | | |/ _ \| __| |_| | |/ _ \/ __|
- | |  | | |_| | | |_| | (_) | |_|  _| | |  __/\__ \
- |_|  |_|\__, | |____/ \___/ \__|_| |_|_|\___||___/
-         |___/
+$ ./dot -h
+Usage: ./dot [options] <action> <module>
 
-v
-Usage: ./install.sh [options]
-   h      Print this help and version
-   v      Print the version
-   b      Installs basic tools and zshrc
-   i      Installs the tools for ide (vim, todo.txt, git configs, ctags, etc)
-   r      Install and confgure Rust
-   n      Install and confgure Node.js
-   a      Install everything. Equivalent to './install.sh -birn'
-   c      Install complementary tools, zshthemes, etc.
+   <action> means: What do you want to do? (install or uninstall)
+   <module> means: The folder to be installed/uninstalled
 
-## What do I use?
-
-* shell: zsh (with framework oh-my-zsh)
-* editor: vim
-* terminal manager: tmux
+   Options:
+   h      Print this help
+   v      Enable verbose
