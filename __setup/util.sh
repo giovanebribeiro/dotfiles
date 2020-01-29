@@ -57,6 +57,17 @@ aliasit(){
     fi
 }
 
+exportit(){
+    a=$1
+    cmd=$2
+    if [ "$1" = "d" ]; then
+        a=$2
+        # remove the line with sed
+    else
+        echo "export $a=$cmd" >> $HOME/.exports
+    fi
+}
+
 installNodePackage(){
   if which $1 &> /dev/null; then
     printSubSubsection "$1 already installed"
