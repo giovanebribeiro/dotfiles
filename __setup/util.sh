@@ -55,6 +55,8 @@ aliasit(){
     else
         echo "alias $a=$cmd" >> $HOME/.aliases
     fi
+
+    source $HOME/.aliases
 }
 
 exportit(){
@@ -66,16 +68,8 @@ exportit(){
     else
         echo "export $a=$cmd" >> $HOME/.exports
     fi
-}
 
-installNodePackage(){
-  if which $1 &> /dev/null; then
-    printSubSubsection "$1 already installed"
-  else
-    printSubSubsection "Installing $1"
-    [ "$OS" == "Darwin" ] && npm install -g $1
-    [ "$OS" == "Linux" ] && sudo npm install -g $1
-  fi 
+    source $HOME/.exports
 }
 
 log(){
