@@ -44,7 +44,7 @@
   alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 [core]
   editor = /usr/bin/vim
-	excludesfile = /home/gbrr/.gitignore_global
+	excludesfile = /Users/giovane/.gitignore_global
 [push]
   default = matching
 [merge]
