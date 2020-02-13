@@ -33,5 +33,6 @@ install(){
 }
 
 uninstall(){
+	echo "To be implemented"
 }
 
