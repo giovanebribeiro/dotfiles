@@ -27,18 +27,15 @@
   pst = push --follow-tags
   psuo = push --set-upstream origin 
   pl = pull -r
-  plom = pl origin master  
   # Show active users on repo in last 6 months
   active = shortlog --numbered --email --summary --no-merges --since='6 months'
   aa = add --all
   cm = commit -m
   ca = commit -a
   cam = commit -am
-  mom = merge origin/master
   ck = checkout
   ckb = checkout -b
   ckm = checkout master
-  rso = remote show origin
   # collect the commits since the last tag
   changelog = "!git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'%h %s'"
   alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /

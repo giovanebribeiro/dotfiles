@@ -39,8 +39,6 @@ Plugin 'itchyny/vim-gitbranch'
 Plugin 'jiangmiao/auto-pairs'
 " I can see clearly now ... the indent lines
 Plugin 'nathanaelkane/vim-indent-guides'  
-" Highlights when text line is too big
-Plugin 'whatyouhide/vim-lengthmatters'
 " a Fuzzy finder
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
 " vim plugin for fzf
@@ -108,7 +106,6 @@ function! ShowDigraphs()
     return "\<C-K>"
 endfunction
 
-
 ""
 " Performance configurations
 ""
@@ -162,9 +159,9 @@ let vim_markdown_preview_toggle=2 " specific for vim-markdown-preview: enable pr
 
 " textwidth
 set textwidth=100
-let g:rustfmt_autosave = 1
-g:lengthmatters_on_by_default=1
-g:lengthmatters_start_at_column=101
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%101v', 101)
+
 
 " vim sessions
 let g:sessions_dir = '$HOME/.vim/sessions'
