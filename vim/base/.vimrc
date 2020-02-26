@@ -88,7 +88,8 @@ Plugin 'lambdalisue/vim-gista'
 Plugin 'vim-scripts/loremipsum'                                     
 " A calendar?? Inside VIM??? WTF? o_O
 Plugin 'itchyny/calendar.vim'
-
+" For my knowledge base
+Plugin 'vimwiki/vimwiki'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -162,6 +163,8 @@ set textwidth=100
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%101v', 101)
 
+" wiki
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " vim sessions
 let g:sessions_dir = '$HOME/.vim/sessions'
