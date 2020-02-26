@@ -13,3 +13,18 @@ Usage: ./dot [options] <action> <module>
    Options:
    h      Print this help
    v      Enable verbose
+```
+
+## Available modules (install and configurations)
+
+* ctags
+* git
+* markdown
+* node
+* rust
+* tmux
+* todo.txt
+* vim
+* zsh
+
+## WM stuff (check another branches) 
