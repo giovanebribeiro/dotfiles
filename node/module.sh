@@ -34,6 +34,9 @@ install(){
     
     # hapi-app-generator
     installNodePackage "hapi-app-generator"
+    
+    # hapi client of vue.jsr
+    installNodePackage "@vue/cli"
 
     stowit $PWD/node/base
 }
