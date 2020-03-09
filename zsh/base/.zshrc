@@ -135,6 +135,8 @@ lfcd () {
         wget https://github.com/gokcehan/lf/releases/download/r13/lf-linux-amd64.tar.gz
         tar -zxf lf-linux-amd64.tar.gz
         rm lf-linux-amd64.tar.gz
+        mkdir -p ~/.config/lf
+        curl https://raw.githubusercontent.com/gokcehan/lf/master/etc/lfrc.example -o ~/.config/lf/lfrc
         cd $BASEDIR
     fi
 
