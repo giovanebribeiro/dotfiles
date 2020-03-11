@@ -114,8 +114,9 @@ alias f5='source $HOME/.zshrc'
 export NODE_ENV="development"
 export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
 export EDITOR=vim
+export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
 
-# EXPORTS per OS
+#EXPORTS per OS
 [ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
 
 ##
@@ -162,7 +163,7 @@ if [ ! -f $flag_file ]
 then
   command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
 else
-  cmatrix -ab
+  #cmatrix -ab
 fi
 
 # See wheather once a day
