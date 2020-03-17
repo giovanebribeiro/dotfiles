@@ -75,6 +75,8 @@ Plugin 'morhetz/gruvbox'
 Plugin 'itchyny/lightline.vim'                                      
 " lightline theme for gruvbox
 Plugin 'shinchu/lightline-gruvbox.vim'                              
+" minimal (n)vim plugins - icons (Under 200 LOC)
+Plugin 'giovanebribeiro/mpi'
 
 "
 " Utils
@@ -126,8 +128,8 @@ set updatetime=250
 " General configurations
 ""
 " file encoding
-set encoding=utf-8
-set fileencoding=utf-8
+set encoding=UTF-8
+set fileencoding=UTF-8
 set backspace=indent,eol,start " make backspace behave properly in insert mode
 set showcmd " display incomplete commands
 
