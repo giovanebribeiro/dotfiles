@@ -166,7 +166,7 @@ highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%101v', 101)
 
 " wiki
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/penseira/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " vim sessions
 let g:sessions_dir = '$HOME/.vim/sessions'
