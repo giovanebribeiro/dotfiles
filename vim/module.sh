@@ -37,6 +37,7 @@ install(){
 
     printSubSubsection "Action needed for YouCompleteMe plugin"
     python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer --rust-completer --java-completer
+    aliasit "ycm_update" "'python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer --rust-completer --java-completer'"
 
     [ ! -d $HOME/.vim/sessions ] && mkdir -p $HOME/.vim/sessions
 

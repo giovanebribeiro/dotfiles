@@ -133,9 +133,15 @@ lfcd () {
     if [ ! -f "$HOME/bin/lf" ]; then
         BASEDIR=`pwd`
         cd $HOME/bin
-        wget https://github.com/gokcehan/lf/releases/download/r13/lf-linux-amd64.tar.gz
-        tar -zxf lf-linux-amd64.tar.gz
-        rm lf-linux-amd64.tar.gz
+
+        file=lf-linux-amd64.tar.gz
+        if [ "$OS" = "Darwin" ]; then
+            file=lf-darwin-amd64.tar.gz
+        fi 
+
+        wget https://github.com/gokcehan/lf/releases/download/r14/$file
+        tar -zxvf $file
+        rm $file
         mkdir -p ~/.config/lf
         curl https://raw.githubusercontent.com/gokcehan/lf/master/etc/lfrc.example -o ~/.config/lf/lfrc
         cd $BASEDIR
@@ -172,12 +178,12 @@ if [ ! -f $W ]; then
     clima
     touch $W
     # We create a cron job to remove the file daily, at 5AM
-    if [[ "$OS" = "Linux" ]]; then
+    #if [[ "$OS" = "Linux" ]]; then
         if [[ $(crontab -l | egrep -v "^(#|$)" | grep -q 'rm /tmp/weather_daily 2>&1'; echo $?) == 1 ]]
         then
             echo $(crontab -l ; echo '0 5/12/17 * * * rm /tmp/weather_daily 2>&1') | crontab -
         fi
-    fi
+    #fi
 fi
 
 ##

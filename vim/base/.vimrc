@@ -59,7 +59,7 @@ Plugin 'taglist.vim'
 " A solid language pack
 Plugin 'sheerun/vim-polyglot'
 " Code Completion engine
-Plugin 'ycm-core/YouCompleteMe'
+" Plugin 'ycm-core/YouCompleteMe'
 " Generates JS-Doc
 Plugin 'heavenshell/vim-jsdoc'
 " Syntax checker
@@ -83,9 +83,9 @@ Plugin 'giovanebribeiro/mpi'
 "
 
 " Allow to manipulate todo.txt files in vim
-Plugin 'vim-scripts/todo-txt.vim'                                   
+"Plugin 'vim-scripts/todo-txt.vim'                                   
 " Gist integration (https://gist.github.com)
-Plugin 'lambdalisue/vim-gista'                                      
+"Plugin 'lambdalisue/vim-gista'                                      
 " lorem ipsum dolor sit amet....
 Plugin 'vim-scripts/loremipsum'                                     
 " A calendar?? Inside VIM??? WTF? o_O
@@ -192,7 +192,6 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
 " Todo.txt
-let g:TodoTxtForceDoneName='done.txt'
 au filetype todo imap <buffer> + +<C-X><C-O>
 au filetype todo imap <buffer> @ @<C-X><C-O>
 
@@ -200,8 +199,6 @@ au filetype todo imap <buffer> @ @<C-X><C-O>
 let g:jsdoc_enable_es6=1
 let g:jsdoc_allow_input_prompt=1
 let g:jsdoc_input_description=1
-
-" todo.txt plugin
 
 ""
 " Look and Feel
@@ -265,8 +262,8 @@ nmap <Leader>gc :Gcommit %<CR>                                                  
 nmap <Leader>t  :TlistToggle<CR>                                                                           " show taglist pane
 nmap <Leader>e  :Vexplore<CR>                                                                              " show file explorer
 nmap <Leader>i  gg=G                                                                                       " fix file indentation
-nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>                     " open todo file
-nmap <Leader>done :Gista open --opener='split' --no-cache 9bb03999f58319d086ea58b0943f2104 done.txt<CR>    " open todo file
+"nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>                     " open todo file
+"nmap <Leader>done :Gista open --opener='split' --no-cache 9bb03999f58319d086ea58b0943f2104 done.txt<CR>    " open todo file
 nmap <Leader>jsd  :JsDoc<CR>                                                                               " Add jsdoc to function (put cursor on function declaration)
 nmap <Leader>cal  :Calendar -view=year -split=vertical -width=27<CR>
 
