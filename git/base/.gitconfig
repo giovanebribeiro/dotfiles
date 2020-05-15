@@ -20,6 +20,7 @@
   b = branch -a
   st = status -sb
   ll = log --color --graph --pretty=format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
+  lf = diff-tree --no-commit-id --name-only -r
   tt = for-each-ref --sort=-taggerdate --count=5 --format '%(refname) (%(taggerdate))\n===\n\n%(subject)\n\n%(body)' refs/tags
   f = fetch
   fc = "!git fetch; git checkout $1"
