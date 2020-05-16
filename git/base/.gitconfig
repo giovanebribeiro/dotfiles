@@ -15,34 +15,70 @@
   added = yellow
   changed = green
   untracked = white
+[pretty]
+    changelog = format:* %h %s 
+    history = format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset'
+    tags=
 [alias]
-  ccb = remote prune origin
-  b = branch -a
-  st = status -sb
-  ll = log --color --graph --pretty=format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
-  lf = diff-tree --no-commit-id --name-only -r
+  ##
+  # DIFF
+  ##
+  di=diff
+  # shows only the diff from the files in the staging area
+  staged=diff --cached
+  # shows the diff between the staging area and your modified files.
+  di-staged = !git diff-index --cached --name-only --diff-filter=ACMR HEAD | xargs git di
+  # Show the list of modified files for a given commit
+  di-commit = diff-tree --no-commit-id --name-status -r
+  # gives you the diff between your working tree and the last commit
+  dilc = diff --cached HEAD^
+  ##
+  # LOGS
+  ##
+  # logs in a must beautiful form
+  ll = log --color --graph --pretty=history --abbrev-commit
+  # log for a single file
+  lf = log -u
+  # more detailed logs
+  ls = log --oneline --reverse --no-merges --stat
+  ##
+  # TAGS
+  ##
   tt = for-each-ref --sort=-taggerdate --count=5 --format '%(refname) (%(taggerdate))\n===\n\n%(subject)\n\n%(body)' refs/tags
-  f = fetch
-  fc = "!git fetch; git checkout $1"
-  ps = push
-  pst = push --follow-tags
-  psuo = push --set-upstream origin 
-  pl = pull -r
+  ##
+  # PUSH/PULL/FETCH
+  ##
+  f = fetch --all -v
+  ps = push --follow-tags
+  psuo = push --follow-tags --set-upstream origin 
+  # fetch and rebase all locally-tracked remote branches
+  up = pull --rebase --autostash
+  # applies the changes from remote only when it would be possible via fast forward
+  ff = pull --ff-only
+  ##
+  # COMMIT
+  ##
+  cam = commit -am
+  ##
+  # CHECKOUT
+  ##
+  co = checkout
+  cob = checkout -b
+  # Reverts changes for files in 'staged' area
+  co-staged=!git diff-index --cached --name-only --diff-filter=ACMR HEAD | xargs git di
+  ##
+  # OTHERS
+  ##
+  st = status -sb
   # Show active users on repo in last 6 months
   active = shortlog --numbered --email --summary --no-merges --since='6 months'
   aa = add --all
-  cm = commit -m
-  ca = commit -a
-  cam = commit -am
-  ck = checkout
-  ckb = checkout -b
-  ckm = checkout master
   # collect the commits since the last tag
-  changelog = "!git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'%h %s'"
+  changelog = "!git log $(git describe --tags --abbrev=0)..HEAD --pretty=changelog"
   alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 [core]
   editor = /usr/bin/vim
-	excludesfile = /Users/giovane/.gitignore_global
+  excludesfile = /Users/giovane/.gitignore_global
 [push]
   default = matching
 [merge]
