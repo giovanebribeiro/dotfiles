@@ -59,6 +59,7 @@
   # COMMIT
   ##
   cam = commit -am
+  cm = commit -m 
   ##
   # CHECKOUT
   ##
@@ -72,6 +73,7 @@
   st = status -sb
   # Show active users on repo in last 6 months
   active = shortlog --numbered --email --summary --no-merges --since='6 months'
+  a = add
   aa = add --all
   # collect the commits since the last tag
   changelog = "!git log $(git describe --tags --abbrev=0)..HEAD --pretty=changelog"
@@ -89,5 +91,5 @@
 [github]
   user = giovanebribeiro
 # Specific configurations for my work. Include a second gitconfig if repo inside ~/workspace
-[includeIf "gitdir:~/workspace/work/"]
-  path = ~/workspace/work/.gitconfig
+[includeIf "gitdir:~/workspace/__work/"]
+  path = ~/workspace/__work/.gitconfig

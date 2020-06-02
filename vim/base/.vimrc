@@ -49,6 +49,8 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'skanehira/preview-markdown.vim'
 " A better file finder
 Plugin 'ctrlpvim/ctrlp.vim'
+" Provides support to emmet (http://emmet.io)
+Plugin 'mattn/emmet-vim'
 
 "
 " General programming
@@ -59,7 +61,8 @@ Plugin 'taglist.vim'
 " A solid language pack
 Plugin 'sheerun/vim-polyglot'
 " Code Completion engine
-" Plugin 'ycm-core/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe',
+Plugin 'ajh17/VimCompletesMe'
 " Generates JS-Doc
 Plugin 'heavenshell/vim-jsdoc'
 " Syntax checker
@@ -250,8 +253,9 @@ noremap <Left> <NOP>
 noremap <Right> <NOP>
 
 " shortcuts using the leader key
-let mapleader=","                           " behold the new <Leader> key
+let mapleader=","                                                                                          " behold the new <Leader> key
 nmap <Leader>r  :source %<CR>                                                                              " reload the current file
+nmap <Leader>c  :tabe ~/.vimrc<CR>                                                                         " Open the config file
 nmap <Leader>gn <Plug>GitGutterNextHunk                                                                    " git next
 nmap <Leader>gp <Plug>GitGutterPrevHunk                                                                    " git previous
 nmap <Leader>ga <Plug>GitGutterStageHunk                                                                   " git add (chunk)

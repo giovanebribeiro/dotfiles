@@ -173,21 +173,22 @@ else
 fi
 
 # See wheather once a day
-W=/tmp/weather_daily
-if [ ! -f $W ]; then
-    clima
-    touch $W
-    # We create a cron job to remove the file daily, at 5AM
-    #if [[ "$OS" = "Linux" ]]; then
-        if [[ $(crontab -l | egrep -v "^(#|$)" | grep -q 'rm /tmp/weather_daily 2>&1'; echo $?) == 1 ]]
-        then
-            echo $(crontab -l ; echo '0 5/12/17 * * * rm /tmp/weather_daily 2>&1') | crontab -
-        fi
-    #fi
-fi
+#W=/tmp/weather_daily
+#if [ ! -f $W ]; then
+#    clima
+#    touch $W
+#    # We create a cron job to remove the file daily, at 5AM
+#    #if [[ "$OS" = "Linux" ]]; then
+#        if [[ $(crontab -l | egrep -v "^(#|$)" | grep -q 'rm /tmp/weather_daily 2>&1'; echo $?) == 1 ]]
+#        then
+#            echo $(crontab -l ; echo '0 5/12/17 * * * rm /tmp/weather_daily 2>&1') | crontab -
+#        fi
+#    #fi
+#fi
 
 ##
 # OTHER USEFUL STUFF...
 ##
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+fpath+=${ZDOTDIR:-~}/.zsh_functions
