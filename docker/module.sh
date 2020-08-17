@@ -10,6 +10,7 @@ install(){
 
     aliasit "mysql_start" "'docker run -d -p 3306:3306 --name db_mysql -e MYSQL_ROOT_PASSWORD=root mysql'"
     aliasit "mysql_stop" "'docker stop db_mysql && docker rm db_mysql'"
+    aliasit "docker_clean" "'docker image prune -a && docker container prune && docker volume prune && docker network prune'"
 
 }
 

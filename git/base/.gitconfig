@@ -16,9 +16,8 @@
   changed = green
   untracked = white
 [pretty]
-    changelog = format:* %h %s 
-    history = format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset'
-    tags=
+  changelog = format:* %h %s 
+  history = format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset'
 [alias]
   ##
   # DIFF
@@ -48,11 +47,11 @@
   ##
   # PUSH/PULL/FETCH
   ##
-  f = fetch --all -v
+  f = fetch --all -v --prune
   ps = push --follow-tags
   psuo = push --follow-tags --set-upstream origin 
-  # fetch and rebase all locally-tracked remote branches
-  up = pull --rebase --autostash
+  # fetch and push all locally-tracked remote branches
+  up = pull
   # applies the changes from remote only when it would be possible via fast forward
   ff = pull --ff-only
   ##
@@ -70,6 +69,8 @@
   ##
   # OTHERS
   ##
+  # prune already merged branches
+  rip = ! bash $HOME/.clean_pruned_branches.sh
   st = status -sb
   # Show active users on repo in last 6 months
   active = shortlog --numbered --email --summary --no-merges --since='6 months'
@@ -78,9 +79,12 @@
   # collect the commits since the last tag
   changelog = "!git log $(git describe --tags --abbrev=0)..HEAD --pretty=changelog"
   alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+  # allows re-write the entire feature commits. Useful to cleanup local branch history before a pull
+  # request
+  faxina = "! git merge-base $(git rev-parse --abbrev-ref HEAD) $1 | git rebase -i"
 [core]
   editor = /usr/bin/vim
-  excludesfile = /Users/giovane/.gitignore_global
+	excludesfile = /Users/giovane/.gitignore_global
 [push]
   default = matching
 [merge]
@@ -91,5 +95,5 @@
 [github]
   user = giovanebribeiro
 # Specific configurations for my work. Include a second gitconfig if repo inside ~/workspace
-[includeIf "gitdir:~/workspace/__work/"]
-  path = ~/workspace/__work/.gitconfig
+[includeIf "gitdir:~/workspace/work/"]
+  path = ~/workspace/work/.gitconfig
