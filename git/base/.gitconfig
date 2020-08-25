@@ -59,6 +59,7 @@
   ##
   cam = commit -am
   cm = commit -m 
+  ca = commit -a
   ##
   # CHECKOUT
   ##
