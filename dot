@@ -43,21 +43,18 @@ elif [ "$#" -eq "1" ]; then
 fi
 
 title
+sleep 5
 
-if [ ! -f $CMD_FILE ]; then
-	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
+read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
 
-    OS=`uname`
-    if [ "$OS" == "Linux" ]; then
-        echo "sudo $cmd" > $CMD_FILE
-    else
-        echo "$cmd > $CMD_FILE"
-    fi
-
+OS=`uname`
+if [ "$OS" == "Linux" ]; then
+	export INSTALL_CMD="sudo $cmd"
+else
+	export INSTALL_CMD=$cmd
 fi
 
 # Prepare things
-bash $PWD/__setup/util.sh
 bash $PWD/__setup/pre.sh
 
 if [[ "$ACTION" = "install" ]]; then

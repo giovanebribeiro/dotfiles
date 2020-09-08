@@ -1,9 +1,8 @@
 LOG_FILE=$HOME/dotfiles.log
 LOC_FILE=$HOME/.dotfiles-loc
-CMD_FILE=$HOME/.install_cmd
 
 OS=`uname`
-INSTALL=$(cat $CMD_FILE)
+INSTALL=$INSTALL_CMD
 
 function printSection() { echo "# $1"; echo;  }
 function printSubsection() { echo; echo "- $1"; echo;}

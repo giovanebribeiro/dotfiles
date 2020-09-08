@@ -85,7 +85,7 @@
   faxina = "! git merge-base $(git rev-parse --abbrev-ref HEAD) $1 | git rebase -i"
 [core]
   editor = /usr/bin/vim
-	excludesfile = /Users/giovane/.gitignore_global
+	excludesfile = /home/gbrr/.gitignore_global
 [push]
   default = matching
 [merge]

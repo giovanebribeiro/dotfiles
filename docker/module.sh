@@ -5,7 +5,7 @@ install(){
 
     printSection "DOCKER"
 
-    printSubsection "The install commands for docker are per OS and will not be covered here."
+    printSubsection "The install commands for docker are per OS and will not be covered here. Aliasing some useful commands"
     sleep 5
 
     aliasit "mysql_start" "'docker run -d -p 3306:3306 --name db_mysql -e MYSQL_ROOT_PASSWORD=root mysql'"
