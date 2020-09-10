@@ -1,8 +1,8 @@
 LOG_FILE=$HOME/dotfiles.log
 LOC_FILE=$HOME/.dotfiles-loc
+CMD_FILE=$HOME/.dotfiles-cmd
 
 OS=`uname`
-INSTALL=$INSTALL_CMD
 
 function printSection() { echo "# $1"; echo;  }
 function printSubsection() { echo; echo "- $1"; echo;}
@@ -11,6 +11,7 @@ function printError() { echo "x $1"; }
 function printOK() { echo; echo "...OK"; echo; }
 
 installPkg() {
+    INSTALL=$(cat $CMD_FILE)
     TEMP=()
     for pkg in "$@"
     do
@@ -76,4 +77,3 @@ log(){
         echo $1
     fi
 }
-

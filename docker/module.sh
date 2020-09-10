@@ -1,5 +1,4 @@
 source $PWD/__setup/util.sh
-OS=`uname`
 
 install(){
 

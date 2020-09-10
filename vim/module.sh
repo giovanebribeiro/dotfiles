@@ -1,5 +1,4 @@
 source $PWD/__setup/util.sh
-INSTALL=$(cat $CMD_FILE)
 
 install(){
     
@@ -11,10 +10,10 @@ install(){
         OS=`uname`
         case $OS in 
           "Darwin")
-            $INSTALL macvim
+            installPkg macvim
             ;;
           "Linux")
-            $INSTALL vim
+            installPkg vim
             ;;
           "*")
             printError "Unknown OS"
@@ -34,10 +33,6 @@ install(){
         printSubSubsection "Updating plugins"
         vim +PluginUpdate +qall
     fi
-
-    printSubSubsection "Action needed for YouCompleteMe plugin"
-    python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer --rust-completer --java-completer
-    aliasit "ycm_update" "'python3 $HOME/.vim/bundle/YouCompleteMe/install.py --ts-completer --rust-completer --java-completer'"
 
     [ ! -d $HOME/.vim/sessions ] && mkdir -p $HOME/.vim/sessions
 

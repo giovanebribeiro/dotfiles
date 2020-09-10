@@ -42,29 +42,34 @@ elif [ "$#" -eq "1" ]; then
     _help
 fi
 
+if [ "$ACTION" != "install" ]; then
+	if [ "$ACTION" != "uninstall" ]; then
+    		echo "Unknown action: $ACTION"
+		exit 1
+	fi
+fi
+
 title
 sleep 5
 
-read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
+. $PWD/__setup/util.sh
 
-OS=`uname`
-if [ "$OS" == "Linux" ]; then
-	export INSTALL_CMD="sudo $cmd"
-else
-	export INSTALL_CMD=$cmd
+if [ ! -f $CMD_FILE ]; then
+
+	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
+
+	OS=`uname`
+	if [ "$OS" == "Linux" ]; then
+		export INSTALL_CMD="sudo $cmd"
+	else
+		export INSTALL_CMD=$cmd
+	fi
+
+	echo $INSTALL_CMD > $CMD_FILE &2>/dev/null
 fi
 
 # Prepare things
 bash $PWD/__setup/pre.sh
-
-if [[ "$ACTION" = "install" ]]; then
-    log "install pressed"
-elif [[ "$ACTION" = "uninstall" ]]; then
-    log "uninstall pressed"
-else
-    echo "Unknown action: $ACTION"
-    exit 1
-fi
 
 # get the modules to make actions
 idx=0
