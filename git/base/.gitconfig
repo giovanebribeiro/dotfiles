@@ -1,5 +1,5 @@
 [user]
-  name = Giovane Boaviagem
+  name = Giovane Boaviagem Ribeiro
   email = giovanebribeiro@gmail.com
 [color]
   diff = auto
@@ -96,5 +96,5 @@
 [github]
   user = giovanebribeiro
 # Specific configurations for my work. Include a second gitconfig if repo inside ~/workspace
-[includeIf "gitdir:~/workspace/work/"]
-  path = ~/workspace/work/.gitconfig
+[includeIf "gitdir:~/workspace/"]
+  path = ~/workspace/.gitconfig

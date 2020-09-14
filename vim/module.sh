@@ -13,7 +13,7 @@ install(){
             installPkg macvim
             ;;
           "Linux")
-            installPkg vim
+            installPkg vim-gtk
             ;;
           "*")
             printError "Unknown OS"

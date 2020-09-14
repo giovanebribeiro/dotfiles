@@ -114,7 +114,7 @@ alias f5='source $HOME/.zshrc'
 export NODE_ENV="development"
 export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
 export EDITOR=vim
-export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
 #EXPORTS per OS
 [ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
