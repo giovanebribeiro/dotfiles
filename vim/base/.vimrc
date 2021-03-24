@@ -266,6 +266,7 @@ nmap <Leader>gc :Gcommit %<CR>                                                  
 nmap <Leader>t  :TlistToggle<CR>                                                                           " show taglist pane
 nmap <Leader>e  :Vexplore<CR>                                                                              " show file explorer
 nmap <Leader>i  gg=G                                                                                       " fix file indentation
+nmap <Leader>a  ggVG                                                                                       " Select all
 "nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>                     " open todo file
 "nmap <Leader>done :Gista open --opener='split' --no-cache 9bb03999f58319d086ea58b0943f2104 done.txt<CR>    " open todo file
 nmap <Leader>jsd  :JsDoc<CR>                                                                               " Add jsdoc to function (put cursor on function declaration)

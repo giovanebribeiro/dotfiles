@@ -95,13 +95,13 @@ _comp_options+=(globdots)		# Include hidden files.
 # General Aliases
 alias tmux='tmux -u2'
 alias ..='cd ..'
-alias tr='mount_tree'
 alias la='ls -la'
 alias ll='ls -l'
 alias clima='curl v2.wttr.in'
 alias keygen='ssh-keygen -b 4096 -t rsa'
 alias ps='ps aux'
 alias f5='source $HOME/.zshrc'
+alias login='export BW_SESSION=$(bw login | grep -e "export BW_SESSION=" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g");'
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
@@ -115,6 +115,8 @@ export NODE_ENV="development"
 export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
 export EDITOR=vim
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+
+[ ! -z "${BW_SESSION}" ] && login
 
 #EXPORTS per OS
 [ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
@@ -164,27 +166,14 @@ _fix_cursor() {
 }
 precmd_functions+=(_fix_cursor)
 
+#FUNCTIONS per OS
+[ -f "$HOME/.functions" ] && source "$HOME/.functions" &>/dev/null
+
 flag_file="/tmp/flag_file"
 if [ ! -f $flag_file ]
 then
   command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
-else
-  #cmatrix -ab
 fi
-
-# See wheather once a day
-#W=/tmp/weather_daily
-#if [ ! -f $W ]; then
-#    clima
-#    touch $W
-#    # We create a cron job to remove the file daily, at 5AM
-#    #if [[ "$OS" = "Linux" ]]; then
-#        if [[ $(crontab -l | egrep -v "^(#|$)" | grep -q 'rm /tmp/weather_daily 2>&1'; echo $?) == 1 ]]
-#        then
-#            echo $(crontab -l ; echo '0 5/12/17 * * * rm /tmp/weather_daily 2>&1') | crontab -
-#        fi
-#    #fi
-#fi
 
 ##
 # OTHER USEFUL STUFF...

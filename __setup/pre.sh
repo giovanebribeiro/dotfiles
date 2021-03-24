@@ -32,5 +32,7 @@ else
     printSubSubsection "nvm (and LTS version of node) already installed"
 fi
 
+installNodePackage @bitwarden/cli
+
 echo $PWD > "$LOC_FILE"
 printOK

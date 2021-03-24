@@ -77,3 +77,13 @@ log(){
         echo $1
     fi
 }
+
+installNodePackage(){
+  if which $1 &> /dev/null; then
+    printSubSubsection "$1 already installed"
+  else
+    printSubSubsection "Installing $1"
+    [ "$OS" == "Darwin" ] && npm install -g $1
+    [ "$OS" == "Linux" ] && sudo npm install -g $1
+  fi 
+}

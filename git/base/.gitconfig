@@ -88,6 +88,8 @@
 	excludesfile = /home/gbrr/.gitignore_global
 [push]
   default = matching
+[status]
+  submoduleSummary = true
 [merge]
   tool = vimdiff
   conflictstyle = diff3
