@@ -88,38 +88,7 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
-##
-# ALIASES
-##
 
-# General Aliases
-alias tmux='tmux -u2'
-alias ..='cd ..'
-alias la='ls -la'
-alias ll='ls -l'
-alias clima='curl v2.wttr.in'
-alias keygen='ssh-keygen -b 4096 -t rsa'
-alias ps='ps aux'
-alias f5='source $HOME/.zshrc'
-alias login='export BW_SESSION=$(bw login | grep -e "export BW_SESSION=" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g");'
-
-# ALIASES per OS
-[ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
-
-##
-# EXPORTS
-##
-
-# General exports
-export NODE_ENV="development"
-export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
-export EDITOR=vim
-export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
-
-[ ! -z "${BW_SESSION}" ] && login
-
-#EXPORTS per OS
-[ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
 
 ##
 # FUNCTIONS
@@ -166,8 +135,47 @@ _fix_cursor() {
 }
 precmd_functions+=(_fix_cursor)
 
+login() {
+    bw logout --quiet
+    export BW_SESSION=$(bw login | grep "export BW_SESSION" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g")
+}
+
 #FUNCTIONS per OS
 [ -f "$HOME/.functions" ] && source "$HOME/.functions" &>/dev/null
+
+##
+# ALIASES
+##
+
+# General Aliases
+alias tmux='tmux -u2'
+alias ..='cd ..'
+alias la='ls -la'
+alias ll='ls -l'
+alias clima='curl v2.wttr.in'
+alias keygen='ssh-keygen -b 4096 -t rsa'
+alias ps='ps aux'
+alias f5='source $HOME/.zshrc'
+
+# ALIASES per OS
+[ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
+
+##
+# EXPORTS
+##
+
+# General exports
+export NODE_ENV="development"
+export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
+export EDITOR=vim
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+
+#EXPORTS per OS
+[ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
+
+##
+# OTHER USEFUL STUFF... OR NOT...
+##
 
 flag_file="/tmp/flag_file"
 if [ ! -f $flag_file ]
@@ -175,9 +183,6 @@ then
   command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
 fi
 
-##
-# OTHER USEFUL STUFF...
-##
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 fpath+=${ZDOTDIR:-~}/.zsh_functions
