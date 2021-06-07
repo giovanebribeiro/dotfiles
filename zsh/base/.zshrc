@@ -94,6 +94,26 @@ _comp_options+=(globdots)		# Include hidden files.
 # FUNCTIONS
 ##
 
+fetch() {
+    if [ ! -d "$HOME/bin" ]; then
+        mkdir -p $HOME/bin
+    fi
+
+    if [ ! -f "$HOME/bin/pfetch" ]; then
+        BASEDIR=`pwd`
+        cd /tmp
+
+        wget https://github.com/dylanaraps/pfetch/archive/master.zip
+        unzip master.zip
+        install pfetch-master/pfetch $HOME/bin/
+        ls -l $HOME/bin/pfetch
+        
+        cd $BASEDIR
+    fi
+
+    pfetch
+}
+
 # Use lf to switch directories and bind it to ctrl-o
 # Source: https://gist.github.com/LukeSmithxyz/e62f26e55ea8b0ed41a65912fbebbe52
 lfcd () {
@@ -135,9 +155,29 @@ _fix_cursor() {
 }
 precmd_functions+=(_fix_cursor)
 
+pipe(){
+    if ! which pipes.sh &> /dev/null; then
+        echo "Instalando pipes.sh"
+        git clone git@github.com:pipeseroni/pipes.sh.git ~/.pipes.sh
+        temp=$PWD
+        cd ~/.pipes.sh
+        make install
+        cd $temp
+    fi
+
+    pipes.sh -t 3 -f 20
+    clear
+
+}
+
 login() {
     bw logout --quiet
     export BW_SESSION=$(bw login | grep "export BW_SESSION" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g")
+}
+
+bump_mvn_version(){
+    $PWD/mvnw versions:set -DnewVersion=$1
+    $PWD/mvnw versions:commit
 }
 
 #FUNCTIONS per OS
@@ -180,7 +220,7 @@ export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 flag_file="/tmp/flag_file"
 if [ ! -f $flag_file ]
 then
-  command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
+  command -v fetch >/dev/null 2>&1 && { fetch; echo ; touch $flag_file ; }
 fi
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"

@@ -83,6 +83,7 @@
   # allows re-write the entire feature commits. Useful to cleanup local branch history before a pull
   # request
   faxina = "! git merge-base $(git rev-parse --abbrev-ref HEAD) $1 | git rebase -i"
+  rename = branch -m
 [core]
   editor = /usr/bin/vim
 	excludesfile = /home/gbrr/.gitignore_global
