@@ -43,7 +43,7 @@
   ##
   # TAGS
   ##
-  tt = for-each-ref --sort=-taggerdate --count=5 --format '%(refname) (%(taggerdate))\n===\n\n%(subject)\n\n%(body)' refs/tags
+  tt = for-each-ref --sort=-creatordate --count=3 --format '%(refname) (%(creatordate))\n===\n%(subject)\n\n' refs/tags
   ##
   # PUSH/PULL/FETCH
   ##
@@ -86,7 +86,7 @@
   rename = branch -m
 [core]
   editor = /usr/bin/vim
-	excludesfile = /home/gbrr/.gitignore_global
+  excludesfile = /home/gbrr/.gitignore_global
 [push]
   default = matching
 [status]

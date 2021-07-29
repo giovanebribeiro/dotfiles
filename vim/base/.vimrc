@@ -164,7 +164,7 @@ set t_ut=      " cleaning this var to fix vim background inside tmux (https://su
 let vim_markdown_preview_toggle=2 " specific for vim-markdown-preview: enable preview on buffer write (:w)
 
 " textwidth
-set textwidth=100
+set textwidth=200
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%101v', 101)
 
