@@ -1,3 +1,5 @@
+autoload -Uz tetriscurses
+
 OS=`uname`
 
 DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
@@ -196,6 +198,7 @@ alias clima='curl v2.wttr.in'
 alias keygen='ssh-keygen -b 4096 -t rsa'
 alias ps='ps aux'
 alias f5='source $HOME/.zshrc'
+alias tetris='tetriscurses'
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null

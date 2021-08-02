@@ -84,6 +84,7 @@
   # request
   faxina = "! git merge-base $(git rev-parse --abbrev-ref HEAD) $1 | git rebase -i"
   rename = branch -m
+  unstash = stash pop
 [core]
   editor = /usr/bin/vim
   excludesfile = /home/gbrr/.gitignore_global
