@@ -87,7 +87,7 @@
   unstash = stash pop
 [core]
   editor = /usr/bin/vim
-  excludesfile = /home/gbrr/.gitignore_global
+	excludesfile = /home/gbrr/.gitignore_global
 [push]
   default = matching
 [status]
