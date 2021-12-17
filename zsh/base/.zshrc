@@ -90,7 +90,18 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
+if [ ! -d $HOME/.cargo ]; then
+    printSubsection "Installing rustup"
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    source $HOME/.cargo/env
+fi
 
+if [ ! -f $HOME/.cargo/bin/btm ]; then
+    cargo install -f --git https://github.com/ClementTsang/bottom bottom
+    alias oldtop='/usr/bin/top'
+    alias top='btm --color gruvbox'
+    #alias topster='ytop'
+fi
 
 ##
 # FUNCTIONS
@@ -113,7 +124,19 @@ fetch() {
         cd $BASEDIR
     fi
 
-    pfetch
+    if [ ! -f $HOME/.cargo/bin/treefetch ]; then
+        cargo install -f --git https://github.com/angelofallars/treefetch treefetch
+    fi
+
+    day=`date +%d`
+    month=`date +%m`
+    if [ $day -lt 25 ] || [ $month -eq 12 ]; then
+        treefetch -xmas
+    elif [ $day -lt 6 ] || [ $month -eq 1 ]; then 
+        treefetch -xmas
+    else
+        treefetch -bonsai
+    fi
 }
 
 # Use lf to switch directories and bind it to ctrl-o
@@ -160,7 +183,7 @@ precmd_functions+=(_fix_cursor)
 pipe(){
     if ! which pipes.sh &> /dev/null; then
         echo "Instalando pipes.sh"
-        git clone git@github.com:pipeseroni/pipes.sh.git ~/.pipes.sh
+        git clone https://github.com/pipeseroni/pipes.sh.git ~/.pipes.sh
         temp=$PWD
         cd ~/.pipes.sh
         make install
@@ -173,8 +196,13 @@ pipe(){
 }
 
 login() {
-    bw logout --quiet
-    export BW_SESSION=$(bw login | grep "export BW_SESSION" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g")
+    if ! which bw &> /dev/null; then
+        echo "client bitwarden não instalado. favor instalar:"
+        echo "# $INSTALL bw"
+    else
+        bw logout --quiet
+        export BW_SESSION=$(bw login | grep "export BW_SESSION" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g")
+    fi
 }
 
 bump_mvn_version(){
@@ -199,6 +227,7 @@ alias keygen='ssh-keygen -b 4096 -t rsa'
 alias ps='ps aux'
 alias f5='source $HOME/.zshrc'
 alias tetris='tetriscurses'
+alias bye='sudo shutdown -h now'
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
@@ -224,6 +253,8 @@ flag_file="/tmp/flag_file"
 if [ ! -f $flag_file ]
 then
   command -v fetch >/dev/null 2>&1 && { fetch; echo ; touch $flag_file ; }
+  # only works if informant is installed (installed via AUR)
+  command -v informant > /dev/null 2>&1 && { informant list --unread; echo; }
 fi
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
