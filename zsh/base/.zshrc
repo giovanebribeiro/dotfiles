@@ -128,15 +128,8 @@ fetch() {
         cargo install -f --git https://github.com/angelofallars/treefetch treefetch
     fi
 
-    day=`date +%d`
-    month=`date +%m`
-    if [ $day -lt 25 ] || [ $month -eq 12 ]; then
-        treefetch -xmas
-    elif [ $day -lt 6 ] || [ $month -eq 1 ]; then 
-        treefetch -xmas
-    else
-        treefetch -bonsai
-    fi
+    treefetch -xmas
+    
 }
 
 # Use lf to switch directories and bind it to ctrl-o
