@@ -108,28 +108,48 @@ fi
 ##
 
 fetch() {
-    if [ ! -d "$HOME/bin" ]; then
-        mkdir -p $HOME/bin
-    fi
-
-    if [ ! -f "$HOME/bin/pfetch" ]; then
-        BASEDIR=`pwd`
-        cd /tmp
-
-        wget https://github.com/dylanaraps/pfetch/archive/master.zip
-        unzip master.zip
-        install pfetch-master/pfetch $HOME/bin/
-        ls -l $HOME/bin/pfetch
-        
-        cd $BASEDIR
-    fi
 
     if [ ! -f $HOME/.cargo/bin/treefetch ]; then
-        cargo install -f --git https://github.com/angelofallars/treefetch treefetch
+        # I'm using my fork because of -bonsai option.
+        # But, if you will use this script, install stable treefetch 
+        # from original link: https://github.com/angelofallars/treefetch
+        cargo install -f --git https://github.com/giovanebribeiro/treefetch treefetch
     fi
 
-    treefetch -xmas
-    
+    advent_file=~/.advent_start
+    date=`date +%Y-%m-%d`
+    year=`date -d "$date" +%Y`
+    month=`date -d "$date" +%m`
+    ((next_year=$year+1))
+
+    if [[ $(date -d "$date + 1week" +%d%a) =~ 0[1-7]dom ]]
+    then
+        # the given date is the last sunday of the month
+        if [ $month -eq 11 ]; then
+            echo "$date" > $advent_file
+        fi
+    fi
+
+    epiphany_date=$next_year-01-06
+    epiphany=`date -d "$epiphany_date" +%s`
+    now=`date -d "$date" +%s`
+    if [ $now -gt $epiphany ]; then
+        # christmas is gone. remove the advent file
+        rm $advent_file
+    fi
+
+    if [ ! -f $advent_file ]; then
+        treefetch -bonsai
+    else
+        advent_text=`cat $advent_file`
+        advent=`date -d "$advent_text" +%s`
+        if [ $now -ge $advent -a $now -le $epiphany ]; then
+            treefetch -xmas
+        else
+            treefetch -bonsai
+        fi
+    fi
+
 }
 
 # Use lf to switch directories and bind it to ctrl-o
