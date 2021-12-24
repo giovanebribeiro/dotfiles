@@ -109,6 +109,28 @@ fi
 
 fetch() {
 
+    if [ ! -d "$HOME/bin"  ]; then
+        mkdir -p $HOME/bin
+    fi
+
+    if [ "$OS" = "Darwin" ]; then
+
+        if [ ! -f "$HOME/bin/pfetch"  ]; then
+            BASEDIR=`pwd`
+            cd /tmp
+
+            wget https://github.com/dylanaraps/pfetch/archive/master.zip
+            unzip master.zip
+            install pfetch-master/pfetch $HOME/bin/
+            ls -l $HOME/bin/pfetch
+
+            cd $BASEDIR
+        fi
+
+        pfetch
+        exit 0
+    fi
+
     if [ ! -f $HOME/.cargo/bin/treefetch ]; then
         # I'm using my fork because of -bonsai option.
         # But, if you will use this script, install stable treefetch 
