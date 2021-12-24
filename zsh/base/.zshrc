@@ -263,6 +263,7 @@ alias ps='ps aux'
 alias f5='source $HOME/.zshrc'
 alias tetris='tetriscurses'
 alias bye='sudo shutdown -h now'
+alias cal='cal -3'
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
