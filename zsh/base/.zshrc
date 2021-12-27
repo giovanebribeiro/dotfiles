@@ -4,6 +4,8 @@ OS=`uname`
 
 DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
 
+source $DOTFILES_LOC/__setup/util.sh
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -89,6 +91,14 @@ zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
+
+if [ ! -d $HOME/.nvm ]; then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+    nvm install --lts # this installs the last LTS version of node
+    nvm use --lts # this installs the last LTS version of node
+fi
 
 if [ ! -d $HOME/.cargo ]; then
     printSubsection "Installing rustup"
@@ -232,8 +242,7 @@ pipe(){
 
 login() {
     if ! which bw &> /dev/null; then
-        echo "client bitwarden não instalado. favor instalar:"
-        echo "# $INSTALL bw"
+        installNodePackage @bitwarden/cli
     else
         bw logout --quiet
         export BW_SESSION=$(bw login | grep "export BW_SESSION" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g")

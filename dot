@@ -71,6 +71,8 @@ fi
 # Prepare things
 bash $PWD/__setup/pre.sh
 
+installPkg "zsh"
+
 # get the modules to make actions
 idx=0
 for mod in "$@"

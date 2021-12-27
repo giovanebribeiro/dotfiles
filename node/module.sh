@@ -1,20 +1,8 @@
 source $PWD/__setup/util.sh
 
-installNodePackage(){
-  if which $1 &> /dev/null; then
-    printSubSubsection "$1 already installed"
-  else
-    printSubSubsection "Installing $1"
-    [ "$OS" == "Darwin" ] && npm install -g $1
-    [ "$OS" == "Linux" ] && sudo npm install -g $1
-  fi 
-}
-
 install(){
     printSection "NODE.JS"
 
-    # Node.JS is already installed in "pre.sh" script
-    
     if [ ! -f $HOME/.npmrc ]; then
       printSubSubsection "Loading npm informations"
       npm login
@@ -26,7 +14,7 @@ install(){
     # hapi-app-generator
     installNodePackage "hapi-app-generator"
     
-    # hapi client of vue.jsr
+    # hapi client of vue.js
     installNodePackage "@vue/cli"
 
     stowit $PWD/node/base
