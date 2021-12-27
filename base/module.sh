@@ -9,8 +9,6 @@ install(){
         installPkg zsh
     fi
 
-    installPkg neofetch cmatrix autoload zstyle compinit bindkey
-
     if [ "$SHELL" -ne "/usr/bin/zsh" ]; then
         sudo chsh -s /usr/bin/zsh $USER
     fi
@@ -26,7 +24,7 @@ install(){
         rm $HOME/.zshrc
     fi
 
-    stowit $PWD/zsh/base
+    stowit $PWD/base/base
     source $HOME/.zshrc
 
     if [ ! -d "$ZSH_CUSTOM/themes/typewritten" ]; then

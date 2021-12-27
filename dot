@@ -16,8 +16,8 @@ title(){
 _help(){
   echo "Usage: $0 [options] <action> <module>"
   echo
-  echo "   <action> means: What do you want to do? (install or uninstall)"
-  echo "   <module> means: The folder to be installed/uninstalled"
+  echo "   <action> means: What do you want to do? install(default) or uninstall)"
+  echo "   <module> means: The folder to be installed/uninstalled (default: base)"
   echo 
   echo "   Options:"
   echo "   h      Print this help"
@@ -28,8 +28,11 @@ _help(){
 
 ACTION=$1
 SKIP=0
+MODULES=$@
+
 if [ "$#" -eq "0" ]; then
-    _help
+    ACTION="install"
+    MODULES=("$ACTION", "base")
 elif [ "$1" = "-h" ]; then
     _help
 elif [ "$1" = "-v" ]; then
