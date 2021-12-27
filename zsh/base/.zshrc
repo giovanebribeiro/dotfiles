@@ -108,8 +108,7 @@ fi
 
 if [ ! -f $HOME/.cargo/bin/btm ]; then
     cargo install -f --git https://github.com/ClementTsang/bottom bottom
-    alias oldtop='/usr/bin/top'
-    alias top='btm --color gruvbox'
+    
     #alias topster='ytop'
 fi
 
@@ -273,6 +272,8 @@ alias f5='source $HOME/.zshrc'
 alias tetris='tetriscurses'
 alias bye='sudo shutdown -h now'
 alias cal='cal -3'
+alias oldtop='/usr/bin/top'
+alias top='btm --color gruvbox'
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
