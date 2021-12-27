@@ -1,6 +1,10 @@
+autoload -Uz tetriscurses
+
 OS=`uname`
 
 DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
+
+source $DOTFILES_LOC/__setup/util.sh
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -88,39 +92,97 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
-##
-# ALIASES
-##
+if [ ! -d $HOME/.nvm ]; then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+    nvm install --lts # this installs the last LTS version of node
+    nvm use --lts # this installs the last LTS version of node
+fi
 
-# General Aliases
-alias tmux='tmux -u2'
-alias ..='cd ..'
-alias tr='mount_tree'
-alias la='ls -la'
-alias ll='ls -l'
-alias clima='curl v2.wttr.in'
-alias keygen='ssh-keygen -b 4096 -t rsa'
-alias ps='ps aux'
-alias f5='source $HOME/.zshrc'
+if [ ! -d $HOME/.cargo ]; then
+    printSubsection "Installing rustup"
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    source $HOME/.cargo/env
+fi
 
-# ALIASES per OS
-[ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
-
-##
-# EXPORTS
-##
-
-# General exports
-export NODE_ENV="development"
-export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
-export EDITOR=vim
-
-# EXPORTS per OS
-[ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
+if [ ! -f $HOME/.cargo/bin/btm ]; then
+    cargo install -f --git https://github.com/ClementTsang/bottom bottom
+    alias oldtop='/usr/bin/top'
+    alias top='btm --color gruvbox'
+    #alias topster='ytop'
+fi
 
 ##
 # FUNCTIONS
 ##
+
+fetch() {
+
+    if [ ! -d "$HOME/bin"  ]; then
+        mkdir -p $HOME/bin
+    fi
+
+    if [ "$OS" = "Darwin" ]; then
+
+        if [ ! -f "$HOME/bin/pfetch"  ]; then
+            BASEDIR=`pwd`
+            cd /tmp
+
+            wget https://github.com/dylanaraps/pfetch/archive/master.zip
+            unzip master.zip
+            install pfetch-master/pfetch $HOME/bin/
+            ls -l $HOME/bin/pfetch
+
+            cd $BASEDIR
+        fi
+
+        pfetch
+        exit 0
+    fi
+
+    if [ ! -f $HOME/.cargo/bin/treefetch ]; then
+        # I'm using my fork because of -bonsai option.
+        # But, if you will use this script, install stable treefetch 
+        # from original link: https://github.com/angelofallars/treefetch
+        cargo install -f --git https://github.com/giovanebribeiro/treefetch treefetch
+    fi
+
+    advent_file=~/.advent_start
+    date=`date +%Y-%m-%d`
+    year=`date -d "$date" +%Y`
+    month=`date -d "$date" +%m`
+    ((next_year=$year+1))
+
+    if [[ $(date -d "$date + 1week" +%d%a) =~ 0[1-7]dom ]]
+    then
+        # the given date is the last sunday of the month
+        if [ $month -eq 11 ]; then
+            echo "$date" > $advent_file
+        fi
+    fi
+
+    epiphany_date=$next_year-01-06
+    epiphany=`date -d "$epiphany_date" +%s`
+    now=`date -d "$date" +%s`
+    if [ $now -gt $epiphany ]; then
+        # christmas is gone. remove the advent file
+        rm $advent_file
+    fi
+
+    if [ ! -f $advent_file ]; then
+        treefetch -bonsai
+    else
+        advent_text=`cat $advent_file`
+        advent=`date -d "$advent_text" +%s`
+        if [ $now -ge $advent -a $now -le $epiphany ]; then
+            treefetch -xmas
+        else
+            treefetch -bonsai
+        fi
+    fi
+
+}
 
 # Use lf to switch directories and bind it to ctrl-o
 # Source: https://gist.github.com/LukeSmithxyz/e62f26e55ea8b0ed41a65912fbebbe52
@@ -132,9 +194,17 @@ lfcd () {
     if [ ! -f "$HOME/bin/lf" ]; then
         BASEDIR=`pwd`
         cd $HOME/bin
-        wget https://github.com/gokcehan/lf/releases/download/r13/lf-linux-amd64.tar.gz
-        tar -zxf lf-linux-amd64.tar.gz
-        rm lf-linux-amd64.tar.gz
+
+        file=lf-linux-amd64.tar.gz
+        if [ "$OS" = "Darwin" ]; then
+            file=lf-darwin-amd64.tar.gz
+        fi 
+
+        wget https://github.com/gokcehan/lf/releases/download/r14/$file
+        tar -zxvf $file
+        rm $file
+        mkdir -p ~/.config/lf
+        curl https://raw.githubusercontent.com/gokcehan/lf/master/etc/lfrc.example -o ~/.config/lf/lfrc
         cd $BASEDIR
     fi
 
@@ -155,30 +225,83 @@ _fix_cursor() {
 }
 precmd_functions+=(_fix_cursor)
 
+pipe(){
+    if ! which pipes.sh &> /dev/null; then
+        echo "Instalando pipes.sh"
+        git clone https://github.com/pipeseroni/pipes.sh.git ~/.pipes.sh
+        temp=$PWD
+        cd ~/.pipes.sh
+        make install
+        cd $temp
+    fi
+
+    pipes.sh -t 3 -f 20
+    clear
+
+}
+
+login() {
+    if ! which bw &> /dev/null; then
+        installNodePackage @bitwarden/cli
+    else
+        bw logout --quiet
+        export BW_SESSION=$(bw login | grep "export BW_SESSION" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g")
+    fi
+}
+
+bump_mvn_version(){
+    $PWD/mvnw versions:set -DnewVersion=$1
+    $PWD/mvnw versions:commit
+}
+
+#FUNCTIONS per OS
+[ -f "$HOME/.functions" ] && source "$HOME/.functions" &>/dev/null
+
+##
+# ALIASES
+##
+
+# General Aliases
+alias tmux='tmux -u2'
+alias ..='cd ..'
+alias la='ls -la'
+alias ll='ls -l'
+alias clima='curl v2.wttr.in'
+alias keygen='ssh-keygen -b 4096 -t rsa'
+alias ps='ps aux'
+alias f5='source $HOME/.zshrc'
+alias tetris='tetriscurses'
+alias bye='sudo shutdown -h now'
+alias cal='cal -3'
+
+# ALIASES per OS
+[ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
+
+##
+# EXPORTS
+##
+
+# General exports
+export NODE_ENV="development"
+export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
+export EDITOR=vim
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+
+#EXPORTS per OS
+[ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
+
+##
+# OTHER USEFUL STUFF... OR NOT...
+##
+
 flag_file="/tmp/flag_file"
 if [ ! -f $flag_file ]
 then
-  command -v neofetch >/dev/null 2>&1 && { neofetch; echo ; touch $flag_file ; }
-else
-  cmatrix -ab
+  command -v fetch >/dev/null 2>&1 && { fetch; echo ; touch $flag_file ; }
+  # only works if informant is installed (installed via AUR)
+  command -v informant > /dev/null 2>&1 && { informant list --unread; echo; }
 fi
 
-# See wheather once a day
-W=/tmp/weather_daily
-if [ ! -f $W ]; then
-    clima
-    touch $W
-    # We create a cron job to remove the file daily, at 5AM
-    if [[ "$OS" = "Linux" ]]; then
-        if [[ $(crontab -l | egrep -v "^(#|$)" | grep -q 'rm /tmp/weather_daily 2>&1'; echo $?) == 1 ]]
-        then
-            echo $(crontab -l ; echo '0 5/12/17 * * * rm /tmp/weather_daily 2>&1') | crontab -
-        fi
-    fi
-fi
-
-##
-# OTHER USEFUL STUFF...
-##
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+fpath+=${ZDOTDIR:-~}/.zsh_functions

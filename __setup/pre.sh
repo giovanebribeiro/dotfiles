@@ -9,10 +9,10 @@ case $OS in
   else
     ruby -e '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)'
   fi
+  brew install mono go
   ;;
 "Linux")
-  # Needed for many things...
-  installPkg build-essential zsh python-dev python3-dev x11-xserver-utils git
+  printSubSubsection "these packages needed to be installed, depending on your OS: build-essential zsh python-dev python3-dev x11-xserver-utils"
   ;;
 "*")
   printError "Unknown OS"

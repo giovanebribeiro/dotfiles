@@ -49,6 +49,8 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'skanehira/preview-markdown.vim'
 " A better file finder
 Plugin 'ctrlpvim/ctrlp.vim'
+" Provides support to emmet (http://emmet.io)
+Plugin 'mattn/emmet-vim'
 
 "
 " General programming
@@ -59,7 +61,8 @@ Plugin 'taglist.vim'
 " A solid language pack
 Plugin 'sheerun/vim-polyglot'
 " Code Completion engine
-Plugin 'ycm-core/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe',
+Plugin 'ajh17/VimCompletesMe'
 " Generates JS-Doc
 Plugin 'heavenshell/vim-jsdoc'
 " Syntax checker
@@ -75,15 +78,17 @@ Plugin 'morhetz/gruvbox'
 Plugin 'itchyny/lightline.vim'                                      
 " lightline theme for gruvbox
 Plugin 'shinchu/lightline-gruvbox.vim'                              
+" minimal (n)vim plugins - icons (Under 200 LOC)
+Plugin 'giovanebribeiro/mpi'
 
 "
 " Utils
 "
 
 " Allow to manipulate todo.txt files in vim
-Plugin 'vim-scripts/todo-txt.vim'                                   
+"Plugin 'vim-scripts/todo-txt.vim'                                   
 " Gist integration (https://gist.github.com)
-Plugin 'lambdalisue/vim-gista'                                      
+"Plugin 'lambdalisue/vim-gista'                                      
 " lorem ipsum dolor sit amet....
 Plugin 'vim-scripts/loremipsum'                                     
 " A calendar?? Inside VIM??? WTF? o_O
@@ -126,8 +131,8 @@ set updatetime=250
 " General configurations
 ""
 " file encoding
-set encoding=utf-8
-set fileencoding=utf-8
+set encoding=UTF-8
+set fileencoding=UTF-8
 set backspace=indent,eol,start " make backspace behave properly in insert mode
 set showcmd " display incomplete commands
 
@@ -159,12 +164,12 @@ set t_ut=      " cleaning this var to fix vim background inside tmux (https://su
 let vim_markdown_preview_toggle=2 " specific for vim-markdown-preview: enable preview on buffer write (:w)
 
 " textwidth
-set textwidth=100
+set textwidth=200
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%101v', 101)
 
 " wiki
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/penseira/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " vim sessions
 let g:sessions_dir = '$HOME/.vim/sessions'
@@ -190,7 +195,6 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
 " Todo.txt
-let g:TodoTxtForceDoneName='done.txt'
 au filetype todo imap <buffer> + +<C-X><C-O>
 au filetype todo imap <buffer> @ @<C-X><C-O>
 
@@ -198,8 +202,6 @@ au filetype todo imap <buffer> @ @<C-X><C-O>
 let g:jsdoc_enable_es6=1
 let g:jsdoc_allow_input_prompt=1
 let g:jsdoc_input_description=1
-
-" todo.txt plugin
 
 ""
 " Look and Feel
@@ -251,8 +253,9 @@ noremap <Left> <NOP>
 noremap <Right> <NOP>
 
 " shortcuts using the leader key
-let mapleader=","                           " behold the new <Leader> key
+let mapleader=","                                                                                          " behold the new <Leader> key
 nmap <Leader>r  :source %<CR>                                                                              " reload the current file
+nmap <Leader>c  :tabe ~/.vimrc<CR>                                                                         " Open the config file
 nmap <Leader>gn <Plug>GitGutterNextHunk                                                                    " git next
 nmap <Leader>gp <Plug>GitGutterPrevHunk                                                                    " git previous
 nmap <Leader>ga <Plug>GitGutterStageHunk                                                                   " git add (chunk)
@@ -263,8 +266,9 @@ nmap <Leader>gc :Gcommit %<CR>                                                  
 nmap <Leader>t  :TlistToggle<CR>                                                                           " show taglist pane
 nmap <Leader>e  :Vexplore<CR>                                                                              " show file explorer
 nmap <Leader>i  gg=G                                                                                       " fix file indentation
-nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>                     " open todo file
-nmap <Leader>done :Gista open --opener='split' --no-cache 9bb03999f58319d086ea58b0943f2104 done.txt<CR>    " open todo file
+nmap <Leader>a  ggVG                                                                                       " Select all
+"nmap <Leader>todo :Gista open --no-cache 9bb03999f58319d086ea58b0943f2104 todo.txt<CR>                     " open todo file
+"nmap <Leader>done :Gista open --opener='split' --no-cache 9bb03999f58319d086ea58b0943f2104 done.txt<CR>    " open todo file
 nmap <Leader>jsd  :JsDoc<CR>                                                                               " Add jsdoc to function (put cursor on function declaration)
 nmap <Leader>cal  :Calendar -view=year -split=vertical -width=27<CR>
 

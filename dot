@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 title(){
     
     echo "  __  __         ____        _    __ _ _            "
@@ -41,27 +42,36 @@ elif [ "$#" -eq "1" ]; then
     _help
 fi
 
-if [[ "$ACTION" = "install" ]]; then
-    log "install pressed"
-elif [[ "$ACTION" = "uninstall" ]]; then
-    log "uninstall pressed"
-else
-    echo "Unknown action: $ACTION"
-    exit 1
+if [ "$ACTION" != "install" ]; then
+	if [ "$ACTION" != "uninstall" ]; then
+    		echo "Unknown action: $ACTION"
+		exit 1
+	fi
 fi
-
 
 title
+sleep 5
 
+. $PWD/__setup/util.sh
 
 if [ ! -f $CMD_FILE ]; then
-	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
-	echo "sudo $cmd" > $CMD_FILE
-fi
 
+	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
+
+	OS=`uname`
+	if [ "$OS" == "Linux" ]; then
+		export INSTALL_CMD="sudo $cmd"
+	else
+		export INSTALL_CMD=$cmd
+	fi
+
+	echo $INSTALL_CMD > $CMD_FILE &2>/dev/null
+fi
 
 # Prepare things
 bash $PWD/__setup/pre.sh
+
+installPkg "zsh"
 
 # get the modules to make actions
 idx=0

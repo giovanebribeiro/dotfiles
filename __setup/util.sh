@@ -1,9 +1,8 @@
 LOG_FILE=$HOME/dotfiles.log
 LOC_FILE=$HOME/.dotfiles-loc
-CMD_FILE=$HOME/.install_cmd
+CMD_FILE=$HOME/.dotfiles-cmd
 
 OS=`uname`
-INSTALL=$(cat $CMD_FILE)
 
 function printSection() { echo "# $1"; echo;  }
 function printSubsection() { echo; echo "- $1"; echo;}
@@ -12,6 +11,7 @@ function printError() { echo "x $1"; }
 function printOK() { echo; echo "...OK"; echo; }
 
 installPkg() {
+    INSTALL=$(cat $CMD_FILE)
     TEMP=()
     for pkg in "$@"
     do
@@ -76,4 +76,14 @@ log(){
     if [ -f /tmp/dotfiles_verbose ]; then
         echo $1
     fi
+}
+
+installNodePackage(){
+  if which $1 &> /dev/null; then
+    printSubSubsection "$1 already installed"
+  else
+    printSubSubsection "Installing $1"
+    [ "$OS" == "Darwin" ] && npm install -g $1
+    [ "$OS" == "Linux" ] && sudo npm install -g $1
+  fi 
 }

@@ -6,25 +6,20 @@ install(){
     printSection "ZSH"
 
     if [ "$OS" == "Linux" ]; then
-        if [ ! -f ~/.local/share/fonts/PowerlineSymbols.otf ]; then
-            printSubsection "Installing Powerline fonts"
-            wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-            mv PowerlineSymbols.otf ~/.local/share/fonts/
-            fc-cache -vf ~/.local/share/fonts/
-            printSubsection "Installing Powerline fonts... OK (Please go to your terminal configurations and select the powerline fonts there)"
-        fi
-        
         installPkg zsh
     fi
 
-    installPkg neofetch cmatrix
+    installPkg neofetch cmatrix autoload zstyle compinit bindkey
 
-    if [ "$SHELL" -ne "/usr/bin/zsh" ];then
+    if [ "$SHELL" -ne "/usr/bin/zsh" ]; then
         sudo chsh -s /usr/bin/zsh $USER
     fi
     
-    printSubsection "Installing oh-my-zsh"
-    [ ! -d $HOME/.oh-my-zsh ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
+    if [ ! -d $HOME/.oh-my-zsh ]; then
+	    echo "You not install oh-my-zsh. Please install it:"
+	    echo '$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"'
+	    exit 0
+    fi
     
     # We must do this again because oh-my-zsh overwrites our zshrc.
     if [ -f "$HOME/.zshrc" ]; then
@@ -36,8 +31,8 @@ install(){
 
     if [ ! -d "$ZSH_CUSTOM/themes/typewritten" ]; then
         printSubsection "Installing typewritten theme for zsh"
-        git clone https://github.com/reobin/typewritten.git $ZSH_CUSTOM/themes/typewritten
-        ln -s "$ZSH_CUSTOM/themes/typewritten/typewritten.zsh-theme" "$ZSH_CUSTOM/themes/typewritten.zsh-theme"
+        git clone https://github.com/reobin/typewritten.git $ZSH/themes/typewritten
+        ln -s "$ZSH/themes/typewritten/typewritten.zsh-theme" "$ZSH/themes/typewritten.zsh-theme"
     fi
 
     printSubsection "Installing aliases..."

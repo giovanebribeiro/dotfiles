@@ -10,9 +10,7 @@
 # https://powerline.readthedocs.io/en/master/installation.html#patched-fonts
 
 # this prevents problems with italic in vim running inside tmux (because of gruvbox theme)
-if-shell "uname | grep -q Darwin" "set -g default-terminal 'tmux-256color'" "set -g default-terminal 'xterm-color'"
-if-shell "uname | grep -q Darwin" "set -as terminal-overrides ',xterm*:sitm=\E[3m]'"
-
+if-shell "uname | grep -q Darwin" "set -g default-terminal 'xterm-256color-italic'"  "set -g default-terminal 'xterm-color'"
 
 # -- navigation ----------------------------------------------------------------
 
