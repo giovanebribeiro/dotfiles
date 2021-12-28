@@ -1,0 +1,122 @@
+{
+    "window.menuBarVisibility": "default",
+    "editor.fontFamily": "\"Iosevka\"",
+    "editor.lineNumbers": "relative",
+    "keyboard.dispatch": "keyCode",
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "vim.useSystemClipboard": true,
+    "vim.camelCaseMotion.enable": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["Left"],
+            "after": ["Nop"]
+        },
+        {
+            "before": ["Right"],
+            "after": ["Nop"]
+        },
+        {
+            "before": ["Down"],
+            "after": ["Nop"]
+        },
+        {
+            "before": ["Up"],
+            "after": ["Nop"]
+        }
+    ],
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["Left"],
+            "after": ["Nop"]
+        },
+        {
+            "before": ["Right"],
+            "after": ["Nop"]
+        },
+        {
+            "before": ["Down"],
+            "after": ["Nop"]
+        },
+        {
+            "before": ["Up"],
+            "after": ["Nop"]
+        }
+    ],
+    "java.errors.incompleteClasspath.severity": "ignore",
+    "explorer.confirmDelete": false,
+    "terminal.integrated.fontFamily": "Iosevka",
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "pdflatex -> bibtex -> pdflatex*2",
+            "tools": [
+                "pdflatex",
+            ]
+        }
+    ],
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "editor.minimap.enabled": false,
+    "workbench.statusBar.visible": true,
+    "workbench.activityBar.visible": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "window.titleBarStyle": "custom",
+    "workbench.iconTheme": "vscode-great-icons",
+    "emmet.syntaxProfiles": {
+        "javascript": "jsx",
+        "xml": {
+            "attr_quotes": "single"
+        }
+    },
+    "[javascript]": {
+        "editor.tabSize": 2,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[css]": {
+        "editor.tabSize": 2
+    },
+    "extensions.autoUpdate": false,
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "coverage-gutters.coverageFileNames": [
+        "lcov.info",
+        "coverage.info",
+        "cov.xml",
+        "jacoco.xml"
+    ],
+    "FSharp.useSdkScripts": true,
+    "workbench.colorTheme": "Gruvbox Dark Soft",
+    "terminal.integrated.shell.linux": "/bin/zsh",
+    "editor.occurrencesHighlight": false,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "emmet.excludeLanguages": [
+        "typescriptreact"
+    ],
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "liveshare.nameTagVisibility": "Never",
+    "window.zoomLevel": 1
+}

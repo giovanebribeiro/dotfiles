@@ -3,7 +3,7 @@ OS=`uname`
 
 install(){
 
-    printSection "ZSH"
+    printSection "Base packages and scripts (ZSH, screenlayout, gtk themes, etc)"
 
     if [ "$OS" == "Linux" ]; then
         installPkg zsh
@@ -48,6 +48,8 @@ install(){
         exportit "CLICOLOR" "'true'"
         exportit "LSCOLORS" "gxfxcxdxbxCgCdabagacad"
     fi
+
+    
 
     printOK
     
