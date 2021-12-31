@@ -28,8 +28,10 @@ _help(){
 
 ACTION=$1
 SKIP=0
+MODULES=$@
 if [ "$#" -eq "0" ]; then
-    _help
+    ACTION="install"
+    MODULES=($ACTION "base")
 elif [ "$1" = "-h" ]; then
     _help
 elif [ "$1" = "-v" ]; then
@@ -68,14 +70,36 @@ if [ ! -f $CMD_FILE ]; then
 	echo $INSTALL_CMD > $CMD_FILE &2>/dev/null
 fi
 
-# Prepare things
-bash $PWD/__setup/pre.sh
+printSubsection "MAKE SOME PREPARATIONS"
+OS=`uname`
+case $OS in 
+"Darwin")
+  if which brew &> /dev/null; then
+    printSubSubsection "Homebrew already installed."
+  else
+    ruby -e '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)'
+  fi
+  brew install mono go
+  ;;
+"Linux")
+  printSubSubsection "these packages needed to be installed, depending on your OS: build-essential zsh python-dev python3-dev x11-xserver-utils"
+  ;;
+"*")
+  printError "Unknown OS"
+  ;;
+esac
 
+installPkg stow curl wget cmake
+
+echo $PWD > "$LOC_FILE"
+printOK
+
+# installing zsh
 installPkg "zsh"
 
 # get the modules to make actions
 idx=0
-for mod in "$@"
+for mod in "${MODULES[@]}"
 do
     if [ "$idx" -gt "$SKIP" ]; then
         source $PWD/$mod/module.sh
