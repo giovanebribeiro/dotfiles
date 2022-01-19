@@ -7,7 +7,8 @@ install(){
     installPkg rofi
 
     # install dependencies for aux scripts
-    installPkg scrot gimp
+    installPkg scrot
+    installPkg gimp
 
     stowit $PWD/rofi/base
 }

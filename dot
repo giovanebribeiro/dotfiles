@@ -108,7 +108,7 @@ run git "install"
 
 # get the modules to make actions
 idx=0
-for mod in "${MODULES[@]}"
+for mod in "$@"
 do
     if [ "$idx" -gt "$SKIP" ]; then
         run $mod $ACTION
