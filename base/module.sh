@@ -23,7 +23,7 @@ install(){
         rm $HOME/.zshrc
     fi
 
-    stowit $PWD/zsh/base
+    stowit $PWD/base/base
     source $HOME/.zshrc
 
     if [ ! -d "$ZSH_CUSTOM/themes/typewritten" ]; then
