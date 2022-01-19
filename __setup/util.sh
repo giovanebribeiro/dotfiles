@@ -4,7 +4,7 @@ CMD_FILE=$HOME/.dotfiles-cmd
 
 OS=`uname`
 
-function printSection() { echo "# $1"; echo;  }
+function printSection() { echo "#"; echo "# $1"; echo "#"; echo;  }
 function printSubsection() { echo; echo "- $1"; echo;}
 function printSubSubsection() { echo "* $1"; }
 function printError() { echo "x $1"; }

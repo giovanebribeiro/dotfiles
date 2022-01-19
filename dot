@@ -26,12 +26,19 @@ _help(){
   exit 0
 }
 
+run(){
+    mod=$1
+    action=$2
+    echo "Module $mod: $action"
+    source $PWD/$mod/module.sh
+    $action
+}
+
 ACTION=$1
 SKIP=0
 MODULES=$@
 if [ "$#" -eq "0" ]; then
-    ACTION="install"
-    MODULES=($ACTION "base")
+    echo "No parameters. Only basic packages will be installed"
 elif [ "$1" = "-h" ]; then
     _help
 elif [ "$1" = "-v" ]; then
@@ -44,11 +51,9 @@ elif [ "$#" -eq "1" ]; then
     _help
 fi
 
-if [ "$ACTION" != "install" ]; then
-	if [ "$ACTION" != "uninstall" ]; then
-    		echo "Unknown action: $ACTION"
-		exit 1
-	fi
+if [ "$#" != "0" ] && [ "$ACTION" != "install" ] && [ "$ACTION" != "uninstall" ]; then
+    echo "Unknown action: $ACTION"
+    exit 1
 fi
 
 title
@@ -97,13 +102,18 @@ printOK
 # installing zsh
 installPkg "zsh"
 
+# installing basic modules
+run base "install"
+run git "install"
+
 # get the modules to make actions
 idx=0
 for mod in "${MODULES[@]}"
 do
     if [ "$idx" -gt "$SKIP" ]; then
-        source $PWD/$mod/module.sh
-        $ACTION
+        run $mod $ACTION
+        #source $PWD/$mod/module.sh
+        #$ACTION
     fi
     idx+=1
 done

@@ -3,13 +3,10 @@ OS=`uname`
 
 install(){
 
-    printSection "ZSH"
+    printSection "BASIC INSTALLATIONS (ZSH, ALIASES AND EXPORTS)"
 
-    if [ "$OS" == "Linux" ]; then
-        installPkg zsh
-    fi
-
-    installPkg neofetch cmatrix autoload zstyle compinit bindkey
+    # installing zsh
+    installPkg "zsh"
 
     if [ "$SHELL" -ne "/usr/bin/zsh" ]; then
         sudo chsh -s /usr/bin/zsh $USER
