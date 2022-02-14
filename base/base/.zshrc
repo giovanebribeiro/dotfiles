@@ -248,6 +248,36 @@ login() {
     fi
 }
 
+enable_screensaver(){
+
+    if [ ! -f "/tmp/screensaver_enabled" ]; then
+
+        if [ ! which xss-lock &> /dev/null ]; then 
+            echo "xss-lock não existe. Você precisa instalá-lo (https://wiki.archlinux.org/title/Power_management#xss-lock)"
+
+        fi
+
+        if [ ! which xsecurelock &> /dev/null ]; then 
+            echo "xsecurelock não existe. Você precisa instalá-lo (https://github.com/google/xsecurelock)"
+        fi
+
+        #
+        # xsecurelock (exige como dependência o xsecurelock, e o mpv, além de alguns
+        # videos presentes na pasta ~/Videos)
+        # fonte: https://github.com/google/xsecurelock
+        # obs: tem pacote no arch
+        #
+        export XSECURELOCK_SAVER=saver_mpv
+        export XSECURELOCK_DISCARD_FIRST_KEYPRESS=0   
+        xset s 300 5
+        xss-lock -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock &
+        touch /tmp/screensaver_enabled
+            
+    fi
+
+}
+
+
 bump_mvn_version(){
     $PWD/mvnw versions:set -DnewVersion=$1
     $PWD/mvnw versions:commit
@@ -274,6 +304,9 @@ alias bye='sudo shutdown -h now'
 alias cal='cal -3'
 alias oldtop='/usr/bin/top'
 alias top='btm --color gruvbox'
+alias myip='curl ipinfo.io/ip'
+alias untar='tar -zxvf'
+
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
@@ -294,6 +327,11 @@ export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 ##
 # OTHER USEFUL STUFF... OR NOT...
 ##
+
+#enable_screensaver
+
+#EXPORTS per OS
+[ -f "$HOME/.others" ] && source "$HOME/.others" &>/dev/null
 
 flag_file="/tmp/flag_file"
 if [ ! -f $flag_file ]
