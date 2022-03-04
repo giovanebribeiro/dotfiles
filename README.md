@@ -1,5 +1,5 @@
 # dotfiles
-My dotfiles and scripts to make my life easier. Works on MacOSX and Linux (Debian and variants). Strongly inspired on [this](https://github.com/davidsonfellipe/dotfiles) project (Thanks Davidson!! :D)
+My dotfiles and scripts to make my life easier. Works on MacOSX and Linux. Strongly inspired on [this](https://github.com/davidsonfellipe/dotfiles) project (Thanks Davidson!! :D)
 
 ## How can I use it?
 
@@ -17,14 +17,13 @@ Usage: ./dot [options] <action> <module>
 
 ## Available modules (install and configurations)
 
-* ctags
 * git
 * markdown
+* polybar (dependency: papirus icon theme)
+* rofi
+* vim
+* ctags
 * node
 * rust
 * tmux
-* todo.txt
-* vim
-* zsh
 
-## WM stuff (check another branches) 
