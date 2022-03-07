@@ -140,11 +140,8 @@ fetch() {
         exit 0
     fi
 
-    if [ ! -f $HOME/.cargo/bin/treefetch ]; then
-        # I'm using my fork because of -bonsai option.
-        # But, if you will use this script, install stable treefetch 
-        # from original link: https://github.com/angelofallars/treefetch
-        cargo install -f --git https://github.com/giovanebribeiro/treefetch treefetch
+    if ! which treefetch &>/dev/null; then
+        cargo install -f --git https://github.com/angelofallars/treefetch treefetch
     fi
 
     advent_file=~/.advent_start
@@ -170,14 +167,14 @@ fetch() {
     fi
 
     if [ ! -f $advent_file ]; then
-        treefetch -bonsai
+        treefetch --bonsai
     else
         advent_text=`cat $advent_file`
         advent=`date -d "$advent_text" +%s`
         if [ $now -ge $advent -a $now -le $epiphany ]; then
-            treefetch -xmas
+            treefetch --xmas
         else
-            treefetch -bonsai
+            treefetch --bonsai
         fi
     fi
 
