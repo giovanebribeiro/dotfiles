@@ -51,6 +51,7 @@
   ##
   f = fetch --all -v --prune
   pu = push --follow-tags
+  puf = push --follow-tags --force
   psuo = push --follow-tags --set-upstream origin 
   # fetch and push all locally-tracked remote branches
   up = pull
