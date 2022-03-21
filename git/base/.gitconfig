@@ -3,6 +3,7 @@
   email = giovanebribeiro@gmail.com
 [init]
   defaultBranch = master
+	templatedir = ~/.git-templates
 [color]
   diff = auto
   grep = auto
@@ -90,7 +91,7 @@
   unstash = stash pop
 [core]
   editor = /usr/bin/vim
-	excludesfile = /home/gbrr/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [push]
   default = matching
 [pull]
