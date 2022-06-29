@@ -97,7 +97,7 @@
 [pull]
   rebase = false
 [status]
-  submoduleSummary = true
+	submoduleSummary = true
 [merge]
   tool = vimdiff
   conflictstyle = diff3

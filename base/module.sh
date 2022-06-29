@@ -24,6 +24,8 @@ install(){
     fi
 
     stowit $PWD/base/base
+    rm $HOME/bin/change_volume
+    ln -s $PWD/base/change_volume.sh $HOME/bin/change_volume
     source $HOME/.zshrc
 
     if [ ! -d "$ZSH_CUSTOM/themes/typewritten" ]; then

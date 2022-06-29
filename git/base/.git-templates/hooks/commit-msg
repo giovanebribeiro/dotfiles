@@ -47,6 +47,29 @@ fi
 
 config=commit-msg.conf
 
+if [[ ! -f $config ]]; then
+    echo '{' >> $config 
+    echo '  "enabled": true,'  >> $config
+    echo '  "revert": true,'  >> $config
+    echo '   "length": {'  >> $config
+    echo '       "min": 1,'  >> $config
+    echo '       "max": 52'  >> $config
+    echo '   },'  >> $config
+    echo '   "types": ['  >> $config
+    echo '       "build",  '  >> $config
+    echo '       "ci",'  >> $config
+    echo '       "docs",'  >> $config
+    echo '       "feat",'  >> $config
+    echo '       "fix",'  >> $config
+    echo '       "perf",'  >> $config
+    echo '       "refactor",'  >> $config
+    echo '       "style",'  >> $config
+    echo '       "test",'  >> $config
+    echo '       "chore"'  >> $config
+    echo '    ]'  >> $config
+    echo '}'  >> $config
+fi
+
 # set variables
 enabled=$(jq -r .enabled $config)
 revert=$(jq -r .revert $config)
@@ -54,7 +77,7 @@ types=($(jq -r '.types[]' $config))
 length_min=$(jq -r .length.min $config)
 length_max=$(jq -r .length.max $config)
 
-if [[ ! -f $config || ! $enabled ]]; then
+if [[ ! $enabled ]]; then
     exit 0
 fi
 
