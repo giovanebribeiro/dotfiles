@@ -20,7 +20,7 @@
   untracked = white
 [pretty]
   changelog = format:* %h %s 
-  history = format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset'
+  history = format:'%Cred%h %C(magenta)(%an)%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr, %ci) %C(bold blue)%Creset'
 [alias]
   ##
   # DIFF
