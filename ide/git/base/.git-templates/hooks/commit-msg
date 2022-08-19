@@ -1,0 +1,124 @@
+#!/bin/bash
+#
+# Script utilizado pelo git para validar mensagens de commit. O formato de mensagem a ser utilizado
+# é o conventional-commit (explicado melhor no link https://www.conventionalcommits.org/en/v1.0.0/)
+#
+# Fonte: https://dev.to/craicoverflow/enforcing-conventional-commits-using-git-hooks-1o5p
+#
+# Para habilitar este hook, copie este arquivo para a pasta .git/hooks, renomeando o arquivo para 
+# "commit-msg". Caso o repo seja um submmódulo, execute o seguinte comando para descobrir onde está a pasta hooks:
+# $ git rev-parse --git-path hooks
+#
+# Se você preferir habilitar este hook globalmente e toda vez que o repo for inicializado, o hook ser adicionado você pode fazer o seguinte:
+# $ git config --global init.templatedir '~/.git-templates' # habilita a pasta .git-templates no git config
+# $ mkdir -p ~/.git-templates/hooks # Cria a pasta hooks para as configs globais
+# $ cp ./commit-msg.ghook ~/.git-templates/hooks/commit-msg
+#
+# Dependências: jq
+#
+# Arquivo de configurações (commit-msg.conf) deve estar presente na raiz do repositório para 
+# que este arquivo possa ser executado corretamente
+# O arquivo de configurações deve seguir este exemplo:
+# {
+#    "enabled": true,
+#    "revert": true,
+#    "length": {
+#        "min": 1,
+#        "max": 52
+#    },
+#    "types": [
+#        "build",  
+#        "ci",
+#        "docs",
+#        "feat",
+#        "fix",
+#        "perf",
+#        "refactor",
+#        "style",
+#        "test",
+#        "chore"
+#    ]
+# }
+#
+# OBS: Caso o arquivo não exista, o próprio script cria um arquivo com as configurações padrão.
+
+# Teste se o pacote jq está instalado:
+if ! which jq &> /dev/null; then
+    echo "jq não instalado. Favor instalar para que o script funcione adequadamente."
+    exit 0
+fi
+
+config=commit-msg.conf
+
+if [[ ! -f $config ]]; then
+    echo '{' >> $config 
+    echo '  "__comment": "Para mais informações sobre este arquivo, acessar este link: https://gist.github.com/giovanebribeiro/d7df89af8a507c48ac56efdc08dfb9ab"' >> $config
+    echo '  "enabled": true,'  >> $config
+    echo '  "revert": true,'  >> $config
+    echo '   "length": {'  >> $config
+    echo '       "min": 1,'  >> $config
+    echo '       "max": 52'  >> $config
+    echo '   },'  >> $config
+    echo '   "types": ['  >> $config
+    echo '       "build",  '  >> $config
+    echo '       "ci",'  >> $config
+    echo '       "docs",'  >> $config
+    echo '       "feat",'  >> $config
+    echo '       "fix",'  >> $config
+    echo '       "perf",'  >> $config
+    echo '       "refactor",'  >> $config
+    echo '       "style",'  >> $config
+    echo '       "test",'  >> $config
+    echo '       "chore"'  >> $config
+    echo '    ]'  >> $config
+    echo '}'  >> $config
+fi
+
+# set variables
+enabled=$(jq -r .enabled $config)
+revert=$(jq -r .revert $config)
+types=($(jq -r '.types[]' $config))
+length_min=$(jq -r .length.min $config)
+length_max=$(jq -r .length.max $config)
+
+if [[ ! $enabled ]]; then
+    exit 0
+fi
+
+# montando a expressão regular para avaliar a mensagem
+regexp="^("
+
+# se a opção revert estiver habilitada, a mensagem pode ter de forma opcional a expressão "revert:"
+if $revert; then
+    regexp="${regexp}revert: )?(\w+)("
+fi
+
+# Habilitando todos os tipos de commit
+for type in "${types[@]}"
+do
+    regexp="${regexp}$type|"
+done 
+
+# Se um parentese for aberto após o tipo do commit, significa que um escopo 
+# deve ser preenchido e deve-se fechar o parentese. Senão, após o tipo deve 
+# ter dois pontos (:)
+regexp="${regexp})(\(.+\))?: "
+
+# Definindo limites máximo e mínimo para o título do commit
+regexp="${regexp}.{$length_min,$length_max}$"
+
+# Obtenho o título da mensagem 
+msg=$(head -1 $1)
+#msg=$1
+
+#echo $regexp
+if [[ ! $msg =~ $regexp ]]; then
+  echo -e "\n\e[1m\e[31m[INVALID COMMIT MESSAGE]"
+  echo -e "------------------------\033[0m\e[0m"
+  echo -e "\e[1mFormat:\e[0m \e[34mhttps://www.conventionalcommits.org/en/v1.0.0/ \033[0m"
+  echo -e "\e[1mValid types:\e[0m \e[34m${types[@]}\033[0m"
+  echo -e "\e[1mMax length (first line):\e[0m \e[34m$length_max\033[0m"
+  echo -e "\e[1mMin length (first line):\e[0m \e[34m$length_min\033[0m\n"
+
+  exit 1
+fi

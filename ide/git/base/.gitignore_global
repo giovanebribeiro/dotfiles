@@ -1,0 +1,16 @@
+##
+# OS Generated files
+##
+.DS_Store
+Thumbs.db
+
+##
+# VIM generated files
+##
+*.swp
+*.swo
+
+##
+# Node specific files
+##
+node_modules

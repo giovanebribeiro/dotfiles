@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# up is an alias for pacman updates and aur
+alacritty -e "up"
