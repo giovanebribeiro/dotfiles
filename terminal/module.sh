@@ -1,9 +1,15 @@
 source $PWD/__setup/util.sh
 OS=`uname`
 
+
+pre_ubuntu(){
+    printSection "BASIC INSTALLATIONS"
+
+    
+}
+
 install(){
 
-    printSection "BASIC INSTALLATIONS (ZSH, ALIASES AND EXPORTS)"
 
     # installing zsh
     installPkg "zsh"

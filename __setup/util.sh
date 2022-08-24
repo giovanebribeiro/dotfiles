@@ -1,6 +1,10 @@
-LOG_FILE=$HOME/dotfiles.log
-LOC_FILE=$HOME/.dotfiles-loc
-CMD_FILE=$HOME/.dotfiles-cmd
+DOT_FOLDER=$HOME/.dotfiles
+LOG_FILE=$DOT_FOLDER/dotfiles.log
+LOC_FILE=$DOT_FOLDER/.dotfiles-loc
+CMD_FILE=$DOT_FOLDER/.dotfiles-cmd
+
+# cria a pasta de arquivos temporários. Se ela já existir, ignore os erros
+mkdir -p $DOT_FOLDER 2>/dev/null 
 
 OS=`uname`
 

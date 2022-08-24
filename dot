@@ -63,31 +63,21 @@ sleep 5
 
 if [ ! -f $CMD_FILE ]; then
 
-	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
+	OS_NAME=`cat /etc/issue 2>/dev/null`
 
-	OS=`uname`
-	if [ "$OS" == "Linux" ]; then
+	echo "unknown" > $CMD_FILE
+	
+	echo $OS_NAME | tr '[:upper:]' '[:lower:]' | grep arch
+	[[ "$?" -eq 0 ]] && echo "arch" > $CMD_FILE
 
-		export INSTALL_CMD="sudo $cmd"
+	echo $OS_NAME | tr '[:upper:]' '[:lower:]' | grep ubuntu
+	[[ "$?" -eq 0 ]] && echo "arch" > $CMD_FILE
 
-    elif [ "$OS" == "Darwin" ]; then
-		
-        export INSTALL_CMD=$cmd
-
-        if which brew &> /dev/null; then
-            printSubSubsection "Homebrew already installed."
-        else
-            ruby -e '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)'
-        fi
-        
-    else
-
-        export INSTALL_CMD=$cmd
-
-	fi
-
-	echo $INSTALL_CMD > $CMD_FILE &2>/dev/null
 fi
+
+run base install
+
+exit 0
 
 printSubsection "MAKE SOME PREPARATIONS"
 #printSubSubsection "these packages needed to be installed, depending on your OS: build-essential zsh python-dev python3-dev x11-xserver-utils"
