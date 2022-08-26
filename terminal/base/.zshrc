@@ -221,34 +221,45 @@ _fix_cursor() {
 }
 precmd_functions+=(_fix_cursor)
 
-pipe(){
-    if ! which pipes.sh &> /dev/null; then
-        echo "Instalando pipes.sh"
-        git clone https://github.com/pipeseroni/pipes.sh.git ~/.pipes.sh
-        temp=$PWD
-        cd ~/.pipes.sh
-        make install
-        cd $temp
-    fi
-
-    pipes.sh -t 3 -f 20
-    clear
-
-}
-
-login() {
-    if ! which bw &> /dev/null; then
-        installNodePackage @bitwarden/cli
-    else
-        bw logout --quiet
-        export BW_SESSION=$(bw login | grep "export BW_SESSION" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g")
-    fi
-}
+#pipe(){
+#    if ! which pipes.sh &> /dev/null; then
+#        echo "Instalando pipes.sh"
+#        git clone https://github.com/pipeseroni/pipes.sh.git ~/.pipes.sh
+#        temp=$PWD
+#        cd ~/.pipes.sh
+#        make install
+#        cd $temp
+#    fi
+#
+#    pipes.sh -t 3 -f 20
+#    clear
+#
+#}
+#
+#login() {
+#    if ! which bw &> /dev/null; then
+#        installNodePackage @bitwarden/cli
+#    else
+#        bw logout --quiet
+#        export BW_SESSION=$(bw login | grep "export BW_SESSION" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g")
+#    fi
+#}
 
 bump_mvn_version(){
     $PWD/mvnw versions:set -DnewVersion=$1
     $PWD/mvnw versions:commit
 }
+
+# test later
+#changeMac(){
+#  local mac=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//')
+#  sudo ifconfig en0 ether $mac
+#  sudo ifconfig en0 down
+#  sudo ifconfig en0 up
+#  echo "Your new physical address is $mac"
+#
+#  #unlimited wi-fi?
+#}
 
 #FUNCTIONS per OS
 [ -f "$HOME/.functions" ] && source "$HOME/.functions" &>/dev/null
