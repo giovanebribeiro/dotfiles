@@ -94,7 +94,7 @@ Plugin 'vim-scripts/loremipsum'
 " A calendar?? Inside VIM??? WTF? o_O
 Plugin 'itchyny/calendar.vim'
 " For my knowledge base
-Plugin 'vimwiki/vimwiki'
+Plugin 'mhinz/vim-startify'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
