@@ -49,8 +49,7 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'skanehira/preview-markdown.vim'
 " A better file finder
 Plugin 'ctrlpvim/ctrlp.vim'
-" Provides support to emmet (http://emmet.io)
-Plugin 'mattn/emmet-vim'
+
 
 "
 " General programming
@@ -61,12 +60,13 @@ Plugin 'taglist.vim'
 " A solid language pack
 Plugin 'sheerun/vim-polyglot'
 " Code Completion engine
-" Plugin 'Valloric/YouCompleteMe',
 Plugin 'ajh17/VimCompletesMe'
 " Generates JS-Doc
 Plugin 'heavenshell/vim-jsdoc'
 " Syntax checker
 Plugin 'vim-syntastic/syntastic'
+" Provides support to emmet (http://emmet.io)
+Plugin 'mattn/emmet-vim'
 
 " 
 " Appearance
@@ -78,8 +78,6 @@ Plugin 'morhetz/gruvbox'
 Plugin 'itchyny/lightline.vim'                                      
 " lightline theme for gruvbox
 Plugin 'shinchu/lightline-gruvbox.vim'                              
-" minimal (n)vim plugins - icons (Under 200 LOC)
-Plugin 'giovanebribeiro/mpi'
 
 "
 " Utils
@@ -93,8 +91,10 @@ Plugin 'giovanebribeiro/mpi'
 Plugin 'vim-scripts/loremipsum'                                     
 " A calendar?? Inside VIM??? WTF? o_O
 Plugin 'itchyny/calendar.vim'
-" For my knowledge base
+" Some nice startup page
 Plugin 'mhinz/vim-startify'
+" CSV file support
+Plugin 'chrisbra/csv.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required

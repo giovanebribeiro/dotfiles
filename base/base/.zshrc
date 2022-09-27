@@ -248,6 +248,10 @@ login() {
 bump_mvn_version(){
     $PWD/mvnw versions:set -DnewVersion=$1
     $PWD/mvnw versions:commit
+    # apenas para garantir
+    cd $PWD 
+    git commit -am "build: alterações de pom.xml"
+    git tag -a $1 -m "build: release version"
 }
 
 #FUNCTIONS per OS

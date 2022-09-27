@@ -81,6 +81,11 @@ if [[ ! $enabled ]]; then
     exit 0
 fi
 
+# se a msg for uma de merge, ignore a validação
+if [[ $msg =~ "^Merge*" ]]; then
+    exit 0 
+fi
+
 # montando a expressão regular para avaliar a mensagem
 regexp="^("
 
@@ -106,6 +111,11 @@ regexp="${regexp}.{$length_min,$length_max}$"
 # Obtenho o título da mensagem 
 msg=$(head -1 $1)
 #msg=$1
+
+# se a msg for uma de merge, ignore a validação
+if [[ $msg == Merge* ]]; then
+    exit 0 
+fi
 
 #echo $regexp
 if [[ ! $msg =~ $regexp ]]; then
