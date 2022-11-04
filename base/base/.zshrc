@@ -180,6 +180,26 @@ fetch() {
 
 }
 
+n () {
+
+   command -v "nmcli" >/dev/null || { echo "nmcli command not found."; exit 1; }
+
+   cmd=$1
+
+   case $cmd in
+       status)
+           nmcli connection show
+           ;;
+        *)
+            echo ""
+            echo "Wrapper para o Network Manager (nmcli)"
+            echo "Uso: n [option]"
+            echo "status ___________ Overview da conexão"
+            ;;
+    esac
+
+}
+
 # Use lf to switch directories and bind it to ctrl-o
 # Source: https://gist.github.com/LukeSmithxyz/e62f26e55ea8b0ed41a65912fbebbe52
 lfcd () {
@@ -251,7 +271,7 @@ bump_mvn_version(){
     # apenas para garantir
     cd $PWD 
     git commit -am "build: alterações de pom.xml"
-    git tag -a $1 -m "build: release version"
+    git tag -a $1 -m $2
 }
 
 #FUNCTIONS per OS
