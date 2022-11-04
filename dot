@@ -63,48 +63,35 @@ sleep 5
 
 if [ ! -f $CMD_FILE ]; then
 
-	read -p "What is your command for install apps (ex: brew install, apt-get install, pacman -Sy, etc): " cmd
+	OS_NAME=`cat /etc/issue 2>/dev/null`
 
-	OS=`uname`
-	if [ "$OS" == "Linux" ]; then
-		export INSTALL_CMD="sudo $cmd"
-	else
-		export INSTALL_CMD=$cmd
-	fi
+	echo "unknown" > $CMD_FILE
+	
+	echo $OS_NAME | tr '[:upper:]' '[:lower:]' | grep arch
+	[[ "$?" -eq 0 ]] && echo "arch" > $CMD_FILE
 
-	echo $INSTALL_CMD > $CMD_FILE &2>/dev/null
+	echo $OS_NAME | tr '[:upper:]' '[:lower:]' | grep ubuntu
+	[[ "$?" -eq 0 ]] && echo "arch" > $CMD_FILE
+
 fi
 
-printSubsection "MAKE SOME PREPARATIONS"
-OS=`uname`
-case $OS in 
-"Darwin")
-  if which brew &> /dev/null; then
-    printSubSubsection "Homebrew already installed."
-  else
-    ruby -e '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)'
-  fi
-  brew install mono go
-  ;;
-"Linux")
-  printSubSubsection "these packages needed to be installed, depending on your OS: build-essential zsh python-dev python3-dev x11-xserver-utils"
-  ;;
-"*")
-  printError "Unknown OS"
-  ;;
-esac
+run base install
 
+exit 0
+
+printSubsection "MAKE SOME PREPARATIONS"
+#printSubSubsection "these packages needed to be installed, depending on your OS: build-essential zsh python-dev python3-dev x11-xserver-utils"
 installPkg stow curl wget cmake
 
 echo $PWD > "$LOC_FILE"
 printOK
 
 # installing zsh
-installPkg "zsh"
+#installPkg "zsh"
 
 # installing basic modules
-run base "install"
-run git "install"
+#run base "install"
+#run git "install"
 
 # get the modules to make actions
 idx=0

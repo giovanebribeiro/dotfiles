@@ -1,57 +1,44 @@
 source $PWD/__setup/util.sh
-OS=`uname`
+
+OS=`cat $CMD_FILE`
+
+_pre_arch(){
+
+	printSubsection "instala os pacotes necessários para a distro arch linux, módulo base"
+
+	sudo pacman -Sy stow curl wget
+
+	printOK
+
+}
 
 install(){
+	
+	if [ ! -f $DOT_FOLDER/base.lock ]; then
 
-    printSection "BASIC INSTALLATIONS (ZSH, ALIASES AND EXPORTS)"
+		printSection "BASIC INSTALLATIONS"
 
-    # installing zsh
-    installPkg "zsh"
+		if [ ! -f $DOT_FOLDER/base.lock_module ]; then
+			_pre_$OS 
+			touch $DOT_FOLDER/base.lock_module
+		fi
 
-    if [ "$SHELL" -ne "/usr/bin/zsh" ]; then
-        sudo chsh -s /usr/bin/zsh $USER
-    fi
-    
-    if [ ! -d $HOME/.oh-my-zsh ]; then
-	    echo "You not install oh-my-zsh. Please install it:"
-	    echo '$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"'
-	    exit 0
-    fi
-    
-    # We must do this again because oh-my-zsh overwrites our zshrc.
-    if [ -f "$HOME/.zshrc" ]; then
-        rm $HOME/.zshrc
-    fi
+		if [ "$OS" = "arch" ]; then
 
-    stowit $PWD/base/base
-    rm $HOME/bin/change_volume
-    ln -s $PWD/base/change_volume.sh $HOME/bin/change_volume
-    source $HOME/.zshrc
+			# criando a pasta do aur, caso não exista
+			mkdir -p $HOME/.aur 2>/dev/null
 
-    if [ ! -d "$ZSH_CUSTOM/themes/typewritten" ]; then
-        printSubsection "Installing typewritten theme for zsh"
-        git clone https://github.com/reobin/typewritten.git $ZSH/themes/typewritten
-        ln -s "$ZSH/themes/typewritten/typewritten.zsh-theme" "$ZSH/themes/typewritten.zsh-theme"
-    fi
+			# criando link para o arquivo aur_update
+			rm $HOME/.aur/aur-update.sh 2>/dev/null
+			ln -s $PWD/base/aur-update.sh $HOME/.aur/aur-update.sh
 
-    printSubsection "Installing aliases..."
-    if [ "$OS" = "Darwin" ]; then
-        aliasit "ls" "'ls -G'"
-        aliasit "showFiles" "'defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'"
-        aliasit "hideFiles" "'defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'"
-    elif [ "$OS" = "Linux" ]; then
-        aliasit "ls" "'ls --color=auto'"
-    fi
+		fi
 
-    printSubsection "Installing exports..."
+		touch $DOT_FOLDER/base.lock
+		printOK
+		
+	fi
 
-    if [ "$OS" = "Darwin" ]; then
-        exportit "CLICOLOR" "'true'"
-        exportit "LSCOLORS" "gxfxcxdxbxCgCdabagacad"
-    fi
-
-    printOK
-    
 }
 
 uninstall(){
