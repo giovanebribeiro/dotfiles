@@ -12,6 +12,12 @@ _pre_arch(){
 
 }
 
+_pre_ubuntu(){
+
+	printSubsection "instala os pacotes necessários para a distro ubuntu, módulo base"
+
+}
+
 install(){
 	
 	if [ ! -f $DOT_FOLDER/base.lock ]; then

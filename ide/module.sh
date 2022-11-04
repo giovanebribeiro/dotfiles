@@ -22,6 +22,26 @@ _pre_arch(){
 
 }
 
+_pre_ubuntu(){
+
+	printSubsection "instala os pacotes necessários para a distro arch linux, módulo ide"
+
+	# meld é uma aplicação estilo winmerge
+	sudo pacman -Sy vim-gtk docker exuberant-ctags meld
+
+	bkp=$PWD
+
+	# instalando vscode
+	printSubSubsection "Installing VSCode"
+	git clone https://aur.archlinux.org/visual-studio-code-bin.git $HOME/.aur/visual-studio-code-bin
+       	cd $HOME/.aur/visual-studio-code-bin
+	makepkg -si --needed	
+	cd $bkp
+
+	printOK
+
+}
+
 install(){
     
 	

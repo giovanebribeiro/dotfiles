@@ -65,11 +65,8 @@ if [ ! -f $CMD_FILE ]; then
 
 	OS_NAME=`cat /etc/issue 2>/dev/null`
 
-	echo "unknown" > $CMD_FILE
+	echo "arch" > $CMD_FILE
 	
-	echo $OS_NAME | tr '[:upper:]' '[:lower:]' | grep arch
-	[[ "$?" -eq 0 ]] && echo "arch" > $CMD_FILE
-
 	echo $OS_NAME | tr '[:upper:]' '[:lower:]' | grep ubuntu
 	[[ "$?" -eq 0 ]] && echo "arch" > $CMD_FILE
 
