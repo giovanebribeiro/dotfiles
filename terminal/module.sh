@@ -38,13 +38,19 @@ install(){
 		printSubsection "Installing typewritten theme for zsh"
 		git clone https://github.com/reobin/typewritten.git $ZSH/themes/typewritten
 		ln -s "$ZSH/themes/typewritten/typewritten.zsh-theme" "$ZSH/themes/typewritten.zsh-theme"
+		
+		# removendo o zshrc padrão para inclusão do nosso zshrc
+		rm $HOME/.zshrc
 
 		if [ "$OS" = "darwin" ]; then
 			aliasit "ls" "'ls -G'"
-    			aliasit "showFiles" "'defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'"
-    			aliasit "hideFiles" "'defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'"
+			aliasit "showFiles" "'defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'"
+			aliasit "hideFiles" "'defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'"
+
+			exportit "CLICOLOR" "'true'"
+			exportit "LSCOLORS" "gxfxcxdxbxCgCdabagacad"
 		else
-		    aliasit "ls" "'ls --color=auto'"
+			aliasit "ls" "'ls --color=auto'"
 		fi
     
 		stowit $PWD/terminal/base
@@ -60,13 +66,17 @@ install(){
 			cd $tmp
 		fi
 
-		stowit $PWD/terminal/tmux/base
+		stowit $PWD/terminal/tmux.base
 		[ -r $HOME/.tmux.conf ] && rm $HOME/.tmux.conf
 		ln -sv $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
 
 		printOK
 
 		printOK
+			
+		touch $DOT_FOLDER/terminal.lock
+
+		source $HOME/.zshrc
 
 	fi
 
@@ -84,8 +94,6 @@ install(){
     #printSubsection "Installing exports..."
 
     #if [ "$OS" = "Darwin" ]; then
-    #    exportit "CLICOLOR" "'true'"
-    #    exportit "LSCOLORS" "gxfxcxdxbxCgCdabagacad"
     #fi
 
     #printOK
