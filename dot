@@ -68,7 +68,7 @@ if [ ! -f $CMD_FILE ]; then
 	echo "arch" > $CMD_FILE
 	
 	echo $OS_NAME | tr '[:upper:]' '[:lower:]' | grep ubuntu
-	[[ "$?" -eq 0 ]] && echo "arch" > $CMD_FILE
+	[[ "$?" -eq 0 ]] && echo "ubuntu" > $CMD_FILE
 
 fi
 

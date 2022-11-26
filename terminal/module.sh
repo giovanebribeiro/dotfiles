@@ -11,6 +11,15 @@ _pre_arch(){
     
 }
 
+_pre_ubuntu(){
+    printSection "instala os pacotes necessários para a distro arch linux, módulo terminal"
+
+    sudo apt-get install zsh alacritty powerline
+
+    printOK
+    
+}
+
 install(){
 
 
