@@ -16,7 +16,12 @@ _pre_ubuntu(){
 
 	printSubsection "instala os pacotes necessários para a distro ubuntu, módulo base"
 
-	sudo apt-get install stow curl wget build-essential python-dev python3-dev x11-xserver-utils
+	sudo apt-get install stow curl wget build-essential python-dev python3-dev x11-xserver-utils zsh
+
+	printSubsection "seta o zsh como terminal padrão"
+	chsh -s $(which zsh)
+
+	printSubsection "reinicie o terminal para continuar a instalação"
 
 	printOK
 

@@ -74,21 +74,8 @@ fi
 
 run base install
 
-exit 0
-
-printSubsection "MAKE SOME PREPARATIONS"
-#printSubSubsection "these packages needed to be installed, depending on your OS: build-essential zsh python-dev python3-dev x11-xserver-utils"
-installPkg stow curl wget cmake
-
 echo $PWD > "$LOC_FILE"
 printOK
-
-# installing zsh
-#installPkg "zsh"
-
-# installing basic modules
-#run base "install"
-#run git "install"
 
 # get the modules to make actions
 idx=0

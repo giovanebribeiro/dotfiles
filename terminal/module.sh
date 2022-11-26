@@ -12,9 +12,9 @@ _pre_arch(){
 }
 
 _pre_ubuntu(){
-    printSection "instala os pacotes necessários para a distro arch linux, módulo terminal"
+    printSection "instala os pacotes necessários para a distro ubuntu, módulo terminal"
 
-    sudo apt-get install zsh alacritty powerline
+    sudo apt-get install alacritty tmux
 
     printOK
     
@@ -25,18 +25,46 @@ install(){
 
 	if [ ! -f $DOT_FOLDER/terminal.lock ]; then
 
-		if [ ! -f $DOT_FOLDER/base.lock_module ]; then
+		if [ ! -f $DOT_FOLDER/terminal.lock_module ]; then
 			_pre_$OS 
-			touch $DOT_FOLDER/base.lock_module
+    
+			printSection "instala oh-my-zsh"
+			sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+			printOK
+
+			touch $DOT_FOLDER/terminal.lock_module
 		fi
 		
-		curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-
 		printSubsection "Installing typewritten theme for zsh"
 		git clone https://github.com/reobin/typewritten.git $ZSH/themes/typewritten
 		ln -s "$ZSH/themes/typewritten/typewritten.zsh-theme" "$ZSH/themes/typewritten.zsh-theme"
+
+		if [ "$OS" = "darwin" ]; then
+			aliasit "ls" "'ls -G'"
+    			aliasit "showFiles" "'defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'"
+    			aliasit "hideFiles" "'defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'"
+		else
+		    aliasit "ls" "'ls --color=auto'"
+		fi
     
-		stowit $PWD/base
+		stowit $PWD/terminal/base
+
+		printSection "Configuring TMUX"
+
+		if [ ! -d $HOME/.tmux ]; then
+			git clone https://github.com/gpakosz/.tmux $HOME/.tmux
+		else
+			tmp=$PWD
+			cd $HOME/.tmux
+			git pull
+			cd $tmp
+		fi
+
+		stowit $PWD/terminal/tmux/base
+		[ -r $HOME/.tmux.conf ] && rm $HOME/.tmux.conf
+		ln -sv $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
+
+		printOK
 
 		printOK
 
@@ -49,11 +77,8 @@ install(){
 
     #printSubsection "Installing aliases..."
     #if [ "$OS" = "Darwin" ]; then
-    #    aliasit "ls" "'ls -G'"
-    #    aliasit "showFiles" "'defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'"
-    #    aliasit "hideFiles" "'defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'"
+    
     #elif [ "$OS" = "Linux" ]; then
-    #    aliasit "ls" "'ls --color=auto'"
     #fi
 
     #printSubsection "Installing exports..."
