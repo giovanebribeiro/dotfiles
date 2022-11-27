@@ -2,9 +2,8 @@ autoload -Uz tetriscurses
 
 OS=`uname`
 
-DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
-
-source $DOTFILES_LOC/__setup/util.sh
+#DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
+#source $DOTFILES_LOC/__setup/util.sh
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -96,8 +95,8 @@ if [ ! -d $HOME/.nvm ]; then
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-    nvm install --lts # this installs the last LTS version of node
-    nvm use --lts # this installs the last LTS version of node
+    #nvm install --lts # this installs the last LTS version of node
+    #nvm use --lts # this installs the last LTS version of node
 fi
 
 if [ ! -d $HOME/.cargo ]; then
@@ -297,8 +296,8 @@ alias untar='tar -zxvf'
 export NODE_ENV="development"
 export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
 export EDITOR=vim
-export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
-export QT_AUTO_SCREEN_SCALE_FACTOR="0"
+#export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+#export QT_AUTO_SCREEN_SCALE_FACTOR="0"
 
 #EXPORTS per OS
 [ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
