@@ -14,8 +14,32 @@ _pre_arch(){
 _pre_ubuntu(){
     printSection "instala os pacotes necessários para a distro ubuntu, módulo terminal"
 
-    sudo apt-get install alacritty tmux
+    sudo apt-get install tmux
 
+    printSubsection "instalando alacritty (terminal emulator)"
+    
+    sudo apt-get install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+
+    printSubsection "Installing rustup"
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    source $HOME/.cargo/env
+
+    git clone https://github.com/alacritty/alacritty.git $BIN_FOLDER/alacritty
+    TEMP=$PWD
+    cd $BIN_FOLDER/alacritty
+    cargo build --release
+
+    # post build (terminfo, desktop entry, etc)
+    sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+    sudo cp target/release/alacritty /usr/local/bin # or anywhere else in $PATH
+    sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
+    sudo desktop-file-install extra/linux/Alacritty.desktop
+    sudo update-desktop-database
+
+    cd $TEMP
+
+    printOK
+    
     printOK
     
 }
@@ -73,7 +97,6 @@ install(){
 		printOK
 
 		printOK
-			
 		touch $DOT_FOLDER/terminal.lock
 
 		source $HOME/.zshrc

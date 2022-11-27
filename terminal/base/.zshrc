@@ -2,8 +2,8 @@ autoload -Uz tetriscurses
 
 OS=`uname`
 
-#DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
-#source $DOTFILES_LOC/__setup/util.sh
+DOTFILES_LOC=`cat $HOME/.dotfiles-loc`
+source $DOTFILES_LOC/__setup/util.sh
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -91,18 +91,16 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
+if [ ! -d "$BIN_FOLDER" ]; then
+	mkdir -p $BIN_FOLDER
+fi
+
 if [ ! -d $HOME/.nvm ]; then
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
     #nvm install --lts # this installs the last LTS version of node
     #nvm use --lts # this installs the last LTS version of node
-fi
-
-if [ ! -d $HOME/.cargo ]; then
-    printSubsection "Installing rustup"
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    source $HOME/.cargo/env
 fi
 
 if [ ! -f $HOME/.cargo/bin/btm ]; then
@@ -117,20 +115,16 @@ fi
 
 fetch() {
 
-    if [ ! -d "$HOME/bin"  ]; then
-        mkdir -p $HOME/bin
-    fi
-
     if [ "$OS" = "Darwin" ]; then
 
-        if [ ! -f "$HOME/bin/pfetch"  ]; then
+        if [ ! -f "$BIN_FOLDER/pfetch"  ]; then
             BASEDIR=`pwd`
             cd /tmp
 
             wget https://github.com/dylanaraps/pfetch/archive/master.zip
             unzip master.zip
-            install pfetch-master/pfetch $HOME/bin/
-            ls -l $HOME/bin/pfetch
+            install pfetch-master/pfetch $BIN_FOLDER/
+            ls -l $BIN_FOLDER/pfetch
 
             cd $BASEDIR
         fi
@@ -182,13 +176,11 @@ fetch() {
 # Use lf to switch directories and bind it to ctrl-o
 # Source: https://gist.github.com/LukeSmithxyz/e62f26e55ea8b0ed41a65912fbebbe52
 lfcd () {
-    if [ ! -d "$HOME/bin" ]; then
-        mkdir -p $HOME/bin
-    fi
     
-    if [ ! -f "$HOME/bin/lf" ]; then
+    
+    if [ ! -f "$BIN_FOLDER/lf" ]; then
         BASEDIR=`pwd`
-        cd $HOME/bin
+        cd $BIN_FOLDER
 
         file=lf-linux-amd64.tar.gz
         if [ "$OS" = "Darwin" ]; then
@@ -294,7 +286,7 @@ alias untar='tar -zxvf'
 
 # General exports
 export NODE_ENV="development"
-export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$BIN_FOLDER:$PATH"
 export EDITOR=vim
 #export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 #export QT_AUTO_SCREEN_SCALE_FACTOR="0"

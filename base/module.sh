@@ -49,6 +49,8 @@ install(){
 
 		fi
 
+		mkdir -p $BIN_FOLDER
+
 		touch $DOT_FOLDER/base.lock
 		printOK
 		
