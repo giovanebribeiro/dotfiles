@@ -239,6 +239,10 @@ precmd_functions+=(_fix_cursor)
 bump_mvn_version(){
     $PWD/mvnw versions:set -DnewVersion=$1
     $PWD/mvnw versions:commit
+
+    git commit -am "build: atualização de versão do pom.xml"
+    git tag -a $1 -m "$2"
+    git push --follow-tags
 }
 
 # test later
@@ -312,3 +316,12 @@ fi
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+
+# Load pyenv automatically by appending
+# the following to 
+#your shell's login startup file (for login shells)
+#and your shell's interactive startup file (for interactive shells) :
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv; export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

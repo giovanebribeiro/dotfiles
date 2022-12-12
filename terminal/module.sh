@@ -93,6 +93,9 @@ install(){
 		stowit $PWD/terminal/tmux.base
 		[ -r $HOME/.tmux.conf ] && rm $HOME/.tmux.conf
 		ln -sv $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
+		
+        rm $HOME/.tmux.conf.local 2>/dev/null
+        stowit $PWD/terminal/tmux.base
 
 		printOK
 

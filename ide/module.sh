@@ -27,7 +27,7 @@ _pre_ubuntu(){
 	printSubsection "instala os pacotes necessários para a distro ubuntu, módulo ide"
 
 	# meld é uma aplicação estilo winmerge
-	sudo apt install software-properties-common apt-transport-https wget vim-gtk exuberant-ctags meld -y
+	sudo apt install jq software-properties-common apt-transport-https wget vim-gtk exuberant-ctags meld -y
 
 	# instalando vscode
 	#printSubSubsection "Installing VSCode"
