@@ -1,46 +1,29 @@
 #!/bin/bash
 #
+# Author: Giovane Boaviagem Ribeiro (giovane@boaviagemribeiro.com)
 # Script utilizado pelo git para validar mensagens de commit. O formato de mensagem a ser utilizado
 # é o conventional-commit (explicado melhor no link https://www.conventionalcommits.org/en/v1.0.0/)
 #
 # Fonte: https://dev.to/craicoverflow/enforcing-conventional-commits-using-git-hooks-1o5p
 #
 # Para habilitar este hook, copie este arquivo para a pasta .git/hooks, renomeando o arquivo para 
-# "commit-msg". Caso o repo seja um submmódulo, execute o seguinte comando para descobrir onde está a pasta hooks:
+# "commit-msg". Caso o repo seja um submmódulo, execute o seguinte comando para descobrir onde está 
+# a pasta hooks:
+#
 # $ git rev-parse --git-path hooks
 #
-# Se você preferir habilitar este hook globalmente e toda vez que o repo for inicializado, o hook ser adicionado você pode fazer o seguinte:
-# $ git config --global init.templatedir '~/.git-templates' # habilita a pasta .git-templates no git config
+# Se você preferir habilitar este hook globalmente e toda vez que o repo for inicializado, o hook ser 
+# adicionado você pode fazer o seguinte:
+#
+# $ git config --global init.templatedir '~/.git-templates' # habilita a pasta .git-templates 
 # $ mkdir -p ~/.git-templates/hooks # Cria a pasta hooks para as configs globais
 # $ cp ./commit-msg.ghook ~/.git-templates/hooks/commit-msg
 #
-# Dependências: jq
-#
-# Arquivo de configurações (commit-msg.conf) deve estar presente na raiz do repositório para 
-# que este arquivo possa ser executado corretamente
-# O arquivo de configurações deve seguir este exemplo:
-# {
-#    "enabled": true,
-#    "revert": true,
-#    "length": {
-#        "min": 1,
-#        "max": 52
-#    },
-#    "types": [
-#        "build",  
-#        "ci",
-#        "docs",
-#        "feat",
-#        "fix",
-#        "perf",
-#        "refactor",
-#        "style",
-#        "test",
-#        "chore"
-#    ]
-# }
-#
-# OBS: Caso o arquivo não exista, o próprio script cria um arquivo com as configurações padrão.
+# Dependências/pacotes externos: jq
+# 
+# Arquivo de configurações (.commit-msg.conf) deve estar presente na raiz do repositório para que 
+# este arquivo possa ser executado corretamente. Caso ele não exista, o script criará automaticamente. 
+# Recomenda-se commitar este arquivo para padronização das mensagens de commit entre todo o time. 
 
 # Teste se o pacote jq está instalado:
 if ! which jq &> /dev/null; then
@@ -48,7 +31,7 @@ if ! which jq &> /dev/null; then
     exit 0
 fi
 
-config=commit-msg.conf
+config=.commit-msg.conf
 
 if [[ ! -f $config ]]; then
     echo '{' >> $config 

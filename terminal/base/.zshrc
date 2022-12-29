@@ -322,6 +322,7 @@ fpath+=${ZDOTDIR:-~}/.zsh_functions
 #your shell's login startup file (for login shells)
 #and your shell's interactive startup file (for interactive shells) :
 
+#git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv;
 export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv; export PATH="$PYENV_ROOT/bin:$PATH"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
