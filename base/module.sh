@@ -16,13 +16,10 @@ _pre_ubuntu(){
 
 	printSubsection "instala os pacotes necessários para a distro ubuntu, módulo base"
 
-    sudo apt-get update
-    sudo apt-get install -y --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev python-dev python3-dev stow x11-server-utils zsh
-
-	printSubsection "seta o zsh como terminal padrão"
-	chsh -s $(which zsh)
-
-	printSubsection "reinicie o terminal para continuar a instalação"
+    	sudo apt update
+	sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev
+	sudo apt install -y llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+    	sudo apt install -y wget curl llvm python-dev python3-dev stow x11-server-utils
 
 	printOK
 
