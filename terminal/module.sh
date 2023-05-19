@@ -14,11 +14,11 @@ _pre_arch(){
 _pre_ubuntu(){
     printSection "instala os pacotes necessários para a distro ubuntu, módulo terminal"
 
-    sudo apt-get install tmux
+    sudo apt install tmux
 
     printSubsection "instalando alacritty (terminal emulator)"
     
-    sudo apt-get install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+    sudo apt install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 
     printSubsection "Installing rustup"
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -37,6 +37,10 @@ _pre_ubuntu(){
     sudo update-desktop-database
 
     cd $TEMP
+
+    printSubsection "Colocando zsh como shell padrão (vai precisar reiniciar o computador)"
+    sudo apt install zsh
+    sudo chsh -s $(which zsh)
 
     printOK
     
@@ -57,6 +61,12 @@ install(){
 			printOK
 
 			touch $DOT_FOLDER/terminal.lock_module
+
+            printSection "** Must reboot the computer to complete the installation."
+            printSection "** After that, type ./dot install terminal again to install " 
+            printSection "the zsh theme and other stuff"
+            sleep 10
+            sudo reboot # reiniciando para habilitar o zsh
 		fi
 		
 		printSubsection "Installing typewritten theme for zsh"
