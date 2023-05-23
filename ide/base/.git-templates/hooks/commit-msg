@@ -40,7 +40,7 @@ if [[ ! -f $config ]]; then
     echo '  "revert": true,'  >> $config
     echo '   "length": {'  >> $config
     echo '       "min": 1,'  >> $config
-    echo '       "max": 52'  >> $config
+    echo '       "max": 72'  >> $config
     echo '   },'  >> $config
     echo '   "types": ['  >> $config
     echo '       "build",  '  >> $config
