@@ -35,7 +35,7 @@ config=.commit-msg.conf
 
 if [[ ! -f $config ]]; then
     echo '{' >> $config 
-    echo '  "__comment": "Para mais informações sobre este arquivo, acessar este link: https://gist.github.com/giovanebribeiro/d7df89af8a507c48ac56efdc08dfb9ab"' >> $config
+    echo '  "__comment": "Para mais informações sobre este arquivo, acessar este link: https://gist.github.com/giovanebribeiro/d7df89af8a507c48ac56efdc08dfb9ab",' >> $config
     echo '  "enabled": true,'  >> $config
     echo '  "revert": true,'  >> $config
     echo '   "length": {'  >> $config
