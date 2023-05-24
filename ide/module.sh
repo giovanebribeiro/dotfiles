@@ -36,17 +36,24 @@ _pre_ubuntu(){
 	#sudo apt-get update
 	#sudo apt install code
 
-	#printSubSubsection "Installing VSCode"
-	#sudo apt-get install ca-certificates curl gnupg lsb-release
-	#sudo mkdir -p /etc/apt/keyrings
-	#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-	#echo \
-	#  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-	#    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-	#sudo apt-get update
-	#sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-	#sudo groupadd docker
-	#sudo usermod -aG docker $USER
+	printSubSubsection "Installing Docker"
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+    echo \
+      "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    sudo apt update
+    sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+	sudo groupadd docker 2> /dev/null
+	sudo usermod -aG docker $USER
+
+    # ainda não podemos rodar o docker sem ser sudo, porque o PC não foi reinicializado...
+    sudo docker run hello-world
 
 	printOK
 
