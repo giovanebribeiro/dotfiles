@@ -279,7 +279,8 @@ alias oldtop='/usr/bin/top'
 alias top='btm --color gruvbox'
 alias myip='curl ipinfo.io/ip'
 alias untar='tar -zxvf'
-
+# exemplo de uso: dfimage -sV=1.36 nginx:latest
+alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage"
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
@@ -290,8 +291,10 @@ alias untar='tar -zxvf'
 
 # General exports
 export NODE_ENV="development"
-export PATH="$HOME/.cargo/bin:$BIN_FOLDER:$PATH"
+export M3_HOME=/opt/maven
+export PATH="$M3_HOME/bin:$HOME/.cargo/bin:$BIN_FOLDER:$PATH"
 export EDITOR=vim
+export TMPDIR=/tmp
 #export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 #export QT_AUTO_SCREEN_SCALE_FACTOR="0"
 
@@ -323,6 +326,6 @@ fpath+=${ZDOTDIR:-~}/.zsh_functions
 #and your shell's interactive startup file (for interactive shells) :
 
 #git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv;
-#export PYENV_ROOT="$HOME/.pyenv"
-#command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-#eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
