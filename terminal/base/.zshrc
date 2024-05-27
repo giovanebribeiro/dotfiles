@@ -256,6 +256,35 @@ bump_mvn_version(){
 #  #unlimited wi-fi?
 #}
 
+aws_assume_role(){
+
+    while getopts ":i:r:" o; do
+        case "${o}" in
+            i)
+                account_id=${OPTARG}
+                ;;
+            r)
+                role_name=${OPTARG}
+                ;;
+            *)
+                echo "Usage: $0 [-i account_id] [-r role_name]" 1>&2; exit 1;
+                ;;
+        esac
+    done
+    shift $((OPTIND-1))
+    
+    echo "* aws assume role for $role_name ($account_id)"
+
+    export $(printf \
+        "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" \
+        $(aws sts assume-role \
+            --role-arn arn:aws:iam::${account_id}:role/$role_name \
+            --role-session-name $role_name \
+            --query "Credentials.[AccessKeyId,SecretAccessKey,SessionToken]" --output text\
+            )\
+        )
+}
+
 #FUNCTIONS per OS
 [ -f "$HOME/.functions" ] && source "$HOME/.functions" &>/dev/null
 
@@ -269,7 +298,7 @@ alias ..='cd ..'
 alias la='ls -la'
 alias ll='ls -l'
 alias clima='curl v2.wttr.in'
-alias keygen='ssh-keygen -b 4096 -t rsa'
+alias keygen='ssh-keygen -b 7168 -t rsa'
 alias ps='ps aux'
 alias f5='source $HOME/.zshrc'
 alias tetris='tetriscurses'
@@ -279,8 +308,11 @@ alias oldtop='/usr/bin/top'
 alias top='btm --color gruvbox'
 alias myip='curl ipinfo.io/ip'
 alias untar='tar -zxvf'
+# Permite a extração do Dockerfile de uma determinada imagem
 # exemplo de uso: dfimage -sV=1.36 nginx:latest
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage"
+#alias kubectl="minikube kubectl --"
+alias k="kubectl "
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
@@ -329,3 +361,7 @@ fpath+=${ZDOTDIR:-~}/.zsh_functions
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+
+# Load Angular CLI autocompletion.
+#source <(ng completion script)

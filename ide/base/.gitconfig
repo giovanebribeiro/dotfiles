@@ -3,7 +3,7 @@
   email = giovanebribeiro@gmail.com
 [init]
   defaultBranch = master
-	templatedir = ~/.git-templates
+	templateDir = /home/gbrr/.git-template
 [color]
   diff = auto
   grep = auto
@@ -42,7 +42,9 @@
   # log for a single file
   lf = log -u
   # more detailed logs
-  ls = log --oneline --reverse --no-merges --stat
+  ls = log --oneline --no-merges --stat
+  # more detailed logs (reverse)
+  la = log --oneline --reverse --no-merges --stat
   ##
   # TAGS
   ##
@@ -110,3 +112,4 @@
   path = ~/workspace/.gitconfig
 [credential]
 	helper = cache
+	credentialStore = gpg
