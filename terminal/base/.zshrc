@@ -95,18 +95,16 @@ if [ ! -d "$BIN_FOLDER" ]; then
 	mkdir -p $BIN_FOLDER
 fi
 
-if [ ! -d $HOME/.nvm ]; then
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
-    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-    #nvm install --lts # this installs the last LTS version of node
-    #nvm use --lts # this installs the last LTS version of node
-fi
+#if [ ! -d $HOME/.nvm ]; then
+#    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+#    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+#    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+#    #nvm install --lts # this installs the last LTS version of node
+#    #nvm use --lts # this installs the last LTS version of node
+#fi
 
 if [ ! -f $HOME/.cargo/bin/btm ]; then
     cargo install -f --git https://github.com/ClementTsang/bottom bottom
-    
-    #alias topster='ytop'
 fi
 
 ##
@@ -212,39 +210,6 @@ _fix_cursor() {
 }
 precmd_functions+=(_fix_cursor)
 
-#pipe(){
-#    if ! which pipes.sh &> /dev/null; then
-#        echo "Instalando pipes.sh"
-#        git clone https://github.com/pipeseroni/pipes.sh.git ~/.pipes.sh
-#        temp=$PWD
-#        cd ~/.pipes.sh
-#        make install
-#        cd $temp
-#    fi
-#
-#    pipes.sh -t 3 -f 20
-#    clear
-#
-#}
-#
-#login() {
-#    if ! which bw &> /dev/null; then
-#        installNodePackage @bitwarden/cli
-#    else
-#        bw logout --quiet
-#        export BW_SESSION=$(bw login | grep "export BW_SESSION" | sed -e "s/^\$\s\+export\s\+BW_SESSION=//g")
-#    fi
-#}
-
-bump_mvn_version(){
-    $PWD/mvnw versions:set -DnewVersion=$1
-    $PWD/mvnw versions:commit
-
-    git commit -am "build: atualização de versão do pom.xml"
-    git tag -a $1 -m "$2"
-    git push --follow-tags
-}
-
 # test later
 #changeMac(){
 #  local mac=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//')
@@ -255,35 +220,6 @@ bump_mvn_version(){
 #
 #  #unlimited wi-fi?
 #}
-
-aws_assume_role(){
-
-    while getopts ":i:r:" o; do
-        case "${o}" in
-            i)
-                account_id=${OPTARG}
-                ;;
-            r)
-                role_name=${OPTARG}
-                ;;
-            *)
-                echo "Usage: $0 [-i account_id] [-r role_name]" 1>&2; exit 1;
-                ;;
-        esac
-    done
-    shift $((OPTIND-1))
-    
-    echo "* aws assume role for $role_name ($account_id)"
-
-    export $(printf \
-        "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" \
-        $(aws sts assume-role \
-            --role-arn arn:aws:iam::${account_id}:role/$role_name \
-            --role-session-name $role_name \
-            --query "Credentials.[AccessKeyId,SecretAccessKey,SessionToken]" --output text\
-            )\
-        )
-}
 
 #FUNCTIONS per OS
 [ -f "$HOME/.functions" ] && source "$HOME/.functions" &>/dev/null
@@ -310,9 +246,8 @@ alias myip='curl ipinfo.io/ip'
 alias untar='tar -zxvf'
 # Permite a extração do Dockerfile de uma determinada imagem
 # exemplo de uso: dfimage -sV=1.36 nginx:latest
-alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage"
-#alias kubectl="minikube kubectl --"
-alias k="kubectl "
+alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage -sV=1.36"
+test alias wiki >/dev/null 2>&1 || alias wiki='cd $HOME/workspace/wiki && git pull && obsidian && git commit -am "wiki updates (notebook)" && git push'
 
 # ALIASES per OS
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases" &>/dev/null
@@ -323,12 +258,9 @@ alias k="kubectl "
 
 # General exports
 export NODE_ENV="development"
-export M3_HOME=/opt/maven
-export PATH="$M3_HOME/bin:$HOME/.cargo/bin:$BIN_FOLDER:$PATH"
+export PATH="$HOME/.cargo/bin:$BIN_FOLDER:$PATH"
 export EDITOR=vim
 export TMPDIR=/tmp
-#export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
-#export QT_AUTO_SCREEN_SCALE_FACTOR="0"
 
 #EXPORTS per OS
 [ -f "$HOME/.exports" ] && source "$HOME/.exports" &>/dev/null
@@ -340,13 +272,13 @@ export TMPDIR=/tmp
 #EXPORTS per OS
 [ -f "$HOME/.others" ] && source "$HOME/.others" &>/dev/null
 
-flag_file="/tmp/flag_file"
-if [ ! -f $flag_file ]
-then
-  command -v fetch >/dev/null 2>&1 && { fetch; echo ; touch $flag_file ; }
-  # only works if informant is installed (installed via AUR)
-  command -v informant > /dev/null 2>&1 && { informant list --unread; echo; }
-fi
+#flag_file="/tmp/flag_file"
+#if [ ! -f $flag_file ]
+#then
+#  command -v fetch >/dev/null 2>&1 && { fetch; echo ; touch $flag_file ; }
+#  # only works if informant is installed (installed via AUR)
+#  command -v informant > /dev/null 2>&1 && { informant list --unread; echo; }
+#fi
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
