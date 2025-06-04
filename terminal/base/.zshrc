@@ -221,6 +221,27 @@ precmd_functions+=(_fix_cursor)
 #  #unlimited wi-fi?
 #}
 
+aws-login() {
+    
+    SSO_SESSION_NAME=""
+    [ -z $AWS_SSO_SESSION_NAME ] && SSO_SESSION_NAME="--sso-session $AWS_SSO_SESSION_NAME"
+
+    PROFILE=default
+    [ -n "$1" ] && PROFILE=$1
+
+    if command -v aws >/dev/null 2>&1
+    then
+        aws sts get-caller-identity &> /dev/null
+        EXIT_CODE="$?"
+        if [ $EXIT_CODE != 0 ]; then
+            aws sso login $SSO_SESSION_NAME
+        fi
+
+        aws configure export-credentials --profile $PROFILE --format env-no-export
+    fi
+
+}
+
 #FUNCTIONS per OS
 [ -f "$HOME/.functions" ] && source "$HOME/.functions" &>/dev/null
 
@@ -243,6 +264,7 @@ alias cal='cal -3'
 alias oldtop='/usr/bin/top'
 alias top='btm --color gruvbox'
 alias myip='curl ipinfo.io/ip'
+alias net='netstat -tlnp'
 alias untar='tar -zxvf'
 # Permite a extração do Dockerfile de uma determinada imagem
 # exemplo de uso: dfimage -sV=1.36 nginx:latest
