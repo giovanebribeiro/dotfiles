@@ -22,6 +22,12 @@ _pre_ubuntu(){
     sudo apt install -y wget curl llvm python-dev python3-dev stow x11-server-utils
     sudo apt install -y ca-certificates gnupg
 
+    printSubsection "Colocando zsh como shell padrão (vai precisar reiniciar o computador)"
+    sudo apt install zsh
+    sudo chsh -s $(which zsh)
+
+    printOK
+
 	printOK
 
 }
