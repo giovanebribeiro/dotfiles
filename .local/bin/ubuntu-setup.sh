@@ -4,7 +4,9 @@
 echo "Install ubuntu dependencies"
 
 sudo apt update && sudo apt upgrade
-sudo apt install -y vim-gtk3 tmux ca-certificates apt-transport-https gnupg silversearcher-ag pwgen gnupg tree git xclip        
+sudo apt install -y vim-gtk3 emacs-nox tmux ca-certificates apt-transport-https gnupg silversearcher-ag pwgen gnupg tree git xclip        
+
+sudo snap install emacs --classic
 
 # Install pass (Don't use the apt package for Ubuntu, it's outdated (at least until 14.04), and doesn't support multiple PGP keys.)
 wget http://git.zx2c4.com/password-store/snapshot/password-store-1.7.4.tar.xz
