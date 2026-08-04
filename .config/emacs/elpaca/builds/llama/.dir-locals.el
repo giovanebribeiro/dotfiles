@@ -1,0 +1,1 @@
+/home/gbr/.config/emacs/elpaca/sources/llama/.dir-locals.el

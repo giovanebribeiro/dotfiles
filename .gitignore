@@ -12,6 +12,11 @@ workspace/
 .dropbox/
 Dropbox
 .config/rclone/rclone.conf
+.config/emacs/elpaca/
+.config/emacs/elpa/
+.config/emacs/eln-cache/
+.config/emacs/auto-save-list
+.config/emacs/*~
 devcontainers-dotfiles/
 .config/starship.toml
 .my_shell_complements

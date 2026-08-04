@@ -1,0 +1,1 @@
+/home/gbr/.config/emacs/elpaca/sources/magit/docs/AUTHORS.md

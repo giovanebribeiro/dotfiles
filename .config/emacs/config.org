@@ -1,0 +1,120 @@
+#+TITLE: Emacs configurations
+#+AUTHOR: Giovane Boaviagem
+#+DATE: <2026-07-21>
+#+OPTIONS: :toc:2
+
+* Sumário :toc:
+- [[#visao-geral] [Visão Geral]]
+  - [[#legenda] [Legenda]]
+  - [[#atalhos-basicos] [Atalhos básicos]]
+- [[#scripts-iniciais] [Scripts iniciais]]
+- [[#backups] [Backups]]
+- [[#claude-code] [Claude Code]]
+- [[#appearance] [Aparência]]
+- [[#task-manager] [Task Manager]]
+
+* Visão Geral
+Este é o arquivo de configurações do Emacs, e meu laboratório de exploração desta ferramenta. A ideia das configurações estarem presentes em um arquivo org é efetivamente conseguir ao mesmo tempo
+praticar e configurar o Emacs em um ambiente relativamente seguro.
+
+** Legenda
+
+C = Ctrl
+M = Alt (na verdade representa a tecla 'Meta', mas para teclados modernos é o Alt mesmo)
+SPC = Espaço
+up = Seta up
+dw = Seta down
+lt = Seta esquerda
+rt = Seta direita
+
+** Atalhos básicos
+
+Atalho que lista atalhos: M-x help-quick
+
+Para avançar um char no texto: C-f. Para retroceder, C-b.
+Para avançar uma palavra: M-f (O M representa a tecla 'meta', o que para teclados modernos é o Alt.)
+Para ir ao início de uma linha: C-a
+Para ir ao fim de uma linha: C-e
+Para ir ao início do texto: M-<
+Para ir ao fim do texto: M->
+Para selecionar um bloco: C-SPC
+     Para copiar o bloco selecionado: M-w
+     Para recortar o bloco selecionado: C-w
+     Para colar o bloco selecionado: C-y
+     Para movimentar o bloco para cima ou para baixo: M-up ou M-dw
+
+Para desfazer: C-x u
+
+Para split horizontal de buffer: C-x 2
+Para split vertical de buffer: C-x 3
+Para deletar todos os splits, exceto o que o cursor está: C-x 1
+Para movimentações entre os splits: C-x o.
+
+Para ajuda: C-h
+Para o tutorial: C-h t
+Para uma ajuda rápida sobre uma tecla: C-h k
+Para uma ajuda rápida sobre uma função: C-h f
+Para um atalho que lista os atalhos: M-x help-quick
+
+Para exportar o arquivo: C-c C-e. No menu que vai aparecer, vc primeiro digita a letra do submenu, e depois a letra das opções daquele submenu
+
+Para reload de um arquivo: C-c e
+
+Para Navegação entre buffers: C-x <lt|rt> ou C-x C-b para listar os buffers disponíveis em uma interface específica.
+Para matar o buffer: C-x k
+Interface alternativa para navegação de buffers: M-x ibuffer
+
+Para expandir ou colapsar tópicos em arquivos org: <TAB>
+
+Para sair do emacs: C-x C-c
+
+* Scripts iniciais
+
+Para que este arquivo não fique grande demais, dificultando a sua manutenção, alguns scripts deste arquivo serão quebrados em arquivos individuais e referenciados posteriormente.
+Aqui, estarão carregados os scripts que devem ser executados/lidos na inicialização do Emacs. Nenhum script pode ser executado em tópicos anteriores a este.
+
+** Adicionando diretórios complementares para as demais aplicações e configurações
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "~/.config/emacs/elpa")
+  (add-to-list 'load-path "~/.config/emacs/scripts")
+#+end_src
+
+** Carregando scripts
+#+begin_src emacs-lisp
+  (require 'elpaca-setup) ;; Elpaca package manager
+  (require 'package)
+  (package-initialize)
+#+end_src
+
+* Backups
+Por padrão, o Emacs cria arquivos de backup (ex: file.org~) no mesmo diretório do arquivo original. Isso pode criar uma quantidade grande de lixo. Esta configuração coloca todos os backups em um diretório
+a parte.
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist '((".*" . "~/.config/emacs/backups/")))
+#+end_src
+
+* Claude Code
+[[https://github.com/stevemolitor/claude-code.el][Claude-code.el]] é uma interface Emacs para o Claude, e provê uma integração entre Claude Code e Emacs.
+
+#+begin_src emacs-lisp
+  (require 'claude-code)
+#+end_src
+
+* Aparência
+Referente a aparência do editor.
+
+#+begin_src emacs-lisp
+  (require 'appearance)
+#+end_src
+
+* Task Manager
+Configurações referentes ao Task Manager.
+
+#+begin_src emacs-lisp
+  (require 'tasks)
+#+end_src
+
+* teste
+
+

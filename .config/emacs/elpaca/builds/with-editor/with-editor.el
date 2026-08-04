@@ -1,0 +1,1 @@
+/home/gbr/.config/emacs/elpaca/sources/with-editor/lisp/with-editor.el
