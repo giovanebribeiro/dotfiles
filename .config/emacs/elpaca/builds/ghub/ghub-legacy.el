@@ -1,1 +1,0 @@
-/home/gbr/.config/emacs/elpaca/sources/ghub/lisp/ghub-legacy.el

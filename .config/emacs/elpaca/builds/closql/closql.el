@@ -1,1 +1,0 @@
-/home/gbr/.config/emacs/elpaca/sources/closql/closql.el

@@ -1,1 +1,0 @@
-/home/gbr/.config/emacs/elpaca/sources/elpaca/elpaca-git.el
