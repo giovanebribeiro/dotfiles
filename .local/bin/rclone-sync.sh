@@ -42,13 +42,20 @@ if [ -f $CONF_RESYNC_FLAG ]; then
     rclone bisync "$LOCAL_DIR" "$REMOTE_NAME:$REMOTE_DIR" \
       --log-file="$LOGFILE" \
       --log-level=INFO
+    if [ $? -ne 0 ]; then
+        echo "☠ Erro na sincronização. Remova o arquivo $CONF_RESYNC_FLAG." >> "$LOGFILE"
+    fi
 else
     # arquivo não existe. Faz a sincronização com --resync, e depois cria um arquivo de flag
     rclone bisync "$LOCAL_DIR"  "$REMOTE_NAME:$REMOTE_DIR" \
       --log-file="$LOGFILE" \
       --log-level=INFO \
       --resync
+    if [ $? -ne 0 ]; then
+        echo "☠ Erro na sincronização (resync) em $(date)" >> "$LOGFILE"
+    fi
     echo "syncOK" > $CONF_RESYNC_FLAG
 fi
 
 echo "✅ Sincronização finalizada em $(date)" >> "$LOGFILE"
+
