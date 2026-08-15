@@ -1,0 +1,294 @@
+#+TITLE: Emacs configurations
+#+AUTHOR: Giovane Boaviagem
+#+DATE: <2026-07-21>
+#+OPTIONS: :toc:2
+
+* Sumário :toc:
+- [[#visao-geral] [Visão Geral]]
+- [[#scripts-iniciais] [Scripts iniciais]]
+- [[#backups] [Backups]]
+- [[#claude-code] [Claude Code]]
+- [[#appearance] [Aparência]]
+- [[#org] [ORG-Mode]]
+- [[#atalhos] [Atalhos]]
+- [[#lang] [Suporte a linguagens]]
+- [[#modeline] [Modeline]]
+- [[#misc] [Miscelâneas]]
+
+* Visão Geral
+Este é o arquivo de configurações do Emacs, e meu laboratório de exploração desta ferramenta. A ideia das configurações estarem presentes em um arquivo org é efetivamente conseguir ao mesmo tempo
+praticar e configurar o Emacs em um ambiente relativamente seguro.
+
+** Legenda
+
+C = Ctrl
+M = Alt (na verdade representa a tecla 'Meta', mas para teclados modernos é o Alt mesmo)
+SPC = Espaço
+up = Seta up
+dw = Seta down
+lt = Seta esquerda
+rt = Seta direita
+
+** Atalhos básicos
+
+Atalho que lista atalhos: M-x help-quick
+
+Para avançar um char no texto: C-f. Para retroceder, C-b.
+Para avançar uma palavra: M-f (O M representa a tecla 'meta', o que para teclados modernos é o Alt.)
+Para ir ao início de uma linha: C-a
+Para ir ao fim de uma linha: C-e
+Para ir ao início do texto: M-<
+Para ir ao fim do texto: M->
+Para selecionar um bloco: C-SPC
+     Para copiar o bloco selecionado: M-w
+     Para recortar o bloco selecionado: C-w
+     Para colar o bloco selecionado: C-y
+     Para movimentar o bloco para cima ou para baixo: M-up ou M-dw
+
+Para desfazer: C-x u
+
+Para split horizontal de buffer: C-x 2
+Para split vertical de buffer: C-x 3
+Para deletar todos os splits, exceto o que o cursor está: C-x 1
+Para movimentações entre os splits: C-x o.
+
+Para ajuda: C-h
+Para o tutorial: C-h t
+Para uma ajuda rápida sobre uma tecla: C-h k
+Para uma ajuda rápida sobre uma função: C-h f
+Para um atalho que lista os atalhos: M-x help-quick
+
+Para exportar o arquivo: C-c C-e. No menu que vai aparecer, vc primeiro digita a letra do submenu, e depois a letra das opções daquele submenu
+
+Para reload de um arquivo: C-c e
+
+Para Navegação entre buffers: C-x <lt|rt> ou C-x C-b para listar os buffers disponíveis em uma interface específica.
+Para matar o buffer: C-x k
+Interface alternativa para navegação de buffers: M-x ibuffer
+
+Para expandir ou colapsar tópicos em arquivos org: <TAB>
+
+Para sair do emacs: C-x C-c
+
+* Scripts iniciais
+
+Para que este arquivo não fique grande demais, dificultando a sua manutenção, alguns scripts deste arquivo serão quebrados em arquivos individuais e referenciados posteriormente.
+Aqui, estarão carregados os scripts que devem ser executados/lidos na inicialização do Emacs. Nenhum script pode ser executado em tópicos anteriores a este.
+
+** Carregando diretórios de scripts complementares
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "~/.config/emacs/scripts")
+#+end_src
+
+
+** Adicionando gerenciadores de pacotes e diretórios de scripts complementares
+#+begin_src emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'load-path "~/.config/emacs/elpa")
+  ;;(require 'elpaca-setup) ;; Elpaca package manager
+  (package-initialize)
+#+end_src
+
+
+* Backups
+Por padrão, o Emacs cria arquivos de backup (ex: file.org~) no mesmo diretório do arquivo original. Isso pode criar uma quantidade grande de lixo. Esta configuração coloca todos os backups em um diretório a parte.
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist '((".*" . "~/.config/emacs/backups/")))
+#+end_src
+
+* Aparência
+Referente a aparência do editor.
+
+#+begin_src emacs-lisp
+;;Esconder itens da interface
+(menu-bar-mode -1)
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+;; Iniciar em fullscreen
+(add-hook 'window-setup-hook 'toggle-frame-fullscreen t)
+
+;;Inibir tela inicial
+(setq inhibit-startup-screen t)
+
+;; Habilita tab mode
+(tab-bar-mode 1)
+
+;;Font
+(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font" :height 80)
+
+;;Quebra de linha automática em texto
+(global-visual-line-mode 1)
+
+;;Fechar parenteses automaticamente
+(electric-pair-mode t)
+
+;;Mostrar número de linhas
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode -1)
+
+;;Tema
+(unless (package-installed-p 'gruvbox-theme)
+    (package-refresh-contents)
+    (package-install 'gruvbox-theme))
+(load-theme 'gruvbox-dark-medium t)
+#+end_src
+
+* Claude Code
+[[https://github.com/stevemolitor/claude-code.el][Claude-code.el]] é uma interface Emacs para o Claude, e provê uma integração entre Claude Code e Emacs.
+
+#+begin_src emacs-lisp
+  ;;(require 'claude-code)
+#+end_src
+
+* ORG-Mode
+Configurações referentes ao arquivos org (task manager, agenda, etc).
+
+#+begin_src emacs-lisp
+  (require 'org-configs)
+#+end_src
+
+
+* Atalhos
+** Atalho que lista atalhos
+A função juntamente com o atalho permite que um buffer se abra listando todos os atalhos úteis para a minha configuração. Ao pressionar 'q', o buffer é encerrado.
+
+#+begin_src emacs-lisp
+  (defun my/open-keybinding-file ()
+  "Open the keybindings file in a buffer and bind 'q' to kill it."
+  (interactive)
+  (let ((buf (find-file-noselect "~/.config/emacs/kb-list.org")))
+    (with-current-buffer buf
+      ;; Bind 'q' locally to kill this specific buffer
+      (local-set-key (kbd "q") 'kill-current-buffer))
+    (switch-to-buffer buf)))
+
+  (global-set-key (kbd "C-S-l") 'my/open-keybinding-file)
+
+#+end_src
+
+** Outros atalhos customizados/modificados
+
+#+begin_src emacs-lisp
+  ;; Load the config file
+  (global-set-key (kbd "C-c l") (lambda () (interactive) (load-file "~/.config/emacs/init.el")))
+  (global-set-key (kbd "C-c a") 'org-agenda)
+#+end_src
+
+* Suporte a linguagens
+Emacs oferece suporte nativo para sintaxe para as seguintes linguagens: Lisp, Scheme, DSSSL, Ada, ASM, AWK, C, C++, Fortran, Icon, IDL (CORBA), IDLWAVE, Java, Javascript, M4, Makefiles, Metafont, Modula2, Object Pascal, Objective-C, Octave, Pascal, Perl, Pike, PostScript, Prolog, Python, Ruby, Simula, SQL, Tcl, Verilog, and VHDL. Outras linguagens necessitam de pacotes adicionais.
+
+#+begin_src
+  (use-package rust-mode)
+#+end_src
+
+* Modeline
+
+Modeline é a barra de status inferior do Emacs. Eu poderia até tentar criar uma customização bacana, mas... a configuração usada pelo Doom Emacs é bem interessante. Para mais informações, consultar: [[https://github.com/seagle0128/doom-modeline][Doom Modeline]]
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-height 35      ;; sets modeline height
+        doom-modeline-bar-width 5    ;; sets right bar width
+        doom-modeline-persp-name t   ;; adds perspective name to modeline
+        doom-modeline-persp-icon t)) ;; adds folder icon next to persp name
+#+end_src
+
+* Shells e terminais
+No Emacs, é possível abrir um terminal internamente. 
+
+** Eshell
+Eshell é um Emacs shell escrito em Elisp.
+
+#+begin_src emacs-lisp
+  ;; ;; Disabling company mode in eshell, because it's annoying.
+  ;; (setq company-global-modes '(not eshell-mode))
+
+  ;; ;; Adding a keybinding for 'pcomplete-list' on F9 key.
+  ;; (add-hook 'eshell-mode-hook
+  ;;           (lambda ()
+  ;;             (define-key eshell-mode-map (kbd "<f9>") #'pcomplete-list)))
+
+  ;; ;; A function for easily creating multiple buffers of 'eshell'.
+  ;; ;; NOTE: `C-u M-x eshell` would also create new 'eshell' buffers.
+  ;; (defun eshell-new (name)
+  ;;   "Create new eshell buffer named NAME."
+  ;;   (interactive "sName: ")
+  ;;   (setq name (concat "$" name))
+  ;;   (eshell)
+  ;;   (rename-buffer name))
+
+  ;; (use-package eshell-toggle
+  ;;   :custom
+  ;;   (eshell-toggle-size-fraction 3)
+  ;;   (eshell-toggle-use-projectile-root t)
+  ;;   (eshell-toggle-run-command nil)
+  ;;   (eshell-toggle-init-function #'eshell-toggle-init-ansi-term))
+
+  ;;   (use-package eshell-syntax-highlighting
+  ;;     :after esh-mode
+  ;;     :config
+  ;;     (eshell-syntax-highlighting-global-mode +1))
+
+  ;;   ;; eshell-syntax-highlighting -- adds fish/zsh-like syntax highlighting.
+  ;;   ;; eshell-rc-script -- your profile for eshell; like a bashrc for eshell.
+  ;;   ;; eshell-aliases-file -- sets an aliases file for the eshell.
+
+  ;;   (setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
+  ;;         eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
+  ;;         eshell-history-size 5000
+  ;;         eshell-buffer-maximum-lines 5000
+  ;;         eshell-hist-ignoredups t
+  ;;         eshell-scroll-to-bottom-on-input t
+  ;;         eshell-destroy-buffer-when-process-dies t
+  ;;         eshell-visual-commands '("bash" "fish" "htop" "ssh" "top" "zsh")
+  ;;	)
+#+end_src
+
+** Vterm
+Vterm é um emulador de terminal dentro do Emacs. A config 'shell-file-name' seta o shell a ser usado in M-x shell, M-x term, M-x ansi-term and M-x vterm. Por default, o shell é setado para 'bash', mas pode ser alterado para 'fish' ou 'zsh' se for o caso.
+
+#+begin_src emacs-lisp
+
+#+end_src
+
+** Vterm-Toggle 
+[[https://github.com/jixiuf/vterm-toggle][vterm-toggle]] toggles between the vterm buffer and whatever buffer you are editing.
+
+#+begin_src emacs-lisp
+(use-package vterm-toggle
+  :ensure t
+  :after vterm
+  :config
+  (setq vterm-toggle-fullscreen-p nil)
+  (setq vterm-toggle-scope 'project))
+
+(with-eval-after-load 'vterm
+  (add-to-list 'display-buffer-alist
+               '((lambda (buffer-or-name _)
+                   (let ((buffer (get-buffer buffer-or-name)))
+                     (with-current-buffer buffer
+                       (or (equal major-mode 'vterm-mode)
+                           (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+                 (display-buffer-reuse-window display-buffer-in-side-window)
+                 (side . right)
+                 (reusable-frames . visible)
+                 (window-width . 0.4))))
+
+#+end_src
+
+* Miscelâneas
+
+** TLDR
+
+Um client TLDR para Emacs.
+
+#+begin_src emacs-lisp
+;;(use-package tldr)
+#+end_src
+

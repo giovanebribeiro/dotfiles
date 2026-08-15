@@ -4,7 +4,7 @@
 echo "Install ubuntu dependencies"
 
 sudo apt update && sudo apt upgrade
-sudo apt install -y vim-gtk3 emacs-nox tmux ca-certificates apt-transport-https gnupg silversearcher-ag pwgen gnupg tree git xclip        
+sudo apt install -y vim-gtk3 emacs-nox tmux ca-certificates apt-transport-https gnupg silversearcher-ag pwgen gnupg tree git xclip cmake libtool      
 
 sudo snap install emacs --classic
 
