@@ -1,11 +1,17 @@
 #+TITLE: Emacs configurations
-#+AUTHOR: Giovane Boaviagem (giovane@boaviagemribeiro.com)
-#+OPTIONS: toc:2
+#+AUTHOR: Giovane Boaviagem
+#+DATE: <2026-07-21>
+#+OPTIONS: :toc:2
 
 * Sumário :toc:
 - [[#visao-geral] [Visão Geral]]
   - [[#legenda] [Legenda]]
   - [[#atalhos-basicos] [Atalhos básicos]]
+- [[#scripts-iniciais] [Scripts iniciais]]
+- [[#backups] [Backups]]
+- [[#claude-code] [Claude Code]]
+- [[#appearance] [Aparência]]
+- [[#org] [ORG-Mode]]
 
 * Visão Geral
 Este é o arquivo de configurações do Emacs, e meu laboratório de exploração desta ferramenta. A ideia das configurações estarem presentes em um arquivo org é efetivamente conseguir ao mesmo tempo
@@ -18,6 +24,8 @@ M = Alt (na verdade representa a tecla 'Meta', mas para teclados modernos é o A
 SPC = Espaço
 up = Seta up
 dw = Seta down
+lt = Seta esquerda
+rt = Seta direita
 
 ** Atalhos básicos
 
@@ -52,20 +60,59 @@ Para exportar o arquivo: C-c C-e. No menu que vai aparecer, vc primeiro digita a
 
 Para reload de um arquivo: C-c e
 
+Para Navegação entre buffers: C-x <lt|rt> ou C-x C-b para listar os buffers disponíveis em uma interface específica.
+Para matar o buffer: C-x k
+Interface alternativa para navegação de buffers: M-x ibuffer
+
+Para expandir ou colapsar tópicos em arquivos org: <TAB>
+
 Para sair do emacs: C-x C-c
 
 * Scripts iniciais
 
-Para que este arquivo não fique grande demais, dificultando a sua manutenção, alguns scripts deste arquivo serão quebrados em arquivos individuais.
+Para que este arquivo não fique grande demais, dificultando a sua manutenção, alguns scripts deste arquivo serão quebrados em arquivos individuais e referenciados posteriormente.
+Aqui, estarão carregados os scripts que devem ser executados/lidos na inicialização do Emacs. Nenhum script pode ser executado em tópicos anteriores a este.
 
-** Adicionando diretório dos scripts
+** Adicionando gerenciadores de pacotes e diretórios de scripts complementares
+#+begin_src emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'load-path "~/.config/emacs/elpa")
+  (require 'elpaca-setup) ;; Elpaca package manager
+  (package-initialize)
+#+end_src
+
+** Carregando diretórios de scripts complementares
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.config/emacs/scripts")
 #+end_src
 
-** Carregando scripts
+* Backups
+Por padrão, o Emacs cria arquivos de backup (ex: file.org~) no mesmo diretório do arquivo original. Isso pode criar uma quantidade grande de lixo. Esta configuração coloca todos os backups em um diretório a parte.
+
 #+begin_src emacs-lisp
-  (require 'elpaca-setup) ;; Elpaca package manager
+  (setq backup-directory-alist '((".*" . "~/.config/emacs/backups/")))
 #+end_src
 
-* Backups
+* Aparência
+Referente a aparência do editor.
+
+#+begin_src emacs-lisp
+  (require 'appearance)
+#+end_src
+
+* Claude Code
+[[https://github.com/stevemolitor/claude-code.el][Claude-code.el]] é uma interface Emacs para o Claude, e provê uma integração entre Claude Code e Emacs.
+
+#+begin_src emacs-lisp
+  (require 'claude-code)
+#+end_src
+
+* ORG-Mode
+Configurações referentes ao arquivos org (task manager, agenda, etc).
+
+#+begin_src emacs-lisp
+  (require 'org)
+#+end_src
+
+

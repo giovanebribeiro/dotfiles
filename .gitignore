@@ -17,6 +17,7 @@ Dropbox
 .config/emacs/eln-cache/
 .config/emacs/auto-save-list
 .config/emacs/*~
+.config/emacs/backups/
 devcontainers-dotfiles/
 .config/starship.toml
 .my_shell_complements
@@ -24,3 +25,4 @@ devcontainers-dotfiles/
 .claude/
 .exports/
 CLAUDE.md
+org/
