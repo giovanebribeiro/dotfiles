@@ -134,3 +134,17 @@
                  (window-width . 0.4))))
 
 ;;(use-package tldr)
+
+(use-package yasnippet
+:ensure t
+:config
+(yas-reload-all)
+(add-hook 'prog-mode-hook #'yas-minor-mode)
+(add-hook 'markdown-mode-hook #'yas-minor-mode))
+
+;; loads the snippets folder
+(setq yas-snippet-dirs
+    '("~/.config/emacs/snippets"                 ;; personal snippets
+     ;; "/path/to/some/collection/"           ;; foo-mode and bar-mode snippet collection
+      ))
+(yas-global-mode 1)
