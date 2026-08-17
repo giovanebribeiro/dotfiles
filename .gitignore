@@ -18,6 +18,7 @@ Dropbox
 .config/emacs/auto-save-list
 .config/emacs/*~
 .config/emacs/backups/
+.config/emacs/config.el
 devcontainers-dotfiles/
 .config/starship.toml
 .my_shell_complements

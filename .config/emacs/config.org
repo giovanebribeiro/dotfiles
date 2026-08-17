@@ -175,6 +175,13 @@ A função juntamente com o atalho permite que um buffer se abra listando todos 
   ;; Load the config file
   (global-set-key (kbd "C-c l") (lambda () (interactive) (load-file "~/.config/emacs/init.el")))
   (global-set-key (kbd "C-c a") 'org-agenda)
+  (with-eval-after-load 'org
+    ;; Navegação de tópicos
+    (define-key org-mode-map (kbd "<M-left>")  #'org-do-promote)
+    (define-key org-mode-map (kbd "<M-right>") #'org-do-demote)
+  )
+  ;; Setando um keybind para facilitar o org-capture
+  (global-set-key (kbd "C-S-c") 'org-capture)
 #+end_src
 
 * Suporte a linguagens
@@ -293,6 +300,8 @@ Um client TLDR para Emacs.
 #+end_src
 
 ** Snippets
+
+Snippets, são estruturas e/ou blocos de texto/código que podem ser adicionadas a qualquer momento. Basta digitar o nome do snippet + <TAB> que o texto aparecerá. Para saber a lista de snippets conhecidos, acesse ~/.config/emacs/snippets
 
 #+begin_src emacs-lisp
   (use-package yasnippet

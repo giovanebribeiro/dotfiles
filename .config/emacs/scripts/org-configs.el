@@ -8,11 +8,15 @@
 ;; Um timestamp é gravado toda vez que uma tarefa for movida de TODO para DONE
 (setq org-log-done 'time)
 
-(with-eval-after-load 'org
-  ;; Navegação de tópicos
-  (define-key org-mode-map (kbd "<M-left>")  #'org-do-promote)
-  (define-key org-mode-map (kbd "<M-right>") #'org-do-demote)
-  )
+;; Prevent clock from stopping when marking subtasks as done
+(setq org-clock-out-when-done nil)
+
+;; Org-auto-tangle
+(use-package org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
 
 ;; Templates de captura
 (defun org-capture-bookmark-tags ()
@@ -126,8 +130,6 @@
           ("DONE" . (:background "#3d424a" :foreground "#8b919a"))
           ("KILL" . (:background "#3d424a" :foreground "#8b919a" :strike-through t)))))
 
-;; Setando um keybind para facilitar o org-capture
-(global-set-key (kbd "C-S-c") 'org-capture)
 
 (setq display-buffer-alist
       `(("\\*Capture\\*\\|CAPTURE-.*"
@@ -140,9 +142,9 @@
          (display-buffer-reuse-window display-buffer-at-bottom)
          (window-height . 0.4))))
   
-(setq org-todo-keyword-faces '(("NEXT" . (:foreground "yellow" :weight bold)) ))
+;;(setq org-todo-keyword-faces '(("NEXT" . (:foreground "yellow" :weight bold)) ))
 
 ;; Hide the deadline prewarning prior to scheduled date.
-(setq org-agenda-skip-deadline-prewarning-if-scheduled 'pre-scheduled)
+;;(setq org-agenda-skip-deadline-prewarning-if-scheduled 'pre-scheduled)
 
 (provide 'org-configs)
