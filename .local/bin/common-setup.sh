@@ -9,7 +9,7 @@
 vim +PluginInstall +qall
 echo "* Install Vundle (vim plugin) and install vim plugins...................(OK)"
 
-#
+m
 # TMUX
 #
 #if [ ! -d $HOME/.config/tmux ]; then
