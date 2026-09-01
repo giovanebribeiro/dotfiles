@@ -1,0 +1,77 @@
+#+TITLE: Atalhos Emacs
+#+AUTHOR: Giovane Boaviagem Ribeiro
+
+* Legenda
+
+- M = Alt
+- C = Control
+- S = Shift
+- <RET> = Enter
+- <SPC> = Espaço
+- <TAB> = Tab
+
+* Ajuda
+
+- C-S-l                    = Exibe este arquivo
+- C-h                      = Ajuda
+- C-h t                    = Tutorial
+- C-h k                    = Ajuda rápida sobre uma tecla
+- C-h f                    = Ajuda rápida sobre uma função
+- M-x help-quick           = Lista todos os atalhos do Emacs
+- C-x C-c                  = Sair do emacs
+- C-c l                    = Carrega o arquivo init.el
+
+* Org mode
+
+- C-c a                    = Org Agenda
+- C-c [                    = Adiciona a tarefa no org-agenda
+- S-<left|right>           = Alterna a tarefa para um dos estados especificados
+- C-c C-c                  = Marca/desmarca checkbox
+- C-c C-d                  = Adicionar deadline para a tarefa
+- C-c C-s                  = Agendar TODO
+- M-<left|right>           = Alterna nível da tarefa
+
+** Org capture
+
+- C-S-c                    = Modo de captura (insert de dados)
+- C-c C-c                  = Finalizar qualquer captura
+- C-c C-k                  = Abortar captura em andamento
+
+** Org roam (segundo cérebro)
+
+- C-c n f                   = Seleciona ou cria uma nova nota.
+- C-c n i                   = Cria links entre notas
+- C-c n l                   = Ver backlinks da nota atual
+- C-c c f                   = Adiciona uma nota flutuante (Zettelkasten)
+- C-c c l                   = Adiciona uma nota literária (Zettelkasten)
+- C-c c p                   = Adiciona uma nota permanente (Zettelkasten)
+- C-c c j                   = Adiciona um projeto (Método PARA)
+- C-c c h                   = Adiciona um mapa de notas sobre um determinado assunto (Zettelkasten)
+- C-c c t                   = Adiciona tag
+- M-x org-id-get-create     = Gerar ID para um heading específico
+- M-x org-roam-db-sync      = Forçar resync do banco
+- C-c n g                   = Abrir grafo visual
+
+* Funções
+
+- C-M-x                     = Executa uma função/comando em elisp
+
+* Buffers
+
+- C-x b                     = Permite switch para um buffer específico, digitando o nome
+- C-x C-b                   = Abre um buffer separado mostrando a lista completa de buffers
+- C-x <left|right>          = Navega para o buffer imediatamente anterior ou posterior da lista
+- C-x k                     = Mata um buffer. Pressione <RET> para matar o buffer corrente ou digite o nome do buffer que deseja eliminar.
+
+* Editor de texto
+
+- C-<SPC>                  = Modo de seleção de texto
+- M-w                      = Copia o bloco selecionado
+- C-w                      = Recortar o bloco selecionado
+- C-y                      = Colar o bloco selecionado
+- M-<up|down>              = Movimentar o bloco selecionado
+- C-x <SPC>                = Inicia seleção retangulo (V-block mode)
+- C-n                      = Dentro da seleção retangulo, movimentar uma seleção para cima
+- C-p                      = Dentro da seleção retangulo, movimentar uma seleção para baixo
+- C-x r t                  = Dentro da seleção retangulo, inserir novo texto; pressionar <RET> para finalizar
+- C-x r k                  = Dentro da seleção retangulo, cortar/deletar o bloco selecionado.
