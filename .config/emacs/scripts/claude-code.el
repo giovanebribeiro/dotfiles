@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; Pré-requisitos
 ;; - Emacs 30.0 or higher
 ;; - Claude Code CLI installed and configured
