@@ -27,3 +27,4 @@ devcontainers-dotfiles/
 .exports/
 CLAUDE.md
 org/
+.config/cliamp/config.toml

@@ -43,6 +43,7 @@ echo "* Install shell improvements............................................(O
 # Install other tools
 #
 git clone git@github.com:giovanebribeiro/pass.git
+curl -fsSL https://raw.githubusercontent.com/bjarneo/cliamp/HEAD/install.sh | sh
 echo "* Install other tools...................................................(OK)"
 
 #

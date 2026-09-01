@@ -1,115 +1,126 @@
-;; org.el
+;; -*- lexical-binding: t; -*-
+;; org-configs.el
 ;; Configurações referentes a org-mode
 
 ;; Diretório dos arquivos .org
 (setq org-directory "~/org")
+(setq org-agenda-files (list org-directory))
 ;; Quando uma task é marcada como DONE, o cronômetro da tarefa é encerrado.
 (setq org-clock-out-when-done nil)
 ;; Um timestamp é gravado toda vez que uma tarefa for movida de TODO para DONE
 (setq org-log-done 'time)
-
 ;; Prevent clock from stopping when marking subtasks as done
 (setq org-clock-out-when-done nil)
 
 ;; Org-auto-tangle
-(use-package org-auto-tangle
-  :defer t
-  :hook (org-mode . org-auto-tangle-mode)
+;(use-package org-auto-tangle
+;  :defer t
+;  :hook (org-mode . org-auto-tangle-mode)
+;  :config
+					;  (setq org-auto-tangle-default t))
+
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/org")
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+	 ("C-c n f" . org-roam-node-find)
+	 ("C-c n i" . org-roam-node-insert)
+	 :map org-mode-map
+	 ("C-M-i"   . completion-at-point))
   :config
-  (setq org-auto-tangle-default t))
+  (org-roam-setup))
 
-;; Templates de captura
-(defun org-capture-bookmark-tags ()
-  "Prompt for tags with completion against existing bookmark tags."
-  (save-window-excursion
-    (let ((tags-list '()))
-      (with-current-buffer (find-file-noselect "~/org/bookmarks.org")
-        (save-excursion
-          (goto-char (point-min))
-          (while (re-search-forward "^:TAGS:\\s-*\\(.+\\)$" nil t)
-            (let ((tag-string (match-string 1)))
-              (dolist (tag (split-string tag-string "[,;]" t "[[:space:]]"))
-                (push (string-trim tag) tags-list))))))
-      (setq tags-list (sort (delete-dups tags-list) 'string<))
-      (let ((selected-tags (completing-read-multiple "Tags (comma-separated): " tags-list)))
-        (mapconcat 'identity selected-tags ", ")))))
+;; Templates de captura org-roam (C-c c ?)
+(setq org-roam-capture-templates
+  '(("f" "fleeting" plain "%?"
+     :target (file+head "00-inbox/%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+title: ${title}\n#+filetags: :fleeting:\n")
+     :unnarrowed t)
 
-(defun org-capture-ref-link (file)
-  "Create a link to a contact in FILE."
-  (let* ((headlines (org-map-entries
-                     (lambda ()
-                       (cons (org-get-heading t t t t)
-                             (org-id-get-create)))
-                     t
-                     (list file)))
-         (contact (completing-read "Contact: " (mapcar #'car headlines)))
-         (id (cdr (assoc contact headlines))))
-    (format "[[id:%s][%s]]" id contact)))
+    ("l" "literature" plain "* Fonte\n%?\n\n* Ideias principais\n\n* Minhas reflexões\n"
+     :target (file+head "03-resources/literature/%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+title: ${title}\n#+filetags: :literature:\n")
+     :unnarrowed t)
 
-(with-eval-after-load 'org
-  (setq org-capture-templates
-        '(("t" "Todo" entry
-           (file+headline "~/org/inbox.org" "Inbox")
-           "* TODO %^{Task}\n:PROPERTIES:\n:CREATED: %U\n:CAPTURED: %a\n:END:\n%?")
+    ("p" "permanent/zettel" plain "%?"
+     :target (file+head "03-resources/permanent/%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+title: ${title}\n#+filetags: :zettel:\n")
+     :unnarrowed t)
 
-          ("e" "Event" entry
-           (file+headline "~/org/calendar.org" "Events")
-           "* %^{Event}\n%^{SCHEDULED}T\n:PROPERTIES:\n:CREATED: %U\n:CAPTURED: %a\n:CONTACT: %(org-capture-ref-link \"~/org/contacts.org\")\n:END:\n%?")
+    ("j" "projeto" plain "* Objetivo\n\n* Próximas ações\n%?"
+     :target (file+head "01-projects/${slug}.org"
+                         "#+title: ${title}\n#+filetags: :project:\n")
+     :unnarrowed t)
 
-          ("d" "Deadline" entry
-           (file+headline "~/org/calendar.org" "Deadlines")
-           "* TODO %^{Task}\nDEADLINE: %^{Deadline}T\n:PROPERTIES:\n:CREATED: %U\n:CAPTURED: %a\n:END:\n%?")
+    ("h" "hub/MOC" plain "Mapa de notas sobre ${title}.\n\n%?"
+     :target (file+head "03-resources/permanent/%<%Y%m%d%H%M%S>-moc_${slug}.org"
+                     "#+title: MOC - ${title}\n#+filetags: :hub:\n")
+     :unnarrowed t)))
 
-          ("b" "Bookmark" entry
-           (file+headline "~/org/bookmarks.org" "Inbox")
-           "** [[%^{URL}][%^{Title}]]\n:PROPERTIES:\n:CREATED: %U\n:TAGS: %(org-capture-bookmark-tags)\n:END:\n\n"
-           :empty-lines 0)
+;; Templates de Captura (C-S-c)
+(setq org-capture-templates
+   '(
+     ;; Esse é o caso mais comum. No fluxo, para adicionar o TODO "Testar copy..." Com org-capture-templates você aponta 
+     ;; direto para o heading "Ações" de um arquivo já existente, sem criar node novo nenhum:
+     ("t" "task (choose project)" entry
+       (file+function "~/org/01-projects/dummy.org"
+        (lambda () (find-file (read-file-name "Projeto: " "~/brain/01-projects/"))
+          (goto-char (point-max))))
+        "** TODO %?\nSCHEDULED: %^t\n")
 
-          ("c" "New Contact" entry
-           (file "~/org/contacts.org")
-           "* %^{Name} %^g
-:PROPERTIES:
-:EMAIL: %^{Email}
-:XMPP: %^{XMPP}
-:LOCATION: %^{Location}
-:COMPANY: %^{Company}
-:PHONE: %^{Phone}
-:BIRTHDAY: %^{Birthday <YYYY-MM-DD +1y>}
-:LAST_CONTACTED: [%<%Y-%m-%d>]
-:NOTES: %^{Notes}
-:END:
-- %U Initial contact
-%?"
-           :empty-lines 1)
+     ;; Notas diárias não deveriam virar 365 nodes separados no grafo do roam (isso infla o banco e polui buscas). 
+     ;; O padrão certo é um único arquivo com árvore de datas:
+     ("j" "journal diário" entry
+      (file+olp+datetree "~/org/daily/journal.org")
+      "* %U %?\n"
+      :tree-type week)
 
-          ("C" "Contact interaction" item
-           (function (lambda ()
-                       (let* ((buf (or (find-buffer-visiting "~/org/contacts.org")
-                                       (find-file-noselect "~/org/contacts.org")))
-                              (headings (with-current-buffer buf
-                                          (org-map-entries
-                                           (lambda () (cons (org-get-heading t t t t) (point))))))
-                              (choice (completing-read "Contact: " (mapcar #'car headings)))
-                              (pos (cdr (assoc choice headings))))
-                         (switch-to-buffer buf)
-                         (goto-char pos)
-                         (setq jb/--crm-marker (point-marker))
-                         (org-end-of-meta-data t))))
-           "- [%<%Y-%m-%d %a>] %?"
-           :prepend t
-           :after-finalize (lambda ()
-                             (when (marker-buffer jb/--crm-marker)
-                               (with-current-buffer (marker-buffer jb/--crm-marker)
-                                 (goto-char jb/--crm-marker)
-                                 (org-set-property "LAST_CONTACTED"
-                                                   (format-time-string "[%Y-%m-%d]"))
-                                 (save-buffer)
-                                 (set-marker jb/--crm-marker nil)))))
+     ;; Capturar algo direto de outro contexto (navegador, terminal, e-mail)
+     ;; org-capture-templates tem integração nativa com org-protocol, que permite 
+     ;; capturar de fora do Emacs (extensão de navegador, por exemplo) direto para um heading específico.
+     ;; Isso é útil quando você está lendo algo no navegador e quer jogar um trecho pro inbox sem trocar 
+     ;; de janela mentalmente — de novo, é inbox bruto, não é (ainda) uma nota do Zettelkasten.
+     ("w" "web quote" entry
+      (file+headline "~/org/00-inbox/web-clips.org" "Clips não processados")
+      "* %:description\n%U\nFonte: %:link\n\n%:initial\n")
 
-          ("n" "Note" entry
-           (file+headline "~/org/notes.org" "Inbox")
-           "* [%<%Y-%m-%d %a>] %^{Title}\n:PROPERTIES:\n:CREATED: %U\n:CAPTURED: %a\n:END:\n%?"
-           :prepend t))))
+     ;; Coisas tipo "registrei que gastei 20 min revisando X" — não é conhecimento, é log operacional:
+     ("l" "log rápido" item
+      (file+headline "~/org/daily/log.org" "Log do dia")
+      "- %U %?")
+
+     ;; Uma nota genérica. Ainda não é uma fleeting note. Um rascunho de qualquer coisa.
+     ("n" "Note" entry
+      (file+headline "~/org/daily/notes.org" "Inbox")
+      "* [%<%Y-%m-%d %a>] %^{Title}\n:PROPERTIES:\n:CREATED: %U\n:CAPTURED: %a\n:END:\n%?"
+      :prepend t)
+
+     ))
+
+
+;; Alternativa mais performática: mantenha um arquivo que lista os agenda-files
+;; e regenere com um comando manual/hook em vez de directory-files-recursively toda vez...
+(setq org-agenda-files "~/org/.agenda-files")
+;; ... e um comando para regenerar a lista quando necessário
+(defun my/regenerate-agenda-files ()
+  (interactive)
+  (with-temp-file "~/org/.agenda-files"
+    (dolist (f (append
+                (directory-files-recursively "~/org/01-projects/" "\\.org$")
+                (directory-files-recursively "~/org/02-areas/" "\\.org$")
+		(list "~/org/daily/")))
+      (insert f "\n"))))
+
+(setq org-todo-keywords
+  '((sequence "TODO(p)" "STRT(e)" "HOLD(a@/!)" "|" "DONE(f!)" "KILL(c@)")))
+
+(setq org-todo-keyword-faces
+  '(("TODO" . "orange") ("STRT" . "yellow")
+    ("HOLD" . "red") ("DONE" . "green") ("KILL" . "gray")))
 
 (use-package org-modern
   :ensure t
@@ -125,26 +136,37 @@
         org-modern-todo-faces
         '(("TODO" . (:background "#b8c4b8" :foreground "#1a1d21"))
           ("STRT" . (:background "#b4bcc4" :foreground "#1a1d21"))
-          ("WAIT" . (:background "#d4ccb4" :foreground "#1a1d21"))
           ("HOLD" . (:background "#d4ccb4" :foreground "#1a1d21"))
           ("DONE" . (:background "#3d424a" :foreground "#8b919a"))
           ("KILL" . (:background "#3d424a" :foreground "#8b919a" :strike-through t)))))
 
+;; O comando d (dashboard) você roda todo dia (C-c a d). O comando r é seu ritual semanal de revisão PARA — ele já filtra o que provavelmente deveria migrar para 04-archives/
+(setq org-agenda-custom-commands
+  '(("d" "Dashboard PARA"
+     ((agenda "" ((org-agenda-span 'day)
+                  (org-agenda-overriding-header "Hoje")))
 
-(setq display-buffer-alist
-      `(("\\*Capture\\*\\|CAPTURE-.*"
-         (display-buffer-reuse-window display-buffer-at-bottom)
-         (window-height . 0.3))
-        ("\\*Calendar\\*"
-         (display-buffer-reuse-window display-buffer-at-bottom)
-         (window-height . 0.3))
-        ("\\*Org Agenda\\*"
-         (display-buffer-reuse-window display-buffer-at-bottom)
-         (window-height . 0.4))))
-  
-;;(setq org-todo-keyword-faces '(("NEXT" . (:foreground "yellow" :weight bold)) ))
+      (tags-todo "project"
+                 ((org-agenda-overriding-header "🚀 Projetos ativos")
+                  (org-agenda-sorting-strategy '(priority-down))))
 
-;; Hide the deadline prewarning prior to scheduled date.
-;;(setq org-agenda-skip-deadline-prewarning-if-scheduled 'pre-scheduled)
+      (tags-todo "area"
+                 ((org-agenda-overriding-header "🔁 Áreas de responsabilidade")))
+
+      (todo "AGUARDANDO"
+            ((org-agenda-overriding-header "⏳ Aguardando terceiros")))
+
+      (tags "fleeting"
+            ((org-agenda-overriding-header "📥 Inbox não processado")
+             (org-agenda-files '("~/brain/00-inbox/"))))))
+
+    ("r" "Revisão semanal PARA"
+     ((tags-todo "project"
+                 ((org-agenda-overriding-header "Projetos — ainda ativos?")))
+      (tags-todo "area"
+                 ((org-agenda-overriding-header "Áreas — revisão de rotina")))
+      (todo "DONE|KILL"
+            ((org-agenda-overriding-header "Candidatos a Archive")))))))
+
 
 (provide 'org-configs)

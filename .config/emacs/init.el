@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; My main configuration file.
 (require 'org)
 (org-babel-load-file (expand-file-name "config.org" user-emacs-directory))

@@ -1,5 +1,5 @@
-#+TITLE: Emacs configurations
 #+AUTHOR: Giovane Boaviagem
+#+TITLE: Emacs configurations
 #+DATE: <2026-07-21>
 #+OPTIONS: :toc:2
 
@@ -86,6 +86,7 @@ Aqui, estarão carregados os scripts que devem ser executados/lidos na inicializ
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (add-to-list 'load-path "~/.config/emacs/elpa")
+  (setq package-install-upgrade-built-in t)
   ;;(require 'elpaca-setup) ;; Elpaca package manager
   (package-initialize)
 #+end_src
@@ -163,6 +164,7 @@ A função juntamente com o atalho permite que um buffer se abra listando todos 
     (with-current-buffer buf
       ;; Bind 'q' locally to kill this specific buffer
       (local-set-key (kbd "q") 'kill-current-buffer))
+    (select-window (split-window-right))
     (switch-to-buffer buf)))
 
   (global-set-key (kbd "C-S-l") 'my/open-keybinding-file)
@@ -182,6 +184,7 @@ A função juntamente com o atalho permite que um buffer se abra listando todos 
   )
   ;; Setando um keybind para facilitar o org-capture
   (global-set-key (kbd "C-S-c") 'org-capture)
+  (global-set-key (kbd "C-c n c") 'org-roam-capture)
 #+end_src
 
 * Suporte a linguagens
@@ -318,5 +321,4 @@ Snippets, são estruturas e/ou blocos de texto/código que podem ser adicionadas
         ))
   (yas-global-mode 1)
 #+end_src
-
 
