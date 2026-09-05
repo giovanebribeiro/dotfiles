@@ -42,12 +42,8 @@
 - C-c n f                   = Seleciona ou cria uma nova nota.
 - C-c n i                   = Cria links entre notas
 - C-c n l                   = Ver backlinks da nota atual
-- C-c c f                   = Adiciona uma nota flutuante (Zettelkasten)
-- C-c c l                   = Adiciona uma nota literária (Zettelkasten)
-- C-c c p                   = Adiciona uma nota permanente (Zettelkasten)
-- C-c c j                   = Adiciona um projeto (Método PARA)
-- C-c c h                   = Adiciona um mapa de notas sobre um determinado assunto (Zettelkasten)
-- C-c c t                   = Adiciona tag
+- C-c n c                   = Ativa modo de captura org roam (Zettelkasten)
+- C-c n t                   = Adiciona tag
 - M-x org-id-get-create     = Gerar ID para um heading específico
 - M-x org-roam-db-sync      = Forçar resync do banco
 - C-c n g                   = Abrir grafo visual

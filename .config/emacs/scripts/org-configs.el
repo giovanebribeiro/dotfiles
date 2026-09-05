@@ -11,6 +11,8 @@
 (setq org-log-done 'time)
 ;; Prevent clock from stopping when marking subtasks as done
 (setq org-clock-out-when-done nil)
+;; org-attach global directory. add attachments in org files.
+(setq org-attach-directory "~/org/attachments")
 
 ;; Org-auto-tangle
 ;(use-package org-auto-tangle
@@ -29,12 +31,14 @@
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
+	 ("C-c n c" . org-roam-capture)
+	 ("C-c n t" . org-roam-tag)
 	 :map org-mode-map
 	 ("C-M-i"   . completion-at-point))
   :config
   (org-roam-setup))
 
-;; Templates de captura org-roam (C-c c ?)
+;; Templates de captura org-roam
 (setq org-roam-capture-templates
   '(("f" "fleeting" plain "%?"
      :target (file+head "00-inbox/%<%Y%m%d%H%M%S>-${slug}.org"
@@ -43,7 +47,7 @@
 
     ("l" "literature" plain "* Fonte\n%?\n\n* Ideias principais\n\n* Minhas reflexões\n"
      :target (file+head "03-resources/literature/%<%Y%m%d%H%M%S>-${slug}.org"
-                         "#+title: ${title}\n#+filetags: :literature:\n")
+                         "#+title: ${title}\n#+author: \n#+filetags: :literature:\n")
      :unnarrowed t)
 
     ("p" "permanent/zettel" plain "%?"
@@ -75,7 +79,7 @@
      ;; Notas diárias não deveriam virar 365 nodes separados no grafo do roam (isso infla o banco e polui buscas). 
      ;; O padrão certo é um único arquivo com árvore de datas:
      ("j" "journal diário" entry
-      (file+olp+datetree "~/org/daily/journal.org")
+      (file+olp+datetree "~/org/journal.org")
       "* %U %?\n"
       :tree-type week)
 
@@ -90,14 +94,21 @@
 
      ;; Coisas tipo "registrei que gastei 20 min revisando X" — não é conhecimento, é log operacional:
      ("l" "log rápido" item
-      (file+headline "~/org/daily/log.org" "Log do dia")
+      (file+headline "~/org/log.org" "Log do dia")
       "- %U %?")
 
      ;; Uma nota genérica. Ainda não é uma fleeting note. Um rascunho de qualquer coisa.
      ("n" "Note" entry
-      (file+headline "~/org/daily/notes.org" "Inbox")
+      (file+headline "~/org/notes.org" "Inbox")
       "* [%<%Y-%m-%d %a>] %^{Title}\n:PROPERTIES:\n:CREATED: %U\n:CAPTURED: %a\n:END:\n%?"
       :prepend t)
+
+     ("h" "hledger - transação" plain
+      (file "~/org/02-areas/financas/%<%Y>.journal")
+      "%(read-string \"Data (YYYY-MM-DD, vazio p/ hoje): \" nil nil (format-time-string \"%Y-%m-%d\"))  %^{Descrição}
+          %^{Conta débito} R$ %^{Valor}
+          %^{Conta crédito}\n\n"
+      :empty-lines 1)
 
      ))
 

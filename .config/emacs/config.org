@@ -3,7 +3,7 @@
 #+DATE: <2026-07-21>
 #+OPTIONS: :toc:2
 
-* Sumário :toc:
+* Sumário                                                               :toc:
 - [[#visao-geral] [Visão Geral]]
 - [[#scripts-iniciais] [Scripts iniciais]]
 - [[#backups] [Backups]]
@@ -77,6 +77,7 @@ Aqui, estarão carregados os scripts que devem ser executados/lidos na inicializ
 
 ** Carregando diretórios de scripts complementares
 #+begin_src emacs-lisp
+  ;; -*- lexical-binding: t; -*-
   (add-to-list 'load-path "~/.config/emacs/scripts")
 #+end_src
 
@@ -103,38 +104,49 @@ Por padrão, o Emacs cria arquivos de backup (ex: file.org~) no mesmo diretório
 Referente a aparência do editor.
 
 #+begin_src emacs-lisp
-;;Esconder itens da interface
-(menu-bar-mode -1)
-(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+  ;;Esconder itens da interface
+  (menu-bar-mode -1)
+  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-;; Iniciar em fullscreen
-(add-hook 'window-setup-hook 'toggle-frame-fullscreen t)
+  ;; Iniciar em fullscreen
+  (add-hook 'window-setup-hook 'toggle-frame-fullscreen t)
 
-;;Inibir tela inicial
-(setq inhibit-startup-screen t)
+  ;;Inibir tela inicial
+  (setq inhibit-startup-screen t)
 
-;; Habilita tab mode
-(tab-bar-mode 1)
+  ;; Habilita tab mode
+  (tab-bar-mode 1)
 
-;;Font
-(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font" :height 80)
+  ;;Font
+  (use-package nerd-icons
+  ;; :custom
+  ;; The Nerd Font you want to use in GUI
+  ;; "Symbols Nerd Font Mono" is the default and is recommended
+  ;; but you can use any other Nerd Font if you want
+  ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
+  )
+  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font" :height 80)
+  
+  (when (member system-type '(gnu gnu/linux gnu/kfreebsd darwin))
+    (unless (find-font (font-spec :name "Symbols Nerd Font Mono"))
+      (nerd-icons-install-fonts t)))
 
-;;Quebra de linha automática em texto
-(global-visual-line-mode 1)
+  ;;Quebra de linha automática em texto
+  (global-visual-line-mode 1)
 
-;;Fechar parenteses automaticamente
-(electric-pair-mode t)
+  ;;Fechar parenteses automaticamente
+  (electric-pair-mode t)
 
-;;Mostrar número de linhas
-(setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode -1)
+  ;;Mostrar número de linhas
+  (setq display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode -1)
 
-;;Tema
-(unless (package-installed-p 'gruvbox-theme)
-    (package-refresh-contents)
-    (package-install 'gruvbox-theme))
-(load-theme 'gruvbox-dark-medium t)
+  ;;Tema
+  (unless (package-installed-p 'gruvbox-theme)
+      (package-refresh-contents)
+      (package-install 'gruvbox-theme))
+  (load-theme 'gruvbox-dark-medium t)
 #+end_src
 
 * Claude Code
@@ -157,18 +169,18 @@ Configurações referentes ao arquivos org (task manager, agenda, etc).
 A função juntamente com o atalho permite que um buffer se abra listando todos os atalhos úteis para a minha configuração. Ao pressionar 'q', o buffer é encerrado.
 
 #+begin_src emacs-lisp
-  (defun my/open-keybinding-file ()
-  "Open the keybindings file in a buffer and bind 'q' to kill it."
-  (interactive)
-  (let ((buf (find-file-noselect "~/.config/emacs/kb-list.org")))
-    (with-current-buffer buf
-      ;; Bind 'q' locally to kill this specific buffer
-      (local-set-key (kbd "q") 'kill-current-buffer))
-    (select-window (split-window-right))
-    (switch-to-buffer buf)))
+  (defun my/toggle-open-file (filename)
+  "Open the file in a buffer and bind 'C-q' to kill it."
+  (interactive
+   (list (read-string "fOpen this file, in a strict way (default: kb-list.org): " nil nil "~/.config/emacs/kb-list.org")))
+  (split-window-right)
+  (other-window 1)
+  (find-file filename)
+  (local-set-key (kbd "C-q") (lambda ()
+                             (interactive)
+                             (kill-buffer-and-window))))
 
-  (global-set-key (kbd "C-S-l") 'my/open-keybinding-file)
-
+  (global-set-key (kbd "C-S-l") 'my/toggle-open-file)
 #+end_src
 
 ** Outros atalhos customizados/modificados
@@ -186,9 +198,6 @@ A função juntamente com o atalho permite que um buffer se abra listando todos 
   (global-set-key (kbd "C-S-c") 'org-capture)
   (global-set-key (kbd "C-c n c") 'org-roam-capture)
 #+end_src
-
-* Suporte a linguagens
-Emacs oferece suporte nativo para sintaxe para as seguintes linguagens: Lisp, Scheme, DSSSL, Ada, ASM, AWK, C, C++, Fortran, Icon, IDL (CORBA), IDLWAVE, Java, Javascript, M4, Makefiles, Metafont, Modula2, Object Pascal, Objective-C, Octave, Pascal, Perl, Pike, PostScript, Prolog, Python, Ruby, Simula, SQL, Tcl, Verilog, and VHDL. Outras linguagens necessitam de pacotes adicionais.
 
 #+begin_src
   (use-package rust-mode)
@@ -212,60 +221,9 @@ Modeline é a barra de status inferior do Emacs. Eu poderia até tentar criar um
 * Shells e terminais
 No Emacs, é possível abrir um terminal internamente. 
 
-** Eshell
-Eshell é um Emacs shell escrito em Elisp.
-
-#+begin_src emacs-lisp
-  ;; ;; Disabling company mode in eshell, because it's annoying.
-  ;; (setq company-global-modes '(not eshell-mode))
-
-  ;; ;; Adding a keybinding for 'pcomplete-list' on F9 key.
-  ;; (add-hook 'eshell-mode-hook
-  ;;           (lambda ()
-  ;;             (define-key eshell-mode-map (kbd "<f9>") #'pcomplete-list)))
-
-  ;; ;; A function for easily creating multiple buffers of 'eshell'.
-  ;; ;; NOTE: `C-u M-x eshell` would also create new 'eshell' buffers.
-  ;; (defun eshell-new (name)
-  ;;   "Create new eshell buffer named NAME."
-  ;;   (interactive "sName: ")
-  ;;   (setq name (concat "$" name))
-  ;;   (eshell)
-  ;;   (rename-buffer name))
-
-  ;; (use-package eshell-toggle
-  ;;   :custom
-  ;;   (eshell-toggle-size-fraction 3)
-  ;;   (eshell-toggle-use-projectile-root t)
-  ;;   (eshell-toggle-run-command nil)
-  ;;   (eshell-toggle-init-function #'eshell-toggle-init-ansi-term))
-
-  ;;   (use-package eshell-syntax-highlighting
-  ;;     :after esh-mode
-  ;;     :config
-  ;;     (eshell-syntax-highlighting-global-mode +1))
-
-  ;;   ;; eshell-syntax-highlighting -- adds fish/zsh-like syntax highlighting.
-  ;;   ;; eshell-rc-script -- your profile for eshell; like a bashrc for eshell.
-  ;;   ;; eshell-aliases-file -- sets an aliases file for the eshell.
-
-  ;;   (setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
-  ;;         eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
-  ;;         eshell-history-size 5000
-  ;;         eshell-buffer-maximum-lines 5000
-  ;;         eshell-hist-ignoredups t
-  ;;         eshell-scroll-to-bottom-on-input t
-  ;;         eshell-destroy-buffer-when-process-dies t
-  ;;         eshell-visual-commands '("bash" "fish" "htop" "ssh" "top" "zsh")
-  ;;	)
-#+end_src
 
 ** Vterm
 Vterm é um emulador de terminal dentro do Emacs. A config 'shell-file-name' seta o shell a ser usado in M-x shell, M-x term, M-x ansi-term and M-x vterm. Por default, o shell é setado para 'bash', mas pode ser alterado para 'fish' ou 'zsh' se for o caso.
-
-#+begin_src emacs-lisp
-
-#+end_src
 
 ** Vterm-Toggle 
 [[https://github.com/jixiuf/vterm-toggle][vterm-toggle]] toggles between the vterm buffer and whatever buffer you are editing.
@@ -293,14 +251,6 @@ Vterm é um emulador de terminal dentro do Emacs. A config 'shell-file-name' set
 #+end_src
 
 * Miscelâneas
-
-** TLDR
-
-Um client TLDR para Emacs.
-
-#+begin_src emacs-lisp
-;;(use-package tldr)
-#+end_src
 
 ** Snippets
 

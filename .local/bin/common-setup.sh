@@ -9,16 +9,6 @@
 vim +PluginInstall +qall
 echo "* Install Vundle (vim plugin) and install vim plugins...................(OK)"
 
-m
-# TMUX
-#
-#if [ ! -d $HOME/.config/tmux ]; then
-#    mkdir -p $HOME/.config/tmux
-#    git clone https://github.com/gpakosz/.tmux $HOME/.config/tmux/
-#    ln -sf $HOME/.config/tmux/.tmux.conf $HOME/.tmux.conf
-#fi
-#echo "* Install oh-my-tmux....................................................(OK)"
-
 #
 # rclone backup
 #

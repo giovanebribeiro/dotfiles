@@ -15,7 +15,8 @@ pacman -Syy alacritty cmake hyprland pipewire wireplumber \
     xdg-utils cliphist hyprlock vifm brightnessctl pamixer pipewire-pulse \
     pavucontrol bluez bluez-utils nerd-font hypridle zip go fzf cronie \
     obsidian blueman pwgen gnupg tree git xclip pass cups cups-pdf \
-    hyprshutdown powerline-fonts rclone inter-font imagemagick emacs-nox 
+    hyprshutdown powerline-fonts rclone inter-font imagemagick emacs \
+    fuzzel
 
 echo "Enable docker"
 sudo systemctl enable docker.service
