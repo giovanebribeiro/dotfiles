@@ -106,6 +106,9 @@ Por padrão, o Emacs cria arquivos de backup (ex: file.org~) no mesmo diretório
 Referente a aparência do editor.
 
 #+begin_src emacs-lisp
+  ;; Redefinindo mensagem de boas-vindas (echo area message)
+  (defun display-startup-echo-area-message()
+    (message "`C-c C-a` for GNU info; `C-c n c` to capture a Zettelkasten note; `C-S-c` to capture a note; `C-S-l` RET to list keybindings"))
   ;;Esconder itens da interface
   (menu-bar-mode -1)
   (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -129,7 +132,7 @@ Referente a aparência do editor.
   ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
   )
   (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font" :height 80)
-  
+
   (when (member system-type '(gnu gnu/linux gnu/kfreebsd darwin))
     (unless (find-font (font-spec :name "Symbols Nerd Font Mono"))
       (nerd-icons-install-fonts t)))
